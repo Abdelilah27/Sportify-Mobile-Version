@@ -1,10 +1,9 @@
 package com.app.sportify.ui.login
 
-import android.os.Bundle
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import com.app.sportify.R
+import dagger.hilt.android.AndroidEntryPoint
 
-class LoginFragment : Fragment() {
+@AndroidEntryPoint
+class LoginFragment : Fragment(R.layout.fragment_login) {
 }

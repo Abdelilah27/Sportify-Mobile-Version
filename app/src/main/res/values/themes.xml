@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.Sportify" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <style name="Theme.Sportify" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/primary_color</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
@@ -13,4 +13,90 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
+
+    <style name="title_splash_fragment">
+        <item name="android:textColor">@color/primary_color</item>
+        <item name="android:fontFamily">@font/roboto_bold</item>
+        <item name="android:textSize">45sp</item>
+    </style>
+
+    <style name="title_login_fragment">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:fontFamily">@font/roboto_medium</item>
+        <item name="android:textSize">35sp</item>
+    </style>
+
+    <style name="title_authentification">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:fontFamily">@font/roboto_medium</item>
+        <item name="android:textSize">24sp</item>
+    </style>
+
+    <style name="text_input" parent="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeColor">@color/stroke_color</item>
+        <item name="singleLine">true</item>
+        <item name="android:imeOptions">actionNext</item>
+        <item name="errorEnabled">true</item>
+        <item name="boxCornerRadiusBottomStart">12dp</item>
+        <item name="boxCornerRadiusBottomEnd">12dp</item>
+        <item name="boxCornerRadiusTopEnd">12dp</item>
+        <item name="boxCornerRadiusTopStart">12dp</item>
+        <item name="android:fontFamily">@font/roboto</item>
+        <item name="endIconMode">clear_text</item>
+        <item name="android:textColorHint">@color/hint_color</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="hintTextColor">@color/hint_color</item>
+    </style>
+
+    <style name="text_input_edit">
+        <item name="android:textStyle">italic</item>
+        <item name="cornerRadius">80dp</item>
+
+        <item name="android:fontFamily">@font/roboto_thin_italic</item>
+
+    </style>
+
+    <style name="forget_password">
+        <item name="android:textColor">@color/secondary_color</item>
+        <item name="android:fontFamily">@font/roboto_thin_italic</item>
+        <item name="android:textStyle">italic</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="main_button">
+        <item name="android:background">@drawable/background_radius_button</item>
+        <item name="android:fontFamily">@font/roboto_bold</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="card_main_button">
+        <item name="android:layout_marginLeft">24dp</item>
+        <item name="android:layout_marginRight">24dp</item>
+        <item name="android:layout_marginTop">24dp</item>
+
+    </style>
+
+    <style name="or">
+        <item name="android:fontFamily">@font/roboto_medium</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/or_color</item>
+    </style>
+
+    <style name="social_login">
+        <item name="android:textColor">@color/secondary_color</item>
+        <item name="android:fontFamily">@font/roboto_thin_italic</item>
+        <item name="android:textStyle">italic</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:layout_gravity">center_vertical</item>
+    </style>
+
+    <style name="have_account">
+        <item name="android:textColor">@color/primary_color</item>
+        <item name="android:fontFamily">@font/roboto_thin_italic</item>
+        <item name="android:textStyle">italic</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:layout_gravity">center_vertical</item>
+    </style>
+
 </resources>

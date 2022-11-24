@@ -13,9 +13,6 @@
         <action
             android:id="@+id/action_splashFragment_to_welcomeFragment"
             app:destination="@id/welcomeFragment" />
-        <action
-            android:id="@+id/action_splashFragment_to_bottomNavFragment"
-            app:destination="@id/bottomNavFragment" />
     </fragment>
     <fragment
         android:id="@+id/welcomeFragment"
@@ -27,11 +24,6 @@
             app:destination="@id/loginFragment" />
     </fragment>
     <fragment
-        android:id="@+id/bottomNavFragment"
-        android:name="com.app.sportify.ui.entity.bottomNav.BottomNavFragment"
-        android:label="fragment_bottom_nav"
-        tools:layout="@layout/fragment_bottom_nav" />
-    <fragment
         android:id="@+id/loginFragment"
         android:name="com.app.sportify.ui.login.LoginFragment"
         android:label="fragment_login"
@@ -39,9 +31,6 @@
         <action
             android:id="@+id/action_loginFragment_to_registrationFragment"
             app:destination="@id/registrationFragment" />
-        <action
-            android:id="@+id/action_loginFragment_to_bottomNavFragment"
-            app:destination="@id/bottomNavFragment" />
         <action
             android:id="@+id/action_loginFragment_to_resetPasswordFragment"
             app:destination="@id/resetPasswordFragment" />

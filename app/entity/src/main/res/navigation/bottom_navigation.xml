@@ -7,17 +7,17 @@
 
     <fragment
         android:id="@+id/dashboardFragment"
-        android:name="com.app.sportify.DashboardFragment"
+        android:name="com.app.entity.ui.dashboard.DashboardFragment"
         android:label="fragment_dashboard"
         tools:layout="@layout/fragment_dashboard" />
     <fragment
-        android:id="@+id/profileFragment"
-        android:name="com.app.sportify.ProfileFragment"
-        android:label="fragment_profile"
-        tools:layout="@layout/fragment_profile" />
-    <fragment
         android:id="@+id/stadiumsFragment"
-        android:name="com.app.sportify.StadiumsFragment"
+        android:name="com.app.entity.ui.stadiums.StadiumsFragment"
         android:label="fragment_stadiums"
         tools:layout="@layout/fragment_stadiums" />
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.app.entity.ui.profile.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" />
 </navigation>
