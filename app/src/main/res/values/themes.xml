@@ -3,7 +3,7 @@
     <style name="Theme.Sportify" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/primary_color</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorPrimaryVariant">@color/primary_color</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/teal_200</item>
@@ -33,7 +33,7 @@
     </style>
 
     <style name="text_input" parent="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-        <item name="boxStrokeColor">@color/stroke_color</item>
+        <item name="boxStrokeColor">@color/primary_color</item>
         <item name="singleLine">true</item>
         <item name="android:imeOptions">actionNext</item>
         <item name="errorEnabled">true</item>
@@ -48,12 +48,32 @@
         <item name="hintTextColor">@color/hint_color</item>
     </style>
 
+    <style name="spinner_text_input" parent="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu">
+        <item name="boxStrokeColor">@color/primary_color</item>
+        <item name="singleLine">true</item>
+        <item name="android:imeOptions">actionNext</item>
+        <item name="errorEnabled">true</item>
+        <item name="boxCornerRadiusBottomStart">12dp</item>
+        <item name="boxCornerRadiusBottomEnd">12dp</item>
+        <item name="boxCornerRadiusTopEnd">12dp</item>
+        <item name="boxCornerRadiusTopStart">12dp</item>
+        <item name="android:fontFamily">@font/roboto</item>
+        <item name="android:textColorHint">@color/hint_color</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="hintTextColor">@color/hint_color</item>
+    </style>
+
     <style name="text_input_edit">
         <item name="android:textStyle">italic</item>
         <item name="cornerRadius">80dp</item>
-
         <item name="android:fontFamily">@font/roboto_thin_italic</item>
+    </style>
 
+    <style name="auto_complete_text_view_style">
+        <item name="android:textStyle">italic</item>
+        <item name="cornerRadius">80dp</item>
+        <item name="android:fontFamily">@font/roboto_thin_italic</item>
+        <item name="android:padding">16dp</item>
     </style>
 
     <style name="forget_password">
@@ -105,5 +125,6 @@
         <item name="android:fontFamily">@font/roboto_bold</item>
         <item name="android:textSize">32sp</item>
     </style>
+
 
 </resources>

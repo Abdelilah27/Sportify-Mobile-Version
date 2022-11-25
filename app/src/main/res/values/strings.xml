@@ -6,12 +6,18 @@
     <string name="Sign_up">Sign up</string>
     <string name="get_started">Get started</string>
     <string name="email_hint">abc@email.com</string>
+    <string name="entity_or_hint">Entity or player</string>
+    <string name="gendre_hint">Your gendre</string>
+    <string name="age_hint">Your age</string>
+    <string name="full_name">Full name</string>
     <string name="password_hint">Your password here</string>
+    <string name="confirmed_password_hint">Confirm password</string>
     <string name="forget_password">Forgot Password?</string>
     <string name="or">OR</string>
     <string name="google_login">Login with google</string>
     <string name="fb_login">Login with facebook</string>
     <string name="have_account">Don\'t Have An Account?</string>
+    <string name="already_have_account">Already have an account?</string>
     <string name="play_together">Let\'s play together</string>
     <string name="welcome_tagline">Hopping our way\ninto history</string>
 

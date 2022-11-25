@@ -1,10 +1,20 @@
 package com.app.sportify.ui.welcome
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import com.app.sportify.R
+import com.app.sportify.databinding.FragmentWelcomeBinding
 
-class WelcomeFragment : Fragment() {
+class WelcomeFragment : Fragment(R.layout.fragment_welcome) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val binding = FragmentWelcomeBinding.bind(view)
+        binding.mainButtonLoginFragment.setOnClickListener {
+            val action =
+                WelcomeFragmentDirections.actionWelcomeFragmentToLoginFragment()
+            findNavController().navigate(action)
+        }
+    }
 }
