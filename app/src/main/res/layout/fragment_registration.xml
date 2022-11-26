@@ -66,22 +66,6 @@
             style="@style/spinner_text_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/entity_or_hint"
-            app:startIconDrawable="@drawable/ic_baseline_supervisor_account_24">
-
-            <AutoCompleteTextView
-                android:id="@+id/spinner_entity_or"
-                style="@style/auto_complete_text_view_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="none" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/spinner_text_input"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:hint="@string/gendre_hint"
             app:startIconDrawable="@drawable/ic_outline_account_circle_24">
 
@@ -109,6 +93,40 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="number" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/spinner_text_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/entity_or_hint"
+            app:startIconDrawable="@drawable/ic_baseline_supervisor_account_24">
+
+            <AutoCompleteTextView
+                android:id="@+id/spinner_entity_or"
+                style="@style/auto_complete_text_view_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/name_entity_layout_registration_fragment"
+            style="@style/text_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:hint="@string/entity_name"
+            app:endIconMode="clear_text"
+            app:startIconDrawable="@drawable/ic_baseline_maps_home_work_24">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/name_entity_registration_fragment"
+                style="@style/text_input_edit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout

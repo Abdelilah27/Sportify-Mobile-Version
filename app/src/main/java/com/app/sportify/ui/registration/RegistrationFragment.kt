@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -39,9 +40,20 @@ class RegistrationFragment : Fragment(R.layout.fragment_registration) {
         val adapter = ArrayAdapter(requireContext(), R.layout.drop_down_item, role)
         registrationBinding.spinnerEntityOr.setAdapter(adapter)
 
+        registrationBinding.spinnerEntityOr.onItemClickListener =
+            AdapterView.OnItemClickListener { parent, view, position, id ->
+                val item = parent.getItemAtPosition(position).toString()
+                if (item == "entity") {
+                    registrationBinding.nameEntityLayoutRegistrationFragment.visibility =
+                        View.VISIBLE
+                }
+            }
+
         val gendre = listOf("men", "women")
         val adapterGendre = ArrayAdapter(requireContext(), R.layout.drop_down_item, gendre)
         registrationBinding.spinnerGendre.setAdapter(adapterGendre)
+
+
     }
 
 }
