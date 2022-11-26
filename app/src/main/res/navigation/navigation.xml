@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_splashFragment_to_welcomeFragment"
             app:destination="@id/welcomeFragment" />
+        <action
+            android:id="@+id/action_splashFragment_to_bottomNavFragment2"
+            app:destination="@id/bottomNavFragment2" />
     </fragment>
     <fragment
         android:id="@+id/welcomeFragment"
@@ -34,6 +37,9 @@
         <action
             android:id="@+id/action_loginFragment_to_resetPasswordFragment"
             app:destination="@id/resetPasswordFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_bottomNavFragment2"
+            app:destination="@id/bottomNavFragment2" />
     </fragment>
     <fragment
         android:id="@+id/registrationFragment"
@@ -53,4 +59,8 @@
             android:id="@+id/action_resetPasswordFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/bottomNavFragment2"
+        android:name="com.app.entity.bottomNav.BottomNavFragment"
+        android:label="BottomNavFragment" />
 </navigation>

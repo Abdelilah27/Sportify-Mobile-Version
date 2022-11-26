@@ -14,5 +14,6 @@ dependencyResolutionManagement {
 }
 rootProject.name = "Sportify"
 include ':app'
-include ':app:entity'
-include ':app:user'
+include ':Entity'
+include ':User'
+include ':Navigation'

@@ -5,10 +5,12 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import com.app.navigation.NavGraph
+import com.app.navigation.Navigations
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), Navigations {
     companion object {
         @SuppressLint("StaticFieldLeak")
         lateinit var navController: NavController
@@ -21,5 +23,15 @@ class MainActivity : AppCompatActivity() {
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
+    }
+
+    override fun navigate(graph: NavGraph, args: Bundle?) {
+        when (graph) {
+            NavGraph.ENTITY -> navController.navigate(R.id.action_loginFragment_to_bottomNavFragment2)
+        }
+    }
+
+    override fun popBackStack() {
+        navController.popBackStack()
     }
 }
