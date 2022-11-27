@@ -1,6 +1,7 @@
 package com.app.navigation
 
 enum class NavGraph() {
-    ENTITY,
+    ENTITYBOTTOMNAV,
+    ENTITYADDNEWSTADIUM,
     USER
 }

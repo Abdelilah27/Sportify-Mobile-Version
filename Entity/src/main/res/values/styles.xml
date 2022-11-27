@@ -40,4 +40,27 @@
         <item name="android:textSize">13sp</item>
         <item name="android:ellipsize">end</item>
     </style>
+
+    <style name="text_input" parent="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeColor">@color/primary_color</item>
+        <item name="singleLine">true</item>
+        <item name="android:imeOptions">actionNext</item>
+        <item name="errorEnabled">true</item>
+        <item name="boxCornerRadiusBottomStart">12dp</item>
+        <item name="boxCornerRadiusBottomEnd">12dp</item>
+        <item name="boxCornerRadiusTopEnd">12dp</item>
+        <item name="boxCornerRadiusTopStart">12dp</item>
+        <item name="android:fontFamily">@font/roboto</item>
+        <item name="endIconMode">clear_text</item>
+        <item name="android:textColorHint">@color/hint_color</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="hintTextColor">@color/hint_color</item>
+    </style>
+
+    <style name="text_input_edit">
+        <item name="android:textStyle">italic</item>
+        <item name="cornerRadius">80dp</item>
+        <item name="android:fontFamily">@font/roboto_thin_italic</item>
+    </style>
+
 </resources>

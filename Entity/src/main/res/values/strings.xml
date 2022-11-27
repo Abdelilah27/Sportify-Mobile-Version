@@ -2,7 +2,9 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="add_new">Add new</string>
+    <string name="save">Save</string>
     <string name="stadiums">Stadiums</string>
+    <string name="add_stadium">Add stadium</string>
     <string name="dashboard">Dashboard</string>
     <string name="profile">Profile</string>
 </resources>

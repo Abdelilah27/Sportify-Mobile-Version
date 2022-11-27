@@ -63,4 +63,8 @@
         android:id="@+id/bottomNavFragment2"
         android:name="com.app.entity.ui.bottomNav.BottomNavFragment"
         android:label="BottomNavFragment" />
+    <fragment
+        android:id="@+id/addStadiumFragment"
+        android:name="com.app.entity.ui.addStadium.AddStadiumFragment"
+        android:label="AddStadiumFragment" />
 </navigation>

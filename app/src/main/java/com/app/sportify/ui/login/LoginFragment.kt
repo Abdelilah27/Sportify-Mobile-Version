@@ -39,7 +39,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
 
     private fun initUI(loginBinding: FragmentLoginBinding) {
         loginBinding.mainButtonLoginFragment.setOnClickListener {
-            navController.navigate(NavGraph.ENTITY)
+            navController.navigate(NavGraph.ENTITYBOTTOMNAV)
         }
 
         loginBinding.signUpText.setOnClickListener {

@@ -27,7 +27,8 @@ class MainActivity : AppCompatActivity(), Navigations {
 
     override fun navigate(graph: NavGraph, args: Bundle?) {
         when (graph) {
-            NavGraph.ENTITY -> navController.navigate(R.id.action_loginFragment_to_bottomNavFragment2)
+            NavGraph.ENTITYBOTTOMNAV -> navController.navigate(R.id.action_loginFragment_to_bottomNavFragment2)
+            NavGraph.ENTITYADDNEWSTADIUM -> navController.navigate(com.app.entity.R.id.addStadiumFragment)
         }
     }
 

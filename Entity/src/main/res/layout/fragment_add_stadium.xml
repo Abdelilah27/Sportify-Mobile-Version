@@ -2,12 +2,12 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/frameLayout2"
+    android:id="@+id/frameLayout3"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"
     android:padding="16dp"
-    tools:context=".ui.stadiums.StadiumsFragment">
+    tools:context=".ui.addStadium.AddStadiumFragment">
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -32,19 +32,40 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="@string/stadiums" />
+            android:text="@string/add_stadium" />
     </LinearLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/stadiums_list"
+    <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:padding="8dp"
+        android:fillViewport="true"
         app:layout_constraintBottom_toTopOf="@+id/cardView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-        tools:listitem="@layout/stadium_item_stadiums_fragment" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/text_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/add_new"
+                app:endIconMode="clear_text"
+                app:startIconDrawable="@drawable/ic_baseline_stadium_24" />
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/name_add_stadium_fragment"
+                style="@style/text_input_edit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text" />
+        </LinearLayout>
+
+    </ScrollView>
 
 
     <androidx.cardview.widget.CardView
@@ -52,9 +73,7 @@
         style="@style/card_main_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="24dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginRight="24dp"
+        android:layout_margin="24dp"
         app:cardBackgroundColor="@color/primary_color"
         app:cardCornerRadius="16dp"
         app:cardElevation="8dp"
@@ -63,13 +82,12 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <Button
-            android:id="@+id/add_new_stadium_button"
+            android:id="@+id/add_new_stadium"
             style="@style/main_button"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="12dp"
-            android:text="@string/add_new" />
+            android:text="@string/save" />
     </androidx.cardview.widget.CardView>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

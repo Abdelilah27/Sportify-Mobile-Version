@@ -8,7 +8,7 @@
     tools:context=".ui.bottomNav.BottomNavFragment">
 
     <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/nav_host_frame_layout_entity2"
+        android:id="@+id/nav_host_frame_layout_entity"
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
