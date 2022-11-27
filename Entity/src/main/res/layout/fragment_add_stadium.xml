@@ -14,6 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:paddingBottom="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -53,16 +54,133 @@
                 style="@style/text_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/add_new"
+                android:hint="@string/stadium_name"
                 app:endIconMode="clear_text"
-                app:startIconDrawable="@drawable/ic_baseline_stadium_24" />
+                app:startIconDrawable="@drawable/ic_baseline_stadium_24">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/name_add_stadium_fragment"
-                style="@style/text_input_edit"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/stadium_name"
+                    style="@style/text_input_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/text_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="text" />
+                android:hint="@string/number_player"
+                app:endIconMode="clear_text"
+                app:startIconDrawable="@drawable/ic_baseline_person_outline_24">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/stadium_number_player"
+                    style="@style/text_input_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/text_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/price"
+                app:endIconMode="clear_text"
+                app:startIconDrawable="@drawable/ic_baseline_attach_money_24">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/stadium_price"
+                    style="@style/text_input_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/text_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/disponibility_from"
+                app:endIconMode="clear_text"
+                app:startIconDrawable="@drawable/ic_outline_date_range_24">
+
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/stadium_disponibility_from"
+                    style="@style/text_input_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="date" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/text_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/disponibility_to"
+                app:endIconMode="clear_text"
+                app:startIconDrawable="@drawable/ic_outline_date_range_24">
+
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/stadium_disponibility_to"
+                    style="@style/text_input_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="date" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/text_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/stadium_image"
+                app:endIconMode="clear_text"
+                app:startIconDrawable="@drawable/ic_outline_image_24">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/stadium_image"
+                    style="@style/text_input_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/text_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/location"
+                app:endIconMode="clear_text"
+                app:startIconDrawable="@drawable/ic_baseline_location_on_24">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/stadium_location"
+                    style="@style/text_input_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/text_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/description"
+                app:endIconMode="clear_text"
+                app:startIconDrawable="@drawable/ic_outline_description_24">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/stadium_description"
+                    style="@style/text_input_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text" />
+            </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
 
     </ScrollView>

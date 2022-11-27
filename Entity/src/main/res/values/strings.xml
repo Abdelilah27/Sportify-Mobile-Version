@@ -7,4 +7,12 @@
     <string name="add_stadium">Add stadium</string>
     <string name="dashboard">Dashboard</string>
     <string name="profile">Profile</string>
+    <string name="stadium_name">Stadium name</string>
+    <string name="number_player">Number of player</string>
+    <string name="price">Price</string>
+    <string name="disponibility_from">Disponibiliy from</string>
+    <string name="disponibility_to">Disponibility to</string>
+    <string name="location">Location</string>
+    <string name="description">Description</string>
+    <string name="stadium_image">Stadium Image</string>
 </resources>
