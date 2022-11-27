@@ -52,7 +52,8 @@
             style="@style/card_main_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardCornerRadius="22dp"
+            app:cardBackgroundColor="@color/primary_color"
+            app:cardCornerRadius="16dp"
             app:cardElevation="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -63,7 +64,7 @@
                 style="@style/main_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="16dp"
+                android:padding="12dp"
                 android:text="@string/get_started" />
         </androidx.cardview.widget.CardView>
 
