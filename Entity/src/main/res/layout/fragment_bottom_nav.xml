@@ -5,27 +5,28 @@
     android:id="@+id/frameLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".bottomNav.BottomNavFragment">
+    tools:context=".ui.bottomNav.BottomNavFragment">
 
     <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/nav_host_frame_layout_entity"
+        android:id="@+id/nav_host_frame_layout_entity2"
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:defaultNavHost="true"
-        app:layout_constraintBottom_toTopOf="@+id/EntityBottomNavigationView"
+        app:layout_constraintBottom_toTopOf="@+id/BottomNavigationView"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:navGraph="@navigation/bottom_navigation" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/EntityBottomNavigationView"
+        android:id="@+id/BottomNavigationView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/menu" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -61,6 +61,6 @@
     </fragment>
     <fragment
         android:id="@+id/bottomNavFragment2"
-        android:name="com.app.entity.bottomNav.BottomNavFragment"
+        android:name="com.app.entity.ui.bottomNav.BottomNavFragment"
         android:label="BottomNavFragment" />
 </navigation>

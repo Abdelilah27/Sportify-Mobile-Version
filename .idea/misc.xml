@@ -3,25 +3,36 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="Entity/src/main/res/drawable/background_radius_button.xml" value="0.2205" />
         <entry key="Entity/src/main/res/layout/fragment_bottom_nav.xml" value="0.3729166666666667" />
         <entry key="Entity/src/main/res/layout/fragment_dashboard.xml" value="0.3729166666666667" />
+        <entry key="Entity/src/main/res/layout/fragment_profile.xml" value="0.3729166666666667" />
         <entry key="Entity/src/main/res/layout/fragment_stadiums.xml" value="0.3729166666666667" />
-        <entry key="Entity/src/main/res/menu/menu.xml" value="0.371875" />
+        <entry key="Entity/src/main/res/layout/stadium_item_stadiums_fragment.xml" value="0.3729166666666667" />
+        <entry key="Entity/src/main/res/menu/menu.xml" value="0.3729166666666667" />
+        <entry key="app/entity/src/main/res/drawable/background_radius_button.xml" value="0.2205" />
+        <entry key="app/entity/src/main/res/drawable/ic_baseline_arrow_back_24.xml" value="0.2205" />
         <entry key="app/entity/src/main/res/drawable/ic_baseline_manage_accounts_24.xml" value="0.3125" />
         <entry key="app/entity/src/main/res/drawable/ic_baseline_space_dashboard_24.xml" value="0.3125" />
         <entry key="app/entity/src/main/res/drawable/ic_baseline_stadium_24.xml" value="0.3125" />
+        <entry key="app/entity/src/main/res/font/roboto.xml" value="0.39692307692307693" />
         <entry key="app/entity/src/main/res/layout/fragment_bottom_nav.xml" value="0.29850746268656714" />
+        <entry key="app/entity/src/main/res/layout/fragment_dashboard.xml" value="0.335" />
+        <entry key="app/entity/src/main/res/layout/fragment_profile.xml" value="0.3729166666666667" />
+        <entry key="app/entity/src/main/res/layout/fragment_stadiums.xml" value="0.3729166666666667" />
+        <entry key="app/entity/src/main/res/layout/stadium_item_stadiums_fragment.xml" value="0.3671794871794872" />
         <entry key="app/entity/src/main/res/menu/menu.xml" value="0.3729166666666667" />
         <entry key="app/src/main/res/drawable-v24/background_radius_button.xml" value="0.169" />
         <entry key="app/src/main/res/drawable-v24/drawable_resourcec_file_background_radius_button.xml" value="0.169" />
         <entry key="app/src/main/res/drawable/background_gradient.xml" value="0.22" />
         <entry key="app/src/main/res/drawable/drop_down_item.xml" value="0.2345" />
         <entry key="app/src/main/res/drawable/gradient_spinner.xml" value="0.2325" />
+        <entry key="app/src/main/res/font/roboto.xml" value="0.39692307692307693" />
         <entry key="app/src/main/res/layout-v28/fragment_login.xml" value="0.3729166666666667" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.165" />
         <entry key="app/src/main/res/layout/drop_down_item.xml" value="0.371875" />
         <entry key="app/src/main/res/layout/fragment_bottom_nav.xml" value="0.3729166666666667" />
-        <entry key="app/src/main/res/layout/fragment_login.xml" value="0.45" />
+        <entry key="app/src/main/res/layout/fragment_login.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_registration.xml" value="0.335" />
         <entry key="app/src/main/res/layout/fragment_reset_password.xml" value="0.3729166666666667" />
         <entry key="app/src/main/res/layout/fragment_splash.xml" value="0.335" />

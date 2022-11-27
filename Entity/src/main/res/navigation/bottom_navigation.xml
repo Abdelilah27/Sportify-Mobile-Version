@@ -2,22 +2,22 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/bottom_navigation"
+    android:id="@+id/bottom_navigation_entity"
     app:startDestination="@id/dashboardFragment">
 
     <fragment
         android:id="@+id/dashboardFragment"
-        android:name="com.app.entity.dashboard.DashboardFragment"
+        android:name="com.app.entity.ui.dashboard.DashboardFragment"
         android:label="fragment_dashboard"
         tools:layout="@layout/fragment_dashboard" />
     <fragment
         android:id="@+id/stadiumsFragment"
-        android:name="com.app.entity.stadiums.StadiumsFragment"
+        android:name="com.app.entity.ui.stadiums.StadiumsFragment"
         android:label="fragment_stadiums"
         tools:layout="@layout/fragment_stadiums" />
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.app.entity.profile.ProfileFragment"
+        android:name="com.app.entity.ui.profile.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
 </navigation>
