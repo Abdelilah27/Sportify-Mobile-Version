@@ -116,6 +116,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/disponibility_from"
                     app:endIconMode="clear_text"
+                    app:errorText="@{addStadiumViewModel.liveErrorStadium.disponibility_to}"
                     app:startIconDrawable="@drawable/ic_outline_date_range_24">
 
 

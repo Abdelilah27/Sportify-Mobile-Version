@@ -7,5 +7,6 @@ data class StadiumError(
     var numberOfPlayerError: Int = R.string.empty,
     var priceError: Int = R.string.empty,
     var locationError: Int = R.string.empty,
+    var disponibility_to: Int = R.string.empty,
 ) {
 }

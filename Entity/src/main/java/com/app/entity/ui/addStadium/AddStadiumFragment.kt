@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.app.TimePickerDialog
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -42,7 +41,6 @@ class AddStadiumFragment : Fragment(R.layout.fragment_add_stadium) {
     @SuppressLint("SetTextI18n")
     private fun initUI(addStadiumBinding: FragmentAddStadiumBinding) {
         addStadiumBinding.addNewStadium.setOnClickListener {
-            Log.d("TAG", "initUI: " + addStadiumBinding.stadiumDisponibilityFrom.text.toString())
             val disponibilityFrom = addStadiumBinding.stadiumDisponibilityFrom.text.toString()
             val disponibilityTo = addStadiumBinding.stadiumDisponibilityTo.text.toString()
             viewModel.onRegistrationClicked(disponibilityFrom, disponibilityTo)

@@ -1,5 +1,6 @@
 package com.app.entity.ui.addStadium
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -40,6 +41,9 @@ class AddStadiumViewModel @Inject constructor(private val repository: RetrofitSe
         } else if (liveStadium.value?.location.isNullOrEmpty()) {
             _liveStadiumError.postValue(StadiumError(locationError = R.string.location_error))
             isValid = false
+        } else if (!validDate(disponibility_from, disponibility_to)) {
+            _liveStadiumError.postValue(StadiumError(disponibility_to = R.string.disponibility_error))
+            isValid = false
         }
         if (isValid) {
             viewModelScope.launch {
@@ -52,5 +56,10 @@ class AddStadiumViewModel @Inject constructor(private val repository: RetrofitSe
         return isValid
     }
 
-
+    private fun validDate(disponibilityFrom: String, disponibilityTo: String): Boolean {
+        if (disponibilityFrom.isNotEmpty() && disponibilityTo.isNotEmpty()) {
+            return disponibilityFrom.toInt() < disponibilityTo.toInt()
+        }
+        return true
+    }
 }
