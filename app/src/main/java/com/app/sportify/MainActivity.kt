@@ -2,15 +2,15 @@ package com.app.sportify
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.app.navigation.NavGraph
 import com.app.navigation.Navigations
+import com.app.sportify.utils.PIBaseActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity(), Navigations {
+class MainActivity : PIBaseActivity(), Navigations {
     companion object {
         @SuppressLint("StaticFieldLeak")
         lateinit var navController: NavController
@@ -25,10 +25,12 @@ class MainActivity : AppCompatActivity(), Navigations {
         navController = navHostFragment.navController
     }
 
-    override fun navigate(graph: NavGraph, args: Bundle?) {
+    override fun navigate(graph: NavGraph, args: String) {
         when (graph) {
             NavGraph.ENTITYBOTTOMNAV -> navController.navigate(R.id.action_loginFragment_to_bottomNavFragment2)
             NavGraph.ENTITYADDNEWSTADIUM -> navController.navigate(com.app.entity.R.id.addStadiumFragment)
+            NavGraph.SHOWPROGRESSBAR -> showProgressDialog(args)
+            NavGraph.DISMISSPROGRESSBAR -> dismissProgressDialog(args)
         }
     }
 

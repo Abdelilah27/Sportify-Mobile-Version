@@ -1,211 +1,231 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/frameLayout3"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     android:background="@drawable/background"
-    android:padding="16dp"
-    tools:context=".ui.addStadium.AddStadiumFragment">
+    android:padding="16dp">
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
+    <data>
+
+        <variable
+            name="addStadiumViewModel"
+            type="com.app.entity.ui.addStadium.AddStadiumViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingBottom="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:id="@+id/back_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginRight="8dp"
-            android:src="@drawable/ic_baseline_arrow_back_24" />
-
-        <TextView
-            android:id="@+id/textView3"
-            style="@style/title_authentification"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="@string/add_stadium" />
-    </LinearLayout>
-
-    <ScrollView
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:fillViewport="true"
-        app:layout_constraintBottom_toTopOf="@+id/cardView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+        android:layout_height="match_parent">
 
         <LinearLayout
+            android:id="@+id/linearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="horizontal"
+            android:paddingBottom="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/text_input"
+            <ImageView
+                android:id="@+id/back_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginRight="8dp"
+                android:src="@drawable/ic_baseline_arrow_back_24" />
+
+            <TextView
+                android:id="@+id/textView3"
+                style="@style/title_authentification"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/stadium_name"
-                app:endIconMode="clear_text"
-                app:startIconDrawable="@drawable/ic_baseline_stadium_24">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/stadium_name"
-                    style="@style/text_input_edit"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="text" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/text_input"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/number_player"
-                app:endIconMode="clear_text"
-                app:startIconDrawable="@drawable/ic_baseline_person_outline_24">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/stadium_number_player"
-                    style="@style/text_input_edit"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="number" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/text_input"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/price"
-                app:endIconMode="clear_text"
-                app:startIconDrawable="@drawable/ic_baseline_attach_money_24">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/stadium_price"
-                    style="@style/text_input_edit"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="number" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/text_input"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/disponibility_from"
-                app:endIconMode="clear_text"
-                app:startIconDrawable="@drawable/ic_outline_date_range_24">
-
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/stadium_disponibility_from"
-                    style="@style/text_input_edit"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="date" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/text_input"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/disponibility_to"
-                app:endIconMode="clear_text"
-                app:startIconDrawable="@drawable/ic_outline_date_range_24">
-
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/stadium_disponibility_to"
-                    style="@style/text_input_edit"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="date" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/text_input"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/stadium_image"
-                app:endIconMode="clear_text"
-                app:startIconDrawable="@drawable/ic_outline_image_24">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/stadium_image"
-                    style="@style/text_input_edit"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="text" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/text_input"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/location"
-                app:endIconMode="clear_text"
-                app:startIconDrawable="@drawable/ic_baseline_location_on_24">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/stadium_location"
-                    style="@style/text_input_edit"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="text" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/text_input"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/description"
-                app:endIconMode="clear_text"
-                app:startIconDrawable="@drawable/ic_outline_description_24">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/stadium_description"
-                    style="@style/text_input_edit"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="text" />
-            </com.google.android.material.textfield.TextInputLayout>
+                android:layout_gravity="center"
+                android:text="@string/add_stadium" />
         </LinearLayout>
 
-    </ScrollView>
+        <ScrollView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:fillViewport="true"
+            app:layout_constraintBottom_toTopOf="@+id/cardView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/text_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/stadium_name"
+                    app:endIconMode="clear_text"
+                    app:errorText="@{addStadiumViewModel.liveErrorStadium.nameError}"
+                    app:startIconDrawable="@drawable/ic_baseline_stadium_24">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/stadium_name"
+                        style="@style/text_input_edit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="text"
+                        android:text="@={addStadiumViewModel.liveStadium.name}" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/text_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/number_player"
+                    app:endIconMode="clear_text"
+                    app:errorText="@{addStadiumViewModel.liveErrorStadium.numberOfPlayerError}"
+                    app:startIconDrawable="@drawable/ic_baseline_person_outline_24">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/stadium_number_player"
+                        style="@style/text_input_edit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:text="@={addStadiumViewModel.liveStadium.numberOfPlayer}" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/text_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/price"
+                    app:endIconMode="clear_text"
+                    app:errorText="@{addStadiumViewModel.liveErrorStadium.priceError}"
+                    app:startIconDrawable="@drawable/ic_baseline_attach_money_24">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/stadium_price"
+                        style="@style/text_input_edit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="numberDecimal"
+                        android:text="@={addStadiumViewModel.liveStadium.price}" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/text_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/disponibility_from"
+                    app:endIconMode="clear_text"
+                    app:startIconDrawable="@drawable/ic_outline_date_range_24">
 
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardView"
-        style="@style/card_main_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="24dp"
-        app:cardBackgroundColor="@color/primary_color"
-        app:cardCornerRadius="16dp"
-        app:cardElevation="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/stadium_disponibility_from"
+                        style="@style/text_input_edit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="date"
+                        android:text="@={addStadiumViewModel.liveStadium.disponibility_from}" />
 
-        <Button
-            android:id="@+id/add_new_stadium"
-            style="@style/main_button"
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/text_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/disponibility_to"
+                    app:endIconMode="clear_text"
+                    app:startIconDrawable="@drawable/ic_outline_date_range_24">
+
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/stadium_disponibility_to"
+                        style="@style/text_input_edit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="date"
+                        android:text="@={addStadiumViewModel.liveStadium.disponibility_to}" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/text_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/stadium_image"
+                    app:endIconMode="clear_text"
+                    app:startIconDrawable="@drawable/ic_outline_image_24">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/stadium_image"
+                        style="@style/text_input_edit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="text"
+                        android:text="@={addStadiumViewModel.liveStadium.image}" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/text_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/location"
+                    app:endIconMode="clear_text"
+                    app:errorText="@{addStadiumViewModel.liveErrorStadium.locationError}"
+                    app:startIconDrawable="@drawable/ic_baseline_location_on_24">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/stadium_location"
+                        style="@style/text_input_edit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="text"
+                        android:text="@={addStadiumViewModel.liveStadium.location}" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/text_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/description"
+                    app:endIconMode="clear_text"
+                    app:startIconDrawable="@drawable/ic_outline_description_24">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/stadium_description"
+                        style="@style/text_input_edit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="text"
+                        android:text="@={addStadiumViewModel.liveStadium.description}" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+
+        </ScrollView>
+
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView"
+            style="@style/card_main_button"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="12dp"
-            android:text="@string/save" />
-    </androidx.cardview.widget.CardView>
+            android:layout_height="wrap_content"
+            android:layout_margin="24dp"
+            app:cardBackgroundColor="@color/primary_color"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <Button
+                android:id="@+id/add_new_stadium"
+                style="@style/main_button"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="12dp"
+                android:text="@string/save" />
+        </androidx.cardview.widget.CardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</layout>

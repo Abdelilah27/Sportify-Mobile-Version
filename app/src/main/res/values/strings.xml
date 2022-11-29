@@ -23,8 +23,7 @@
     <string name="already_have_account">Already have an account?</string>
     <string name="play_together">Let\'s play together</string>
     <string name="welcome_tagline">Hopping our way\ninto history</string>
-    <string
-        name="reset_password_description"><![CDATA[Please enter your email address to request a password reset]]></string>
+    <string name="reset_password_description"><![CDATA[Please enter your email address to request a password reset]]></string>
 
 
 </resources>

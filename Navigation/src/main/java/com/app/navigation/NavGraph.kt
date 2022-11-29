@@ -1,7 +1,9 @@
 package com.app.navigation
 
-enum class NavGraph() {
+enum class NavGraph {
     ENTITYBOTTOMNAV,
     ENTITYADDNEWSTADIUM,
+    SHOWPROGRESSBAR,
+    DISMISSPROGRESSBAR,
     USER
 }
