@@ -83,6 +83,7 @@ class AddStadiumFragment : Fragment(R.layout.fragment_add_stadium) {
             if (hasFocus) {
                 TimePickerDialog(
                     requireContext(),
+                    R.style.DialogTheme,
                     { _, hourOfDay, minute ->
                         addStadiumBinding.stadiumDisponibilityFrom.setText("$hourOfDay")
                     },
@@ -99,6 +100,7 @@ class AddStadiumFragment : Fragment(R.layout.fragment_add_stadium) {
             if (hasFocus) {
                 TimePickerDialog(
                     requireContext(),
+                    R.style.DialogTheme,
                     { _, hourOfDay, minute ->
                         addStadiumBinding.stadiumDisponibilityTo.setText("$hourOfDay")
                     },
