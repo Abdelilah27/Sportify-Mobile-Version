@@ -1,5 +1,6 @@
 package com.app.entity.ui.addStadium
 
+import android.graphics.Bitmap
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -26,7 +27,10 @@ class AddStadiumViewModel @Inject constructor(private val repository: RetrofitSe
     // AddStadium Statues
     val liveAddStadiumFlow = MutableLiveData<Resource.Status>(Resource.Status.NONE)
 
-    fun onRegistrationClicked(disponibility_from: String, disponibility_to: String): Boolean {
+    fun onRegistrationClicked(
+        disponibility_from: String,
+        disponibility_to: String,
+    ): Boolean {
         // Handle Errors
         var isValid = true
         if (liveStadium.value?.name.isNullOrEmpty()) {

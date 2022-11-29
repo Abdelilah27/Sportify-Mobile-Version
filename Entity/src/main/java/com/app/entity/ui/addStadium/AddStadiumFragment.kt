@@ -1,10 +1,20 @@
 package com.app.entity.ui.addStadium
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.app.TimePickerDialog
 import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.ImageDecoder
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.View
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -19,6 +29,8 @@ import java.util.*
 @AndroidEntryPoint
 class AddStadiumFragment : Fragment(R.layout.fragment_add_stadium) {
     private val viewModel: AddStadiumViewModel by viewModels()
+    var pickedPhoto: Uri? = null
+    var pickedBitMap: Bitmap? = null
 
     private lateinit var navController: Navigations
     override fun onAttach(context: Context) {
@@ -96,5 +108,68 @@ class AddStadiumFragment : Fragment(R.layout.fragment_add_stadium) {
                 ).show()
             }
         }
+
+        // To load image from storage
+        addStadiumBinding.stadiumImage.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
+                pickPhoto()
+            }
+        }
     }
+
+    //------ Load image from storage
+    private fun pickPhoto() {
+        if (ContextCompat.checkSelfPermission(
+                requireContext(),
+                android.Manifest.permission.READ_EXTERNAL_STORAGE
+            )
+            != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                requireActivity(), arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE),
+                1
+            )
+        } else {
+            val galeriIntext =
+                Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+            startActivityForResult(galeriIntext, 2)
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        if (requestCode == 1) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                val galeriIntext =
+                    Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                startActivityForResult(galeriIntext, 2)
+            }
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == 2 && resultCode == Activity.RESULT_OK && data != null) {
+            pickedPhoto = data.data
+            if (pickedPhoto != null) {
+                pickedBitMap = if (Build.VERSION.SDK_INT >= 28) {
+                    val source =
+                        ImageDecoder.createSource(requireActivity().contentResolver, pickedPhoto!!)
+                    ImageDecoder.decodeBitmap(source)
+
+                } else {
+                    MediaStore.Images.Media.getBitmap(
+                        requireActivity().contentResolver,
+                        pickedPhoto
+                    )
+                }
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data)
+    }
+
+    //------ End "load image from storage"
 }
