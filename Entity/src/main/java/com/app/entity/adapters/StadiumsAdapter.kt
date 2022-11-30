@@ -43,8 +43,9 @@ class StadiumsAdapter(val context: Context, private val onItemSelected: OnItemSe
             holder.price.text = it.price.toString()
             holder.description.text = it.description
             try {
-                //TODO
-                Glide.with(context).load(myList[position].image).into(holder.image)
+                Glide.with(holder.image)
+                    .load(R.drawable.stadium_default)
+                    .into(holder.image)
             } catch (e: Exception) {
                 Log.d("Exception", e.message.toString())
                 Glide.with(holder.image)
