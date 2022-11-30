@@ -29,6 +29,7 @@ class MainActivity : PIBaseActivity(), Navigations {
         when (graph) {
             NavGraph.ENTITYBOTTOMNAV -> navController.navigate(R.id.action_loginFragment_to_bottomNavFragment2)
             NavGraph.ENTITYADDNEWSTADIUM -> navController.navigate(com.app.entity.R.id.addStadiumFragment)
+            NavGraph.ENTITTYSTADIUMS -> navController.navigate(com.app.entity.R.id.stadiumsFragment)
             NavGraph.SHOWPROGRESSBAR -> showProgressDialog(args)
             NavGraph.DISMISSPROGRESSBAR -> dismissProgressDialog(args)
         }

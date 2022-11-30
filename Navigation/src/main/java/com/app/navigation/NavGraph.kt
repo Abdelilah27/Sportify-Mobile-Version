@@ -3,6 +3,7 @@ package com.app.navigation
 enum class NavGraph {
     ENTITYBOTTOMNAV,
     ENTITYADDNEWSTADIUM,
+    ENTITTYSTADIUMS,
     SHOWPROGRESSBAR,
     DISMISSPROGRESSBAR,
     USER

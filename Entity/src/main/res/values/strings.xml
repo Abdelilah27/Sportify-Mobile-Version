@@ -21,6 +21,6 @@
     <string name="name_error">Please enter a name</string>
     <string name="number_error">Please enter a number</string>
     <string name="price_error">Please enter the price</string>
-    <string name="disponibility_error">Please enter a valid time from and to</string>
+    <string name="disponibility_error">Please enter a valid time</string>
     <string name="location_error">Please enter the location</string>
 </resources>

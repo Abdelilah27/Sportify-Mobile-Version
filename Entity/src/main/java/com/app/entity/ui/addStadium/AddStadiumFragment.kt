@@ -12,7 +12,9 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
@@ -20,15 +22,18 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.app.entity.R
 import com.app.entity.databinding.FragmentAddStadiumBinding
-import com.app.entity.utils.Resource
+import com.app.entity.utils.ConstUtil.TEXTINPUTIMAGE
+import com.app.entity.utils.NetworkResult
 import com.app.navigation.NavGraph
 import com.app.navigation.Navigations
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 
+
 @AndroidEntryPoint
 class AddStadiumFragment : Fragment(R.layout.fragment_add_stadium) {
     private val viewModel: AddStadiumViewModel by viewModels()
+    lateinit var binding: FragmentAddStadiumBinding
     var pickedPhoto: Uri? = null
     var pickedBitMap: Bitmap? = null
 
@@ -40,7 +45,7 @@ class AddStadiumFragment : Fragment(R.layout.fragment_add_stadium) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val binding = DataBindingUtil.setContentView<FragmentAddStadiumBinding>(
+        binding = DataBindingUtil.setContentView<FragmentAddStadiumBinding>(
             requireActivity(),
             R.layout.fragment_add_stadium
         )
@@ -52,28 +57,34 @@ class AddStadiumFragment : Fragment(R.layout.fragment_add_stadium) {
 
     @SuppressLint("SetTextI18n")
     private fun initUI(addStadiumBinding: FragmentAddStadiumBinding) {
+        // Add new stadium
         addStadiumBinding.addNewStadium.setOnClickListener {
-            val disponibilityFrom = addStadiumBinding.stadiumDisponibilityFrom.text.toString()
-            val disponibilityTo = addStadiumBinding.stadiumDisponibilityTo.text.toString()
-            viewModel.onRegistrationClicked(disponibilityFrom, disponibilityTo)
-            // To show progressBar when saving data
-            viewModel.liveAddStadiumFlow.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
-                when (it) {
-                    Resource.Status.LOADING -> {
-                        navController.navigate(NavGraph.SHOWPROGRESSBAR, "AddStadium")
-                    }
-                    Resource.Status.SUCCESS -> {
-                        navController.navigate(NavGraph.DISMISSPROGRESSBAR)
-//                        val action =
-//                            RegistrationFragmentDirections.actionRegistrationFragmentToLoginFragment()
-//                        findNavController().navigate(action)
-                    }
-                    else -> {
-                        navController.navigate(NavGraph.DISMISSPROGRESSBAR)
-                    }
-                }
-            })
+            val numberOfPlayer = addStadiumBinding.stadiumNumberPlayer.text.toString()
+            val price = addStadiumBinding.stadiumPrice.text.toString()
+            viewModel.onRegistrationClicked(
+                numberOfPlayer,
+                price,
+                pickedBitMap
+            )
         }
+
+        // To show progressBar when saving data
+        viewModel.liveAddStadiumFlow.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+            when (it) {
+                is NetworkResult.Success -> {
+                    navController.navigate(NavGraph.DISMISSPROGRESSBAR, "AddStadium")
+                    navController.popBackStack()
+                }
+                is NetworkResult.Error -> {
+                    navController.navigate(NavGraph.DISMISSPROGRESSBAR, "AddStadium")
+                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
+                    Log.d("RORO2", it.message.toString())
+                }
+                is NetworkResult.Loading -> {
+                    navController.navigate(NavGraph.SHOWPROGRESSBAR, "AddStadium")
+                }
+            }
+        })
 
         // To show the TimePicker
         addStadiumBinding.stadiumDisponibilityFrom.setOnFocusChangeListener { _, hasFocus ->
@@ -161,13 +172,13 @@ class AddStadiumFragment : Fragment(R.layout.fragment_add_stadium) {
                     val source =
                         ImageDecoder.createSource(requireActivity().contentResolver, pickedPhoto!!)
                     ImageDecoder.decodeBitmap(source)
-
                 } else {
                     MediaStore.Images.Media.getBitmap(
                         requireActivity().contentResolver,
                         pickedPhoto
                     )
                 }
+                binding.stadiumImage.setText(TEXTINPUTIMAGE)
             }
         }
         super.onActivityResult(requestCode, resultCode, data)
