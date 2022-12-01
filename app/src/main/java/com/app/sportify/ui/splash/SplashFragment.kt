@@ -16,6 +16,6 @@ class SplashFragment : Fragment(R.layout.fragment_splash) {
             val action =
                 SplashFragmentDirections.actionSplashFragmentToWelcomeFragment()
             findNavController().navigate(action)
-        }, 4000)
+        }, 1000)
     }
 }

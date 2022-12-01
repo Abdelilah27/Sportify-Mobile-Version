@@ -2,7 +2,6 @@ package com.app.entity.adapters
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,17 +9,28 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.app.entity.R
-import com.app.entity.model.Stadium
+import com.app.entity.model.Terrain
+import com.app.entity.utils.ConstUtil.GETSTADIUMIMAGE
+import com.app.entity.utils.ConstUtil.MAD
+import com.app.entity.utils.ConstUtil.PLAYERS
 import com.app.entity.utils.OnItemSelectedInterface
 import com.bumptech.glide.Glide
+import okhttp3.OkHttpClient
+import java.security.SecureRandom
+import java.security.cert.CertificateException
+import java.security.cert.X509Certificate
+import javax.net.ssl.SSLContext
+import javax.net.ssl.SSLSocketFactory
+import javax.net.ssl.TrustManager
+import javax.net.ssl.X509TrustManager
 
 class StadiumsAdapter(val context: Context, private val onItemSelected: OnItemSelectedInterface) :
     RecyclerView.Adapter<StadiumsAdapter.ItemViewHolder>() {
 
-    private var myList: List<Stadium> = listOf()
+    private var myList: List<Terrain> = listOf()
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setData(data: List<Stadium>) {
+    fun setData(data: List<Terrain>) {
         myList = data
         notifyDataSetChanged()
     }
@@ -39,19 +49,15 @@ class StadiumsAdapter(val context: Context, private val onItemSelected: OnItemSe
             holder.date.text = it.disponibility_from + "-" + it.disponibility_to
             holder.title.text = it.name
             holder.location.text = it.location
-            holder.numberOfPlayer.text = it.numberOfPlayer.toString()
-            holder.price.text = it.price.toString()
+            holder.numberOfPlayer.text = it.numberOfPlayer.toString() + PLAYERS
+            holder.price.text = it.price.toString() + MAD
             holder.description.text = it.description
-            try {
-                Glide.with(holder.image)
-                    .load(R.drawable.stadium_default)
-                    .into(holder.image)
-            } catch (e: Exception) {
-                Log.d("Exception", e.message.toString())
-                Glide.with(holder.image)
-                    .load(R.drawable.stadium_default)
-                    .into(holder.image)
-            }
+            val stadiumImage = GETSTADIUMIMAGE + it.imgFileName
+            Glide.with(context)
+                .load(stadiumImage)
+                .error(R.drawable.stadium_default)
+                .centerCrop()
+                .into(holder.image)
         }
     }
 
@@ -97,5 +103,43 @@ class StadiumsAdapter(val context: Context, private val onItemSelected: OnItemSe
     }
 
     override fun getItemCount() = myList.size
+
+    private fun getUnsafeOkHttpClient(): OkHttpClient {
+        return try {
+            val trustAllCerts: Array<TrustManager> = arrayOf<TrustManager>(
+                object : X509TrustManager {
+                    @Throws(CertificateException::class)
+                    override fun checkClientTrusted(
+                        chain: Array<X509Certificate?>?,
+                        authType: String?
+                    ) {
+                    }
+
+                    @Throws(CertificateException::class)
+                    override fun checkServerTrusted(
+                        chain: Array<X509Certificate?>?,
+                        authType: String?
+                    ) {
+                    }
+
+                    override fun getAcceptedIssuers(): Array<X509Certificate> {
+                        return arrayOf()
+                    }
+
+                }
+            )
+
+            val sslContext: SSLContext = SSLContext.getInstance("SSL")
+            sslContext.init(null, trustAllCerts, SecureRandom())
+
+            val sslSocketFactory: SSLSocketFactory = sslContext.socketFactory
+            val builder = OkHttpClient.Builder()
+            builder.sslSocketFactory(sslSocketFactory, trustAllCerts[0] as X509TrustManager)
+            builder.hostnameVerifier { _, _ -> true }
+            builder.build()
+        } catch (e: Exception) {
+            throw RuntimeException(e)
+        }
+    }
 
 }

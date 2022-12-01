@@ -1,39 +1,51 @@
 package com.app.entity.ui.addStadium
 
-import android.graphics.Bitmap
-import android.util.Log
+import android.content.Context
+import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.app.entity.R
-import com.app.entity.model.Stadium
 import com.app.entity.model.StadiumError
-import com.app.entity.model.StadiumResponse
+import com.app.entity.model.Terrain
 import com.app.entity.repository.RetrofitServiceRepository
 import com.app.entity.utils.ConstUtil.TIME24HOURS_PATTERN
 import com.app.entity.utils.NetworkResult
+import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
-import retrofit2.awaitResponse
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.ResponseBody
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import java.io.File
 import javax.inject.Inject
 
+
 @HiltViewModel
-class AddStadiumViewModel @Inject constructor(private val repository: RetrofitServiceRepository) :
+class AddStadiumViewModel @Inject constructor(
+    private val repository: RetrofitServiceRepository,
+    @ApplicationContext private val context: Context
+) :
     ViewModel() {
-    private val _liveStadiumData = MutableLiveData<Stadium>(Stadium())
-    val liveStadium: LiveData<Stadium> = _liveStadiumData
+    private val _liveStadiumData = MutableLiveData<Terrain>(Terrain())
+    val liveStadium: LiveData<Terrain> = _liveStadiumData
 
     private val _liveStadiumError = MutableLiveData<StadiumError>(StadiumError())
     val liveErrorStadium: LiveData<StadiumError> = _liveStadiumError
 
     // Handle Error
-    val liveAddStadiumFlow: MutableLiveData<NetworkResult<StadiumResponse>> = MutableLiveData()
+    val liveAddStadiumFlow: MutableLiveData<NetworkResult<ResponseBody>> = MutableLiveData()
 
     fun onRegistrationClicked(
         numberOfPlayer: String,
         price: String,
-        pickedBitMap: Bitmap?,
+        pickedBitMap: Uri?,
     ): Boolean {
         // Handle Errors
         var isValid = true
@@ -68,26 +80,54 @@ class AddStadiumViewModel @Inject constructor(private val repository: RetrofitSe
             isValid = false
         }
         if (isValid) {
+            liveAddStadiumFlow.postValue(NetworkResult.Loading())
+            val stadiumInfo =
+                liveStadium.value!!.copy()
+
+            val file = File(pickedBitMap!!.path)
+//            val filePath: String = RealPathUtil.getPath(context, pickedBitMap)
+
+            val requestFile: RequestBody = RequestBody.create(
+                "image/*".toMediaTypeOrNull(),
+                file
+            )
+            val body = MultipartBody.Part.createFormData(
+                "img", file.name,
+                requestFile
+            )
+
+            val gson = Gson()
+            val terrainJSON = gson.toJson(stadiumInfo)
+            val terrain: MultipartBody.Part =
+                MultipartBody.Part.createFormData("terrain", terrainJSON)
+
+
             viewModelScope.launch {
-                liveAddStadiumFlow.postValue(NetworkResult.Loading())
-                val stadiumInfo =
-                    liveStadium.value!!.copy()
-                try {
-                    val response = repository.saveStadium(stadiumInfo).awaitResponse()
-                    if (response.isSuccessful) {
-                        liveAddStadiumFlow.postValue(NetworkResult.Success(response.body()!!))
-                    } else {
-                        liveAddStadiumFlow.postValue(
-                            NetworkResult.Error(
-                                response.body().toString()
+                val call: Call<ResponseBody> = repository.saveStadium(body, terrain)
+                call.enqueue(object : Callback<ResponseBody> {
+                    override fun onResponse(
+                        call: Call<ResponseBody>,
+                        response: Response<ResponseBody>
+                    ) {
+                        if (response.isSuccessful) {
+                            liveAddStadiumFlow.postValue(NetworkResult.Success(response.body()!!))
+                        } else {
+                            liveAddStadiumFlow.postValue(
+                                NetworkResult.Error(
+                                    response.body().toString()
+                                )
                             )
-                        )
+                        }
                     }
-                } catch (ex: Exception) {
-                    liveAddStadiumFlow.postValue(NetworkResult.Error(ex.message.toString()))
-                    Log.d("RARA2é", liveAddStadiumFlow.value?.message.toString())
-                }
+
+                    override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                        liveAddStadiumFlow.postValue(NetworkResult.Error("Error"))
+                    }
+
+                })
             }
+
+
         }
 
         return isValid

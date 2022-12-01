@@ -1,11 +1,12 @@
 package com.app.entity.model
 
-data class Stadium(
+//Stadium Class
+data class Terrain(
     var description: String = "",
     var disponibility_from: String = "",
     var disponibility_to: String = "",
     var id: Int = 0,
-    var image: String = "",
+    var imgFileName: String = "",
     var location: String = "",
     var name: String = "",
     var numberOfPlayer: Int = 0,

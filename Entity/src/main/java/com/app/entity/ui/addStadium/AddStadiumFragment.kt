@@ -64,7 +64,7 @@ class AddStadiumFragment : Fragment(R.layout.fragment_add_stadium) {
             viewModel.onRegistrationClicked(
                 numberOfPlayer,
                 price,
-                pickedBitMap
+                pickedPhoto
             )
         }
 

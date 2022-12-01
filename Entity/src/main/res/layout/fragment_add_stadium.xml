@@ -155,6 +155,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/stadium_image"
                     app:endIconMode="clear_text"
+                    app:errorText="@{addStadiumViewModel.liveErrorStadium.imgFileName}"
                     app:startIconDrawable="@drawable/ic_outline_image_24">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -163,7 +164,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="text"
-                        android:text="@={addStadiumViewModel.liveStadium.image}" />
+                        android:text="@={addStadiumViewModel.liveStadium.imgFileName}" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -200,6 +201,7 @@
                         android:inputType="text"
                         android:text="@={addStadiumViewModel.liveStadium.description}" />
                 </com.google.android.material.textfield.TextInputLayout>
+
             </LinearLayout>
 
         </ScrollView>
