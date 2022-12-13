@@ -1,8 +1,10 @@
 package com.app.entity.repository
 
 import com.app.entity.model.ListStadium
+import com.app.entity.model.StadiumResponse
 import com.app.entity.network.RetrofitServiceInterface
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Response
@@ -15,9 +17,8 @@ class RetrofitServiceRepository @Inject constructor(private val retrofitServiceI
     }
 
     suspend fun saveStadium(
-        img: MultipartBody.Part,
-        terrain: MultipartBody.Part
-    ): Call<ResponseBody> {
-        return retrofitServiceInterface.saveStadium(img, terrain)
+        terrain: RequestBody
+    ): Call<StadiumResponse> {
+        return retrofitServiceInterface.saveStadium(terrain)
     }
 }

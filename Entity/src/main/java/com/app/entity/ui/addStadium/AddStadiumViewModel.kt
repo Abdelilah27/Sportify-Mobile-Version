@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.app.entity.R
 import com.app.entity.model.StadiumError
+import com.app.entity.model.StadiumResponse
 import com.app.entity.model.Terrain
 import com.app.entity.repository.RetrofitServiceRepository
 import com.app.entity.utils.ConstUtil.TIME24HOURS_PATTERN
@@ -16,14 +17,12 @@ import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.MultipartBody
-import okhttp3.RequestBody
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.io.File
 import javax.inject.Inject
 
 
@@ -40,7 +39,8 @@ class AddStadiumViewModel @Inject constructor(
     val liveErrorStadium: LiveData<StadiumError> = _liveStadiumError
 
     // Handle Error
-    val liveAddStadiumFlow: MutableLiveData<NetworkResult<ResponseBody>> = MutableLiveData()
+    val liveAddStadiumFlow: MutableLiveData<NetworkResult<StadiumResponse>> = MutableLiveData()
+
 
     fun onRegistrationClicked(
         numberOfPlayer: String,
@@ -83,31 +83,19 @@ class AddStadiumViewModel @Inject constructor(
             liveAddStadiumFlow.postValue(NetworkResult.Loading())
             val stadiumInfo =
                 liveStadium.value!!.copy()
-
-            val file = File(pickedBitMap!!.path)
-//            val filePath: String = RealPathUtil.getPath(context, pickedBitMap)
-
-            val requestFile: RequestBody = RequestBody.create(
-                "image/*".toMediaTypeOrNull(),
-                file
-            )
-            val body = MultipartBody.Part.createFormData(
-                "img", file.name,
-                requestFile
-            )
-
             val gson = Gson()
             val terrainJSON = gson.toJson(stadiumInfo)
-            val terrain: MultipartBody.Part =
-                MultipartBody.Part.createFormData("terrain", terrainJSON)
 
+
+            val mediaType = "application/json; charset=utf-8".toMediaType()
+            val requestBody = terrainJSON.toRequestBody(mediaType)
 
             viewModelScope.launch {
-                val call: Call<ResponseBody> = repository.saveStadium(body, terrain)
-                call.enqueue(object : Callback<ResponseBody> {
+                val call: Call<StadiumResponse> = repository.saveStadium(requestBody)
+                call.enqueue(object : Callback<StadiumResponse> {
                     override fun onResponse(
-                        call: Call<ResponseBody>,
-                        response: Response<ResponseBody>
+                        call: Call<StadiumResponse>,
+                        response: Response<StadiumResponse>
                     ) {
                         if (response.isSuccessful) {
                             liveAddStadiumFlow.postValue(NetworkResult.Success(response.body()!!))
@@ -120,7 +108,7 @@ class AddStadiumViewModel @Inject constructor(
                         }
                     }
 
-                    override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                    override fun onFailure(call: Call<StadiumResponse>, t: Throwable) {
                         liveAddStadiumFlow.postValue(NetworkResult.Error("Error"))
                     }
 
@@ -135,6 +123,5 @@ class AddStadiumViewModel @Inject constructor(
 
     private fun Time24HoursValidator(disponibility: String): Boolean =
         disponibility.matches(TIME24HOURS_PATTERN)
-
 
 }
