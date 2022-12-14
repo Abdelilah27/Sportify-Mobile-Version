@@ -3,12 +3,10 @@ package com.app.entity.network
 import com.app.entity.model.ListStadium
 import com.app.entity.model.StadiumResponse
 import okhttp3.RequestBody
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Response
-import retrofit2.http.GET
-import retrofit2.http.Multipart
-import retrofit2.http.POST
-import retrofit2.http.Part
+import retrofit2.http.*
 
 interface RetrofitServiceInterface {
     @GET("terrain/all")
@@ -20,4 +18,7 @@ interface RetrofitServiceInterface {
         @Part("terrain") terrain: RequestBody
     ):
             Call<StadiumResponse>
+
+    @HTTP(method = "DELETE", path = "terrain/delete/{id}", hasBody = true)
+    fun deleteStadium(@Path("id") id: String): Call<ResponseBody>
 }

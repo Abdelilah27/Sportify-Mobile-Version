@@ -1,6 +1,7 @@
 package com.app.entity.ui.stadiums
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -11,6 +12,9 @@ import com.app.entity.utils.NetworkResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
+import okhttp3.ResponseBody
+import retrofit2.Call
+import retrofit2.Callback
 import retrofit2.Response
 import java.io.IOException
 import javax.inject.Inject
@@ -26,6 +30,9 @@ class StadiumsViewModel @Inject constructor(
 
     private val _stadiums = MutableLiveData<Response<ListStadium>>()
     val stadiums: LiveData<Response<ListStadium>> = _stadiums
+
+    // Handle Error
+    val liveStadiumsFlow: MutableLiveData<NetworkResult<ResponseBody>> = MutableLiveData()
 
     init {
         viewModelScope.launch {
@@ -56,5 +63,32 @@ class StadiumsViewModel @Inject constructor(
         }
 
     }
+
+    fun deleteStadium(id: String) {
+        liveStadiumsFlow.postValue(NetworkResult.Loading())
+        viewModelScope.launch {
+            val call: Call<ResponseBody> = repository.deleteStadium(id)
+            call.enqueue(object : Callback<ResponseBody> {
+                override fun onResponse(
+                    call: Call<ResponseBody>,
+                    response: Response<ResponseBody>
+                ) {
+                    if (response.isSuccessful) {
+                        liveStadiumsFlow.postValue(NetworkResult.Success(response.body()))
+                    } else {
+                        liveStadiumsFlow.postValue(
+                            NetworkResult.Error("Error")
+                        )
+                    }
+                }
+
+                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                    liveStadiumsFlow.postValue(NetworkResult.Error("Error"))
+                }
+
+            })
+        }
+    }
+
 
 }
