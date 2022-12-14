@@ -7,9 +7,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.app.entity.R
+import com.app.entity.model.Stadium
 import com.app.entity.model.StadiumError
 import com.app.entity.model.StadiumResponse
-import com.app.entity.model.Terrain
 import com.app.entity.repository.RetrofitServiceRepository
 import com.app.entity.utils.ConstUtil.TIME24HOURS_PATTERN
 import com.app.entity.utils.NetworkResult
@@ -19,7 +19,6 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.RequestBody.Companion.toRequestBody
-import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -32,8 +31,8 @@ class AddStadiumViewModel @Inject constructor(
     @ApplicationContext private val context: Context
 ) :
     ViewModel() {
-    private val _liveStadiumData = MutableLiveData<Terrain>(Terrain())
-    val liveStadium: LiveData<Terrain> = _liveStadiumData
+    private val _liveStadiumData = MutableLiveData<Stadium>(Stadium())
+    val liveStadium: LiveData<Stadium> = _liveStadiumData
 
     private val _liveStadiumError = MutableLiveData<StadiumError>(StadiumError())
     val liveErrorStadium: LiveData<StadiumError> = _liveStadiumError

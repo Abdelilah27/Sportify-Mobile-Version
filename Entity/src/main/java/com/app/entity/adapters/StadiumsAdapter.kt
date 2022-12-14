@@ -9,7 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.app.entity.R
-import com.app.entity.model.Terrain
+import com.app.entity.model.Stadium
 import com.app.entity.utils.ConstUtil.GETSTADIUMIMAGE
 import com.app.entity.utils.ConstUtil.MAD
 import com.app.entity.utils.ConstUtil.PLAYERS
@@ -27,10 +27,10 @@ import javax.net.ssl.X509TrustManager
 class StadiumsAdapter(val context: Context, private val onItemSelected: OnItemSelectedInterface) :
     RecyclerView.Adapter<StadiumsAdapter.ItemViewHolder>() {
 
-    private var myList: List<Terrain> = listOf()
+    private var myList: List<Stadium> = listOf()
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setData(data: List<Terrain>) {
+    fun setData(data: List<Stadium>) {
         myList = data
         notifyDataSetChanged()
     }

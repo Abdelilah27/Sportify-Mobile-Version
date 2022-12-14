@@ -1,27 +1,19 @@
 package com.app.sportify.ui.login
 
-import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.app.navigation.NavGraph
-import com.app.navigation.Navigations
+import com.app.entity.EntityMainActivity
 import com.app.sportify.R
 import com.app.sportify.databinding.FragmentLoginBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class LoginFragment : Fragment(R.layout.fragment_login) {
-    private lateinit var navController: Navigations
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        navController = requireActivity() as Navigations
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
@@ -39,7 +31,8 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
 
     private fun initUI(loginBinding: FragmentLoginBinding) {
         loginBinding.mainButtonLoginFragment.setOnClickListener {
-            navController.navigate(NavGraph.ENTITYBOTTOMNAV)
+            val intent = Intent(activity, EntityMainActivity::class.java)
+            startActivity(intent)
         }
 
         loginBinding.signUpText.setOnClickListener {
@@ -48,5 +41,4 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
             findNavController().navigate(action)
         }
     }
-
 }

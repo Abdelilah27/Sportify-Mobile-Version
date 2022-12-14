@@ -16,7 +16,7 @@ interface RetrofitServiceInterface {
 
     @Multipart
     @POST("terrain/save")
-    suspend fun saveStadium(
+    fun saveStadium(
         @Part("terrain") terrain: RequestBody
     ):
             Call<StadiumResponse>

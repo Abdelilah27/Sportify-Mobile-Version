@@ -3,7 +3,6 @@ package com.app.entity.ui.addStadium
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.TimePickerDialog
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -12,20 +11,17 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.app.entity.EntityMainActivity
 import com.app.entity.R
 import com.app.entity.databinding.FragmentAddStadiumBinding
 import com.app.entity.utils.ConstUtil.TEXTINPUTIMAGE
 import com.app.entity.utils.NetworkResult
-import com.app.navigation.NavGraph
-import com.app.navigation.Navigations
+import com.app.entity.utils.PIBaseActivity
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 
@@ -37,18 +33,10 @@ class AddStadiumFragment : Fragment(R.layout.fragment_add_stadium) {
     var pickedPhoto: Uri? = null
     var pickedBitMap: Bitmap? = null
 
-    private lateinit var navController: Navigations
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        navController = requireActivity() as Navigations
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = DataBindingUtil.setContentView<FragmentAddStadiumBinding>(
-            requireActivity(),
-            R.layout.fragment_add_stadium
-        )
+        setHasOptionsMenu(true)
+        binding = FragmentAddStadiumBinding.bind(view)
         binding.lifecycleOwner = this
         binding.addStadiumViewModel = viewModel
         initUI(binding)
@@ -72,16 +60,15 @@ class AddStadiumFragment : Fragment(R.layout.fragment_add_stadium) {
         viewModel.liveAddStadiumFlow.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
             when (it) {
                 is NetworkResult.Success -> {
-                    navController.navigate(NavGraph.DISMISSPROGRESSBAR, "AddStadium")
-                    navController.popBackStack()
+                    (activity as PIBaseActivity).dismissProgressDialog("AddStadium")
+                    EntityMainActivity.navController.navigateUp()
                 }
                 is NetworkResult.Error -> {
-                    navController.navigate(NavGraph.DISMISSPROGRESSBAR, "AddStadium")
-                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
-                    Log.d("RORO2", it.message.toString())
+                    (activity as PIBaseActivity).dismissProgressDialog("AddStadium")
+                    //Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
                 }
                 is NetworkResult.Loading -> {
-                    navController.navigate(NavGraph.SHOWPROGRESSBAR, "AddStadium")
+                    (activity as PIBaseActivity).showProgressDialog("AddStadium")
                 }
             }
         })

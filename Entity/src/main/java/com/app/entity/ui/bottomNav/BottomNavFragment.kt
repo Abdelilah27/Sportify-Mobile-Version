@@ -13,7 +13,9 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class BottomNavFragment : Fragment(R.layout.fragment_bottom_nav) {
+
     lateinit var navController: NavController
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val binding = FragmentBottomNavBinding.bind(view)
