@@ -2,6 +2,7 @@ package com.app.entity.network
 
 import com.app.entity.model.ListStadium
 import com.app.entity.model.StadiumResponse
+import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -15,7 +16,8 @@ interface RetrofitServiceInterface {
     @Multipart
     @POST("terrain/save")
     fun saveStadium(
-        @Part("terrain") terrain: RequestBody
+        @Part("terrain") terrain: RequestBody,
+        @Part img: MultipartBody.Part
     ):
             Call<StadiumResponse>
 

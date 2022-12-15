@@ -13,15 +13,21 @@ import com.app.entity.model.StadiumResponse
 import com.app.entity.repository.RetrofitServiceRepository
 import com.app.entity.utils.ConstUtil.TIME24HOURS_PATTERN
 import com.app.entity.utils.NetworkResult
+import com.app.entity.utils.RealPathUtil
 import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.File
+import java.util.*
 import javax.inject.Inject
 
 
@@ -82,15 +88,24 @@ class AddStadiumViewModel @Inject constructor(
             liveAddStadiumFlow.postValue(NetworkResult.Loading())
             val stadiumInfo =
                 liveStadium.value!!.copy()
+            // for stadium attribute
             val gson = Gson()
             val terrainJSON = gson.toJson(stadiumInfo)
-
-
             val mediaType = "application/json; charset=utf-8".toMediaType()
             val requestBody = terrainJSON.toRequestBody(mediaType)
-
+            // for picture
+            val filePath: String = RealPathUtil.getPath(context, pickedBitMap)
+            val file = File(filePath)
+            val requestFile: RequestBody = RequestBody.create(
+                "image/*".toMediaTypeOrNull(), file
+            )
+            // Randomly generate distinct names
+            val fileName: String = UUID.randomUUID().toString() + "-" + file.name
+            // MultipartBody.Part is used to send also the actual file name
+            val body: MultipartBody.Part =
+                MultipartBody.Part.createFormData("img", fileName, requestFile)
             viewModelScope.launch {
-                val call: Call<StadiumResponse> = repository.saveStadium(requestBody)
+                val call: Call<StadiumResponse> = repository.saveStadium(requestBody, body)
                 call.enqueue(object : Callback<StadiumResponse> {
                     override fun onResponse(
                         call: Call<StadiumResponse>,
