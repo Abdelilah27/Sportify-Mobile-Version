@@ -127,4 +127,12 @@ class StadiumsFragment : Fragment(R.layout.fragment_stadiums), OnItemSelectedInt
     override fun onItemClick(position: Int) {
         Log.d("TAG", "onItemClick: $position")
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        viewModel.liveDataFlow.removeObservers(viewLifecycleOwner)
+        viewModel.liveStadiumsFlow.removeObservers(viewLifecycleOwner)
+        viewModel.stadiums.removeObservers(viewLifecycleOwner)
+        list.removeAll(list.toSet())
+    }
 }

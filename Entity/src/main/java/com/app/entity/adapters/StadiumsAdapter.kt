@@ -15,14 +15,6 @@ import com.app.entity.utils.ConstUtil.MAD
 import com.app.entity.utils.ConstUtil.PLAYERS
 import com.app.entity.utils.OnItemSelectedInterface
 import com.bumptech.glide.Glide
-import okhttp3.OkHttpClient
-import java.security.SecureRandom
-import java.security.cert.CertificateException
-import java.security.cert.X509Certificate
-import javax.net.ssl.SSLContext
-import javax.net.ssl.SSLSocketFactory
-import javax.net.ssl.TrustManager
-import javax.net.ssl.X509TrustManager
 
 class StadiumsAdapter(val context: Context, private val onItemSelected: OnItemSelectedInterface) :
     RecyclerView.Adapter<StadiumsAdapter.ItemViewHolder>() {
@@ -103,43 +95,4 @@ class StadiumsAdapter(val context: Context, private val onItemSelected: OnItemSe
     }
 
     override fun getItemCount() = myList.size
-
-    private fun getUnsafeOkHttpClient(): OkHttpClient {
-        return try {
-            val trustAllCerts: Array<TrustManager> = arrayOf<TrustManager>(
-                object : X509TrustManager {
-                    @Throws(CertificateException::class)
-                    override fun checkClientTrusted(
-                        chain: Array<X509Certificate?>?,
-                        authType: String?
-                    ) {
-                    }
-
-                    @Throws(CertificateException::class)
-                    override fun checkServerTrusted(
-                        chain: Array<X509Certificate?>?,
-                        authType: String?
-                    ) {
-                    }
-
-                    override fun getAcceptedIssuers(): Array<X509Certificate> {
-                        return arrayOf()
-                    }
-
-                }
-            )
-
-            val sslContext: SSLContext = SSLContext.getInstance("SSL")
-            sslContext.init(null, trustAllCerts, SecureRandom())
-
-            val sslSocketFactory: SSLSocketFactory = sslContext.socketFactory
-            val builder = OkHttpClient.Builder()
-            builder.sslSocketFactory(sslSocketFactory, trustAllCerts[0] as X509TrustManager)
-            builder.hostnameVerifier { _, _ -> true }
-            builder.build()
-        } catch (e: Exception) {
-            throw RuntimeException(e)
-        }
-    }
-
 }

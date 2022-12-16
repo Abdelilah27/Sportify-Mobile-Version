@@ -11,7 +11,6 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
 import android.view.View
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -171,6 +170,10 @@ class AddStadiumFragment : Fragment(R.layout.fragment_add_stadium) {
         }
         super.onActivityResult(requestCode, resultCode, data)
     }
-
     //------ End "load image from storage"
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        viewModel.liveAddStadiumFlow.removeObservers(viewLifecycleOwner)
+    }
 }

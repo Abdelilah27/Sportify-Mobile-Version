@@ -23,6 +23,12 @@ class RetrofitServiceRepository @Inject constructor(private val retrofitServiceI
         return retrofitServiceInterface.saveStadium(terrain, img)
     }
 
+    fun saveStadium(
+        terrain: RequestBody,
+    ): Call<StadiumResponse> {
+        return retrofitServiceInterface.saveStadium(terrain)
+    }
+
     fun deleteStadium(id: String): Call<ResponseBody> {
         return retrofitServiceInterface.deleteStadium(id)
     }

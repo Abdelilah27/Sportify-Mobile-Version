@@ -88,54 +88,86 @@ class AddStadiumViewModel @Inject constructor(
             liveAddStadiumFlow.postValue(NetworkResult.Loading())
             val stadiumInfo =
                 liveStadium.value!!.copy()
-            // for stadium attribute
+            // For stadium attributes
             val gson = Gson()
             val terrainJSON = gson.toJson(stadiumInfo)
             val mediaType = "application/json; charset=utf-8".toMediaType()
             val requestBody = terrainJSON.toRequestBody(mediaType)
-            // for picture
-            val filePath: String = RealPathUtil.getPath(context, pickedBitMap)
-            val file = File(filePath)
-            val requestFile: RequestBody = RequestBody.create(
-                "image/*".toMediaTypeOrNull(), file
-            )
-            // Randomly generate distinct names
-            val fileName: String = UUID.randomUUID().toString() + "-" + file.name
-            // MultipartBody.Part is used to send also the actual file name
-            val body: MultipartBody.Part =
-                MultipartBody.Part.createFormData("img", fileName, requestFile)
-            viewModelScope.launch {
-                val call: Call<StadiumResponse> = repository.saveStadium(requestBody, body)
-                call.enqueue(object : Callback<StadiumResponse> {
-                    override fun onResponse(
-                        call: Call<StadiumResponse>,
-                        response: Response<StadiumResponse>
-                    ) {
-                        if (response.isSuccessful) {
-                            liveAddStadiumFlow.postValue(NetworkResult.Success(response.body()!!))
-                        } else {
-                            liveAddStadiumFlow.postValue(
-                                NetworkResult.Error(
-                                    response.body().toString()
-                                )
-                            )
-                        }
-                    }
-
-                    override fun onFailure(call: Call<StadiumResponse>, t: Throwable) {
-                        liveAddStadiumFlow.postValue(NetworkResult.Error("Error"))
-                    }
-
-                })
+            if (pickedBitMap != null) {
+                postWithImage(pickedBitMap, requestBody)
+            } else {
+                postWithoutImage(requestBody)
             }
-
-
         }
 
         return isValid
     }
 
+    private fun postWithoutImage(requestBody: RequestBody) {
+        viewModelScope.launch {
+            val call: Call<StadiumResponse> = repository.saveStadium(requestBody)
+            call.enqueue(object : Callback<StadiumResponse> {
+                override fun onResponse(
+                    call: Call<StadiumResponse>,
+                    response: Response<StadiumResponse>
+                ) {
+                    if (response.isSuccessful) {
+                        liveAddStadiumFlow.postValue(NetworkResult.Success(response.body()!!))
+                    } else {
+                        liveAddStadiumFlow.postValue(
+                            NetworkResult.Error(
+                                response.body().toString()
+                            )
+                        )
+                    }
+                }
+
+                override fun onFailure(call: Call<StadiumResponse>, t: Throwable) {
+                    liveAddStadiumFlow.postValue(NetworkResult.Error("Error"))
+                }
+
+            })
+        }
+    }
+
+    private fun postWithImage(pickedBitMap: Uri?, requestBody: RequestBody) {
+        // For picture
+        val filePath: String = RealPathUtil.getPath(context, pickedBitMap)
+        val file = File(filePath)
+        val requestFile: RequestBody = RequestBody.create(
+            "image/*".toMediaTypeOrNull(), file
+        )
+        // Randomly generate distinct names
+        val fileName: String = UUID.randomUUID().toString() + "-" + file.name
+        // MultipartBody.Part is used to send also the actual file name
+        val body: MultipartBody.Part =
+            MultipartBody.Part.createFormData("img", fileName, requestFile)
+        viewModelScope.launch {
+            val call: Call<StadiumResponse> = repository.saveStadium(requestBody, body)
+            call.enqueue(object : Callback<StadiumResponse> {
+                override fun onResponse(
+                    call: Call<StadiumResponse>,
+                    response: Response<StadiumResponse>
+                ) {
+                    if (response.isSuccessful) {
+                        liveAddStadiumFlow.postValue(NetworkResult.Success(response.body()!!))
+                    } else {
+                        liveAddStadiumFlow.postValue(
+                            NetworkResult.Error(
+                                response.body().toString()
+                            )
+                        )
+                    }
+                }
+
+                override fun onFailure(call: Call<StadiumResponse>, t: Throwable) {
+                    liveAddStadiumFlow.postValue(NetworkResult.Error("Error"))
+                }
+
+            })
+        }
+    }
+
     private fun Time24HoursValidator(disponibility: String): Boolean =
         disponibility.matches(TIME24HOURS_PATTERN)
-
 }

@@ -21,6 +21,14 @@ interface RetrofitServiceInterface {
     ):
             Call<StadiumResponse>
 
+    // Post without img
+    @Multipart
+    @POST("terrain/save")
+    fun saveStadium(
+        @Part("terrain") terrain: RequestBody,
+    ):
+            Call<StadiumResponse>
+
     @HTTP(method = "DELETE", path = "terrain/delete/{id}", hasBody = true)
     fun deleteStadium(@Path("id") id: String): Call<ResponseBody>
 }
