@@ -1,7 +1,6 @@
 package com.app.entity.ui.stadiums
 
 import android.content.Context
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -31,14 +30,9 @@ class StadiumsViewModel @Inject constructor(
     private val _stadiums = MutableLiveData<Response<ListStadium>>()
     val stadiums: LiveData<Response<ListStadium>> = _stadiums
 
+
     // Handle Error
     val liveStadiumsFlow: MutableLiveData<NetworkResult<ResponseBody>> = MutableLiveData()
-
-    init {
-        viewModelScope.launch {
-            getStadiumList()
-        }
-    }
 
     suspend fun getStadiumList() {
         liveDataFlow.postValue(NetworkResult.Loading())
@@ -89,6 +83,5 @@ class StadiumsViewModel @Inject constructor(
             })
         }
     }
-
 
 }

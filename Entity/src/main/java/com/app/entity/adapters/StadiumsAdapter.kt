@@ -2,6 +2,7 @@ package com.app.entity.adapters
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,11 +20,11 @@ import com.bumptech.glide.Glide
 class StadiumsAdapter(val context: Context, private val onItemSelected: OnItemSelectedInterface) :
     RecyclerView.Adapter<StadiumsAdapter.ItemViewHolder>() {
 
-    private var myList: List<Stadium> = listOf()
+    private var myList: ArrayList<Stadium> = ArrayList()
 
     @SuppressLint("NotifyDataSetChanged")
     fun setData(data: List<Stadium>) {
-        myList = data
+        myList = data as ArrayList<Stadium>
         notifyDataSetChanged()
     }
 
@@ -54,6 +55,7 @@ class StadiumsAdapter(val context: Context, private val onItemSelected: OnItemSe
     }
 
     inner class ItemViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickListener {
+
         init {
             view.setOnClickListener(this)
         }
@@ -93,6 +95,7 @@ class StadiumsAdapter(val context: Context, private val onItemSelected: OnItemSe
             }
         }
     }
+
 
     override fun getItemCount() = myList.size
 }
