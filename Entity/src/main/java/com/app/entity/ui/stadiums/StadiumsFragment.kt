@@ -103,8 +103,9 @@ class StadiumsFragment : Fragment(R.layout.fragment_stadiums), OnItemSelectedInt
         ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT),
             OnAlertDialogItemInterface {
             // init variables
-            var position = -1
-            var id = "-1"
+            private var position = -1
+            private var id = "-1"
+            private var deletedStadium = Stadium()
             override fun onMove(
                 v: RecyclerView,
                 h: RecyclerView.ViewHolder,
@@ -116,6 +117,10 @@ class StadiumsFragment : Fragment(R.layout.fragment_stadiums), OnItemSelectedInt
                 position = h.adapterPosition
                 val idView = h.itemView.findViewById<TextView>(R.id.id)
                 id = idView.text.toString()
+                deletedStadium = list[position]
+                // Notify adapter
+                list.removeAt(position)
+                stadiumAdapter.notifyItemRemoved(position)
                 // Show dialog alert
                 DialogFragmentImp(
                     getString(R.string.order_confirmation_yes),
@@ -126,13 +131,12 @@ class StadiumsFragment : Fragment(R.layout.fragment_stadiums), OnItemSelectedInt
             override fun onPositiveButtonClick() {
                 if (position != -1 && id != "-1") {
                     viewModel.deleteStadium(id)
-                    // Notify adapter
-                    list.removeAt(position)
-                    stadiumAdapter.notifyItemRemoved(position)
                 }
             }
 
             override fun onNegativeButtonClick() {
+                list.add(position, deletedStadium)
+                stadiumAdapter.notifyItemInserted(position)
             }
 
         }).attachToRecyclerView(binding.stadiumsList)
