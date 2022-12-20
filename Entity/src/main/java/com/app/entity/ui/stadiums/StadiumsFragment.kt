@@ -17,9 +17,8 @@ import com.app.entity.R
 import com.app.entity.adapters.StadiumsAdapter
 import com.app.entity.databinding.FragmentStadiumsBinding
 import com.app.entity.model.Stadium
-import com.app.entity.utils.NetworkResult
-import com.app.entity.utils.OnItemSelectedInterface
-import com.app.entity.utils.PIBaseActivity
+import com.app.entity.utils.*
+import com.app.entity.utils.DialogFragmentImp.Companion.TAG
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -101,7 +100,11 @@ class StadiumsFragment : Fragment(R.layout.fragment_stadiums), OnItemSelectedInt
         })
 
         // Swipe for delete
-        ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
+        ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT),
+            OnAlertDialogItemInterface {
+            // init variables
+            var position = -1
+            var id = "-1"
             override fun onMove(
                 v: RecyclerView,
                 h: RecyclerView.ViewHolder,
@@ -110,18 +113,30 @@ class StadiumsFragment : Fragment(R.layout.fragment_stadiums), OnItemSelectedInt
 
             @SuppressLint("NotifyDataSetChanged")
             override fun onSwiped(h: RecyclerView.ViewHolder, dir: Int) {
-                val position = h.adapterPosition
+                position = h.adapterPosition
                 val idView = h.itemView.findViewById<TextView>(R.id.id)
-                val id = idView.text.toString()
-                viewModel.deleteStadium(id)
-                // Notify adapter
-                list.removeAt(position)
-                stadiumAdapter.notifyItemRemoved(position)
+                id = idView.text.toString()
+                // Show dialog alert
+                DialogFragmentImp(
+                    getString(R.string.order_confirmation_yes),
+                    getString(R.string.order_confirmation_no), this
+                ).show(childFragmentManager, TAG)
+            }
+
+            override fun onPositiveButtonClick() {
+                if (position != -1 && id != "-1") {
+                    viewModel.deleteStadium(id)
+                    // Notify adapter
+                    list.removeAt(position)
+                    stadiumAdapter.notifyItemRemoved(position)
+                }
+            }
+
+            override fun onNegativeButtonClick() {
             }
 
         }).attachToRecyclerView(binding.stadiumsList)
     }
-
 
     override fun onItemClick(position: Int) {
         Log.d("TAG", "onItemClick: $position")

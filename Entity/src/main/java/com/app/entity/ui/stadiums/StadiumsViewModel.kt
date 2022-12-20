@@ -55,7 +55,6 @@ class StadiumsViewModel @Inject constructor(
                 }
             }
         }
-
     }
 
     fun deleteStadium(id: String) {

@@ -23,4 +23,9 @@
     <string name="price_error">Please enter the price</string>
     <string name="disponibility_error">Please enter a valid time</string>
     <string name="location_error">Please enter the location</string>
+
+
+    <string name="order_confirmation">Are sure you want delete that item</string>
+    <string name="order_confirmation_yes">Yes</string>
+    <string name="order_confirmation_no">No</string>
 </resources>
