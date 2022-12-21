@@ -5,9 +5,11 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.app.user.R
+import com.app.user.UserMainActivity
 import com.app.user.adapters.EntitiesAdapter
 import com.app.user.databinding.FragmentExploreBinding
 import com.app.user.model.Entity
+import com.app.user.ui.bottomNavUser.BottomNavUserFragmentDirections
 import com.app.user.utils.OnItemSelectedInterface
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -46,7 +48,12 @@ class ExploreFragment : Fragment(R.layout.fragment_explore), OnItemSelectedInter
     }
 
     override fun onItemClick(position: Int) {
-        TODO("Not yet implemented")
+        val args = position.toString()
+        val action =
+            BottomNavUserFragmentDirections.actionBottomNavUserFragmentToSearchFromEntityFragment(
+                args
+            )
+        UserMainActivity.navController.navigate(action)
     }
 
 
