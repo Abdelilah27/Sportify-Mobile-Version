@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="Theme.Sportify" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/primary_color</item>
+        <item name="colorPrimaryVariant">@color/primary_color</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/teal_200</item>
+        <item name="colorSecondaryVariant">@color/teal_700</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <!-- Customize your theme here. -->
+    </style>
+
+    <style name="profile_name">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:fontFamily">@font/roboto_thin_italic</item>
+        <item name="android:textStyle">italic</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <style name="welcome_back_explore_fragment">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:fontFamily">@font/roboto_medium</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="titles_explore_fragment">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:fontFamily">@font/roboto</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="main_button">
+        <item name="android:background">@drawable/background_radius_button</item>
+        <item name="android:fontFamily">@font/roboto_bold</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="card_main_button">
+        <item name="android:layout_marginLeft">24dp</item>
+        <item name="android:layout_marginRight">24dp</item>
+        <item name="android:layout_marginTop">24dp</item>
+    </style>
+
+
+
+
+    <style name="date_item_stadiums_fragment">
+        <item name="android:textColor">@color/primary_color</item>
+        <item name="android:fontFamily">@font/roboto_medium</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+
+    <style name="title_item_stadiums_fragment">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:fontFamily">@font/roboto_bold</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+
+    <style name="location_item_stadiums_fragment">
+        <item name="android:textColor">@color/secondary_color</item>
+        <item name="android:fontFamily">@font/roboto_thin_italic</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+
+    <style name="text_input" parent="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeColor">@color/primary_color</item>
+        <item name="singleLine">true</item>
+        <item name="android:imeOptions">actionNext</item>
+        <item name="errorEnabled">true</item>
+        <item name="boxCornerRadiusBottomStart">12dp</item>
+        <item name="boxCornerRadiusBottomEnd">12dp</item>
+        <item name="boxCornerRadiusTopEnd">12dp</item>
+        <item name="boxCornerRadiusTopStart">12dp</item>
+        <item name="android:fontFamily">@font/roboto</item>
+        <item name="endIconMode">clear_text</item>
+        <item name="android:textColorHint">@color/hint_color</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="hintTextColor">@color/hint_color</item>
+    </style>
+
+    <style name="text_input_edit">
+        <item name="android:textStyle">italic</item>
+        <item name="cornerRadius">80dp</item>
+        <item name="android:fontFamily">@font/roboto_thin_italic</item>
+    </style>
+
+    <style name="DialogTheme" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorPrimary">@color/primary_color</item>
+        <item name="colorAccent">@color/primary_color</item>
+        <item name="android:buttonBarNegativeButtonStyle">
+            @style/DatePickerTheme.ButtonBarButtonStyle
+        </item>
+        <item name="android:buttonBarPositiveButtonStyle">
+            @style/DatePickerTheme.ButtonBarButtonStyle
+        </item>
+    </style>
+
+    <style name="DatePickerTheme.ButtonBarButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/primary_color</item>
+    </style>
+
+
+</resources>

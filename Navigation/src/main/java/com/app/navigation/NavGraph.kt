@@ -1,8 +1,0 @@
-package com.app.navigation
-
-enum class NavGraph {
-    SHOWPROGRESSBAR,
-    DISMISSPROGRESSBAR,
-    ENTITYADDSTADIUM,
-    ENTITYBOTTOMNAVIGATION
-}
