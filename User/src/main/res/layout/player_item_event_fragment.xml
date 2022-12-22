@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="16dp">
+
+    <TextView
+        android:id="@+id/player_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/player"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_alignParentStart="true"
+        android:layout_marginEnd="16dp"
+        android:minWidth="0dp"
+        android:minHeight="0dp"
+        app:cardBackgroundColor="@color/background_card_utilities"
+        app:cardCornerRadius="16dp">
+
+        <ImageView
+            android:id="@+id/player_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/player_default" />
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/player_name"
+        style="@style/player_name_item_event_fragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/player"
+        android:layout_alignBottom="@id/player"
+        android:layout_toStartOf="@+id/image_view_task_priority"
+        android:layout_toEndOf="@id/player"
+        android:ellipsize="end"
+        android:gravity="center_vertical"
+        android:maxLines="1"
+        android:text="Abdelilah Ngadi" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/image_view_task_priority"
+        android:layout_width="70dp"
+        android:layout_height="30dp"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        app:cardBackgroundColor="@color/background_card_utilities"
+        app:cardCornerRadius="12dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/see" />
+    </androidx.cardview.widget.CardView>
+
+
+</RelativeLayout>

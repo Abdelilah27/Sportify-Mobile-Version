@@ -7,5 +7,7 @@ data class Event(
     val name: String? = "",
     var imgFileName: String? = "",
     var date: String? = "",
-    var location: String? = ""
+    var location: String? = "",
+    val entity: Entity? = Entity(),
+    val players: List<Player>? = listOf()
 )
