@@ -9,7 +9,7 @@
         android:id="@+id/bottomNavUserFragment"
         android:name="com.app.user.ui.bottomNavUser.BottomNavUserFragment"
         android:label="fragment_bottom_nav_user"
-        tools:layout="@layout/fragment_bottom_nav_user" >
+        tools:layout="@layout/fragment_bottom_nav_user">
         <action
             android:id="@+id/action_bottomNavUserFragment_to_searchFromEntityFragment"
             app:destination="@id/searchFromEntityFragment" />
@@ -18,9 +18,22 @@
         android:id="@+id/searchFromEntityFragment"
         android:name="com.app.user.ui.searchFromEntity.SearchFromEntityFragment"
         android:label="fragment_search_from_entity"
-        tools:layout="@layout/fragment_search_from_entity" >
+        tools:layout="@layout/fragment_search_from_entity">
         <argument
             android:name="idEntity"
+            android:defaultValue='"0"'
+            app:argType="string" />
+        <action
+            android:id="@+id/action_searchFromEntityFragment_to_eventFragment"
+            app:destination="@id/eventFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/eventFragment"
+        android:name="com.app.user.ui.event.EventFragment"
+        android:label="fragment_event"
+        tools:layout="@layout/fragment_event" >
+        <argument
+            android:name="idEvent"
             app:argType="string"
             android:defaultValue='"0"' />
     </fragment>

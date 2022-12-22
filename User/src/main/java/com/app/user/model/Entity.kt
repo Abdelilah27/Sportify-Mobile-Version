@@ -5,5 +5,4 @@ data class Entity(
     var imgFileName: String? = "",
     var name: String? = "",
     var location: String? = "",
-) {
-}
+)

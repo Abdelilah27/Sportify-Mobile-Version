@@ -23,12 +23,14 @@
         <entry key="User/src/main/res/layout/activity_user_main.xml" value="0.2692860921223958" />
         <entry key="User/src/main/res/layout/entities_item_recycler.xml" value="0.3351851851851852" />
         <entry key="User/src/main/res/layout/fragment_bottom_nav_user.xml" value="0.33425925925925926" />
+        <entry key="User/src/main/res/layout/fragment_event.xml" value="0.3729166666666667" />
         <entry key="User/src/main/res/layout/fragment_explore.xml" value="0.25809611963526824" />
         <entry key="User/src/main/res/layout/fragment_matchs.xml" value="0.33425925925925926" />
         <entry key="User/src/main/res/layout/fragment_profile.xml" value="0.33425925925925926" />
         <entry key="User/src/main/res/layout/fragment_search.xml" value="0.33425925925925926" />
         <entry key="User/src/main/res/layout/fragment_search_from_entity.xml" value="0.2912740071614583" />
         <entry key="User/src/main/res/layout/match_item_recycler.xml" value="0.3729166666666667" />
+        <entry key="User/src/main/res/layout/nearby_event_item_recycler.xml" value="0.3729166666666667" />
         <entry key="User/src/main/res/layout/stadium_item_recycler.xml" value="0.3729166666666667" />
         <entry key="User/src/main/res/menu/menu.xml" value="0.33425925925925926" />
         <entry key="app/entity/src/main/res/drawable/background_radius_button.xml" value="0.2205" />

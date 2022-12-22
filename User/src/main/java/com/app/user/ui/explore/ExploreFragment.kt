@@ -7,8 +7,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.app.user.R
 import com.app.user.UserMainActivity
 import com.app.user.adapters.EntitiesAdapter
+import com.app.user.adapters.NearbyEventAdapter
 import com.app.user.databinding.FragmentExploreBinding
 import com.app.user.model.Entity
+import com.app.user.model.Event
 import com.app.user.ui.bottomNavUser.BottomNavUserFragmentDirections
 import com.app.user.utils.OnItemSelectedInterface
 import dagger.hilt.android.AndroidEntryPoint
@@ -16,6 +18,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class ExploreFragment : Fragment(R.layout.fragment_explore), OnItemSelectedInterface {
     private lateinit var entitiesAdapter: EntitiesAdapter
+    private lateinit var nearbyAdapter: NearbyEventAdapter
     private lateinit var binding: FragmentExploreBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -45,6 +48,30 @@ class ExploreFragment : Fragment(R.layout.fragment_explore), OnItemSelectedInter
         myList.add(entity2)
         myList.add(entity3)
         entitiesAdapter.setData(myList)
+
+        // Setup our nearby recycler
+        binding.recyclerNearby.apply {
+            nearbyAdapter = NearbyEventAdapter(context, this@ExploreFragment)
+            adapter = nearbyAdapter
+            layoutManager =
+                LinearLayoutManager(requireContext())
+            setHasFixedSize(true)
+        }
+
+        // Set Static Data
+        var event = Event(
+            id = 1, name = "Palmarena", location = "123, Marrakech", numberOfPlayer
+            = "10", price = "200", date = "10PM - 11PM"
+        )
+
+        var myList2: ArrayList<Event> = ArrayList()
+        myList2.add(event)
+        myList2.add(event)
+        myList2.add(event)
+        myList2.add(event)
+        myList2.add(event)
+        myList2.add(event)
+        nearbyAdapter.setData(myList2)
     }
 
     override fun onItemClick(position: Int) {

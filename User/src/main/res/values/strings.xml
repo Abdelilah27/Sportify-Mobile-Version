@@ -3,10 +3,12 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="explore">Explore</string>
     <string name="search">Search</string>
+    <string name="book">Book</string>
     <string name="matchs">Matchs</string>
     <string name="profile">Profile</string>
     <string name="welcome_back">Welcome back</string>
     <string name="popular_entities">Popular Entities</string>
+    <string name="nearby">Nearby You</string>
 
 
 </resources>

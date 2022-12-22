@@ -8,9 +8,10 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.app.user.R
-import com.app.user.adapters.StadiumsAdapter
+import com.app.user.UserMainActivity
+import com.app.user.adapters.EventAdapter
 import com.app.user.databinding.FragmentSearchFromEntityBinding
-import com.app.user.model.Stadium
+import com.app.user.model.Event
 import com.app.user.utils.OnItemSelectedInterface
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
@@ -21,7 +22,7 @@ class SearchFromEntityFragment : Fragment(R.layout.fragment_search_from_entity),
     private val args: SearchFromEntityFragmentArgs by navArgs()
     private lateinit var binding: FragmentSearchFromEntityBinding
     private val viewModel: SearchFromEntityViewModel by viewModels()
-    private lateinit var stadiumAdapter: StadiumsAdapter
+    private lateinit var stadiumAdapter: EventAdapter
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -36,8 +37,8 @@ class SearchFromEntityFragment : Fragment(R.layout.fragment_search_from_entity),
         val idEntity = args.idEntity
 
         // Setup our recycler
-        binding.stadiumList.apply {
-            stadiumAdapter = StadiumsAdapter(context, this@SearchFromEntityFragment)
+        binding.EventList.apply {
+            stadiumAdapter = EventAdapter(context, this@SearchFromEntityFragment)
             adapter = stadiumAdapter
             layoutManager =
                 LinearLayoutManager(requireContext())
@@ -51,23 +52,23 @@ class SearchFromEntityFragment : Fragment(R.layout.fragment_search_from_entity),
                 { view, year, monthOfYear, dayOfMonth ->
                     run {
                         // Set Static Data
-                        var s = Stadium(
+                        var s = Event(
                             name = "Stadium 1", price = "100", numberOfPlayer = "10",
                             date = "SAT-May 2:00 PM-3:00PM"
                         )
-                        var s2 = Stadium(
+                        var s2 = Event(
                             name = "Stadium 2", price = "200", numberOfPlayer = "10",
                             date = "SAT-May 2:00 PM-3:00PM"
                         )
-                        var s3 = Stadium(
+                        var s3 = Event(
                             name = "Stadium 4", price = "100", numberOfPlayer = "10",
                             date = "SAT-May 2:00 PM-3:00PM"
                         )
-                        var s4 = Stadium(
+                        var s4 = Event(
                             name = "Stadium 3", price = "250", numberOfPlayer = "10",
                             date = "SAT-May 2:00 PM-3:00PM"
                         )
-                        var myList: ArrayList<Stadium> = ArrayList()
+                        var myList: ArrayList<Event> = ArrayList()
                         myList.add(s)
                         myList.add(s)
                         myList.add(s2)
@@ -88,5 +89,11 @@ class SearchFromEntityFragment : Fragment(R.layout.fragment_search_from_entity),
     }
 
     override fun onItemClick(position: Int) {
+        val args = position.toString()
+        val action =
+            SearchFromEntityFragmentDirections.actionSearchFromEntityFragmentToEventFragment(
+                args
+            )
+        UserMainActivity.navController.navigate(action)
     }
 }

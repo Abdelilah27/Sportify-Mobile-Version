@@ -67,8 +67,19 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_popular_entities"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                tools:listitem="@layout/entities_item_recycler" />
+                android:layout_height="match_parent" />
+
+            <TextView
+                style="@style/titles_explore_fragment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/nearby" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_nearby"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:listitem="@layout/nearby_event_item_recycler" />
 
 
         </LinearLayout>

@@ -4,20 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background"
-    tools:context=".ui.searchFromEntity.SearchFromEntityFragment">
-
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/EventList"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:padding="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/cardView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:listitem="@layout/event_item_recycler" />
+    tools:context=".ui.event.EventFragment">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
@@ -33,12 +20,12 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <Button
-            android:id="@+id/main_button_search_from_fragment"
+            android:id="@+id/main_button_event_fragment"
             style="@style/main_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="12dp"
-            android:text="@string/search" />
+            android:text="@string/book" />
     </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

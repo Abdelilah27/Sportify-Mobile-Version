@@ -9,25 +9,25 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.app.user.R
-import com.app.user.model.Stadium
+import com.app.user.model.Event
 import com.app.user.utils.OnItemSelectedInterface
 import com.bumptech.glide.Glide
 
-class StadiumsAdapter(val context: Context, private val onItemSelected: OnItemSelectedInterface) :
-    RecyclerView.Adapter<StadiumsAdapter.ItemViewHolder>() {
+class EventAdapter(val context: Context, private val onItemSelected: OnItemSelectedInterface) :
+    RecyclerView.Adapter<EventAdapter.ItemViewHolder>() {
 
-    private var myList: ArrayList<Stadium> = ArrayList()
+    private var myList: ArrayList<Event> = ArrayList()
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setData(data: List<Stadium>) {
-        myList = data as ArrayList<Stadium>
+    fun setData(data: List<Event>) {
+        myList = data as ArrayList<Event>
         notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         val binding =
             LayoutInflater.from(parent.context)
-                .inflate(R.layout.stadium_item_recycler, parent, false)
+                .inflate(R.layout.event_item_recycler, parent, false)
         return ItemViewHolder(binding)
     }
 
