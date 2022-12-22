@@ -40,7 +40,7 @@ class EntitiesAdapter(val context: Context, private val onItemSelected: OnItemSe
             val stadiumImage = it.imgFileName
             Glide.with(context)
                 .load(stadiumImage)
-                .error(R.drawable.entities_default)
+                .error(R.drawable.entity_default)
                 .centerCrop()
                 .into(holder.image)
         }

@@ -32,7 +32,7 @@ class StadiumssAdapter(val context: Context, private val onItemSelected: OnItemS
                 val stadiumImage = ConstUtil.GETSTADIUMIMAGE + stadium.imgFileName
                 Glide.with(context)
                     .load(stadiumImage)
-                    .error(R.drawable.stadium_default)
+                    .error(R.drawable.event_stadium_default)
                     .centerCrop()
                     .into(image)
             }

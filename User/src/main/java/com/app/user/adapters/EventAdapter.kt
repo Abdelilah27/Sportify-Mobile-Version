@@ -10,6 +10,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.app.user.R
 import com.app.user.model.Event
+import com.app.user.utils.ConstUtil
 import com.app.user.utils.OnItemSelectedInterface
 import com.bumptech.glide.Glide
 
@@ -36,13 +37,13 @@ class EventAdapter(val context: Context, private val onItemSelected: OnItemSelec
         myList[position].let {
             holder.id.text = it.id.toString()
             holder.title.text = it.name.toString()
-            holder.numberOfPlayer.text = it.numberOfPlayer.toString()
-            holder.price.text = it.price.toString()
+            holder.numberOfPlayer.text = it.numberOfPlayer.toString() + ConstUtil.PLAYERS
+            holder.price.text = it.price.toString() + ConstUtil.MAD
             holder.date.text = it.date.toString()
             val stadiumImage = it.imgFileName
             Glide.with(context)
                 .load(stadiumImage)
-                .error(R.drawable.entities_default)
+                .error(R.drawable.event_stadium_default)
                 .centerCrop()
                 .into(holder.image)
         }

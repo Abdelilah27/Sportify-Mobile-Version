@@ -2,7 +2,6 @@ package com.app.entity.adapters
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -48,7 +47,7 @@ class StadiumsAdapter(val context: Context, private val onItemSelected: OnItemSe
             val stadiumImage = GETSTADIUMIMAGE + it.imgFileName
             Glide.with(context)
                 .load(stadiumImage)
-                .error(R.drawable.stadium_default)
+                .error(R.drawable.event_stadium_default)
                 .centerCrop()
                 .into(holder.image)
         }

@@ -28,7 +28,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
-                android:src="@drawable/stadium_default" />
+                android:src="@drawable/event_stadium_default" />
         </androidx.cardview.widget.CardView>
 
 

@@ -48,7 +48,7 @@ class NearbyEventAdapter(
             val stadiumImage = it.imgFileName
             Glide.with(context)
                 .load(stadiumImage)
-                .error(R.drawable.nearby_event_default)
+                .error(R.drawable.event_stadium_default)
                 .centerCrop()
                 .into(holder.image)
         }
