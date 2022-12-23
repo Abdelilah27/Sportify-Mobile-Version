@@ -35,9 +35,6 @@
             android:id="@+id/action_loginFragment_to_resetPasswordFragment"
             app:destination="@id/resetPasswordFragment" />
         <action
-            android:id="@+id/action_loginFragment_to_user_navigation"
-            app:destination="@id/user_navigation" />
-        <action
             android:id="@+id/action_loginFragment_to_navigation_entity"
             app:destination="@id/navigation_entity" />
     </fragment>
@@ -60,5 +57,4 @@
             app:destination="@id/loginFragment" />
     </fragment>
     <include app:graph="@navigation/entity_navigation" />
-    <include app:graph="@navigation/user_navigation" />
 </navigation>

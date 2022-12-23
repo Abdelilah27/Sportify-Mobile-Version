@@ -86,8 +86,12 @@ class AddStadiumViewModel @Inject constructor(
         }
         if (isValid) {
             liveAddStadiumFlow.postValue(NetworkResult.Loading())
+
             val stadiumInfo =
-                liveStadium.value!!.copy()
+                liveStadium.value!!.copy(
+                    price = price.toInt(),
+                    numberOfPlayer = numberOfPlayer.toInt()
+                )
             // For stadium attributes
             val gson = Gson()
             val terrainJSON = gson.toJson(stadiumInfo)
