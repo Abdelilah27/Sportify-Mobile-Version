@@ -35,8 +35,11 @@
             android:id="@+id/action_loginFragment_to_resetPasswordFragment"
             app:destination="@id/resetPasswordFragment" />
         <action
-            android:id="@+id/action_loginFragment_to_navigation_entity"
-            app:destination="@id/navigation_entity" />
+            android:id="@+id/action_loginFragment_to_userMainActivity"
+            app:destination="@id/userMainActivity" />
+        <action
+            android:id="@+id/action_loginFragment_to_entityMainActivity"
+            app:destination="@id/entityMainActivity" />
     </fragment>
     <fragment
         android:id="@+id/registrationFragment"
@@ -56,5 +59,12 @@
             android:id="@+id/action_resetPasswordFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
     </fragment>
-    <include app:graph="@navigation/entity_navigation" />
+    <activity
+        android:id="@+id/entityMainActivity"
+        android:name="com.app.entity.EntityMainActivity"
+        android:label="EntityMainActivity" />
+    <activity
+        android:id="@+id/userMainActivity"
+        android:name="com.app.user.UserMainActivity"
+        android:label="UserMainActivity" />
 </navigation>

@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.app.entity.EntityMainActivity
 import com.app.sportify.R
 import com.app.sportify.databinding.FragmentLoginBinding
 import com.app.user.UserMainActivity
@@ -31,8 +32,21 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
 
     private fun initUI(loginBinding: FragmentLoginBinding) {
         loginBinding.mainButtonLoginFragment.setOnClickListener {
-            val intent = Intent(activity, UserMainActivity::class.java)
-            startActivity(intent)
+            val check = true
+            if (check) {
+//                val intent = Intent(activity, UserMainActivity::class.java)
+//                startActivity(intent)
+                val action =
+                    LoginFragmentDirections.actionLoginFragmentToEntityMainActivity()
+                findNavController().navigate(action)
+            } else {
+//                val intent = Intent(activity, EntityMainActivity::class.java)
+//                startActivity(intent)
+                val action =
+                    LoginFragmentDirections.actionLoginFragmentToUserMainActivity()
+                findNavController().navigate(action)
+            }
+
         }
 
         loginBinding.signUpText.setOnClickListener {

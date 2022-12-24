@@ -2,6 +2,7 @@ package com.app.entity
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.app.entity.utils.PIBaseActivity

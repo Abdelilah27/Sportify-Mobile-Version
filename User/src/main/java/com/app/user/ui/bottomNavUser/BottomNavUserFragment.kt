@@ -1,6 +1,7 @@
 package com.app.user.ui.bottomNavUser
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController

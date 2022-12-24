@@ -1,6 +1,7 @@
 package com.app.entity.ui.bottomNav
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
@@ -19,7 +20,6 @@ class BottomNavFragment : Fragment(R.layout.fragment_bottom_nav) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val binding = FragmentBottomNavBinding.bind(view)
-
         // Bottom Navigation Implementation
         setHasOptionsMenu(true)
         val navHost =
