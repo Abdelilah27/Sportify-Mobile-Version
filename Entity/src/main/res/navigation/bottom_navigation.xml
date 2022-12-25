@@ -16,8 +16,8 @@
         android:label="fragment_stadiums"
         tools:layout="@layout/fragment_stadiums" />
     <fragment
-        android:id="@+id/profileFragment"
-        android:name="com.app.entity.ui.profile.ProfileFragment"
+        android:id="@+id/EntityProfileFragment"
+        android:name="com.app.entity.ui.profile.EntityProfileFragment"
         android:label="fragment_profile"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_entity_profile" />
 </navigation>

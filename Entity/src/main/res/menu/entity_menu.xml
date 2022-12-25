@@ -9,7 +9,7 @@
         android:icon="@drawable/ic_baseline_stadium_24"
         android:title="@string/stadiums" />
     <item
-        android:id="@+id/profileFragment"
+        android:id="@+id/EntityProfileFragment"
         android:icon="@drawable/ic_baseline_manage_accounts_24"
         android:title="@string/profile" />
 </menu>

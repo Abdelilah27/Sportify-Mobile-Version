@@ -72,6 +72,15 @@
         <item name="android:textSize">16sp</item>
     </style>
 
+    <style name="profile_titles">
+        <item name="android:textStyle">italic</item>
+        <item name="android:fontFamily">@font/roboto_thin_italic</item>
+        <item name="android:textSize">14sp</item>
+
+    </style>
+
+
+
 
 
     <style name="date_item_stadiums_fragment">

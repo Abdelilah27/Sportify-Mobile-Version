@@ -19,6 +19,12 @@
     <string name="expire_date">Expire date (11/23)</string>
     <string name="csv">CSV</string>
     <string name="safe_payment">Safe and Secure Payment</string>
+    <string name="age">Age</string>
+    <string name="gendre">Gendre</string>
+    <string name="match_history">Match History</string>
+    <string name="mr">Mr</string>
+    <string name="m">M</string>
+    <string name="edit_profile">Edit Profile</string>
 
 
 </resources>

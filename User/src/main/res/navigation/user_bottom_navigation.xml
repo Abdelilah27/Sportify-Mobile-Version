@@ -21,8 +21,8 @@
         android:label="fragment_matchs"
         tools:layout="@layout/fragment_matchs" />
     <fragment
-        android:id="@+id/profileFragment2"
-        android:name="com.app.user.ui.profile.ProfileFragment"
+        android:id="@+id/userProfileFragment"
+        android:name="com.app.user.ui.profile.UserProfileFragment"
         android:label="fragment_profile"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_user_profile" />
 </navigation>

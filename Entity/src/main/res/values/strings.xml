@@ -28,4 +28,8 @@
     <string name="order_confirmation">Are sure you want delete that item</string>
     <string name="order_confirmation_yes">Yes</string>
     <string name="order_confirmation_no">No</string>
+
+
+    <string name="edit_profile">Edit Profile</string>
+
 </resources>
