@@ -32,7 +32,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
 
     private fun initUI(loginBinding: FragmentLoginBinding) {
         loginBinding.mainButtonLoginFragment.setOnClickListener {
-            val check = true
+            val check = false
             if (check) {
 //                val intent = Intent(activity, UserMainActivity::class.java)
 //                startActivity(intent)

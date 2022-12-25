@@ -3,6 +3,7 @@ package com.app.user.ui.event
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.app.user.R
@@ -32,6 +33,12 @@ class EventFragment : Fragment(R.layout.fragment_event), OnItemSelectedInterface
     private fun initUI(binding: FragmentEventBinding) {
         //get Id from args
         val idEvent = args.idEvent
+
+        binding.mainButtonEventFragment.setOnClickListener {
+            val action = EventFragmentDirections.actionEventFragmentToPaiementFragment()
+            findNavController().navigate(action)
+        }
+
 
         // Setup our recycler
         binding.playerList.apply {

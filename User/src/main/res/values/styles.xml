@@ -66,6 +66,12 @@
         <item name="android:ellipsize">end</item>
     </style>
 
+    <style name="payment_title">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:fontFamily">@font/roboto_medium</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
 
 
     <style name="date_item_stadiums_fragment">

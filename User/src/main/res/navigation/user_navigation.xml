@@ -36,5 +36,13 @@
             android:name="idEvent"
             app:argType="string"
             android:defaultValue='"0"' />
+        <action
+            android:id="@+id/action_eventFragment_to_paiementFragment"
+            app:destination="@id/paiementFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/paiementFragment"
+        android:name="com.app.user.ui.payment.PaymentFragment"
+        android:label="fragment_paiement"
+        tools:layout="@layout/fragment_payment" />
 </navigation>
