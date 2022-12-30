@@ -1,20 +1,23 @@
 package com.app.sportify.ui.registration
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.app.sportify.R
+import com.app.sportify.model.Role
 import com.app.sportify.model.User
 import com.app.sportify.model.UserError
 import com.app.sportify.model.UserResponse
 import com.app.sportify.repository.AppRetrofitServiceRepository
-import com.app.sportify.utils.FunUtil.toSHA256Hash
 import com.app.sportify.utils.NetworkResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -36,6 +39,8 @@ class RegistrationViewModel @Inject constructor(
 
     // Handle progress bar state
     val liveUserFlow: MutableLiveData<NetworkResult<UserResponse>> = MutableLiveData()
+    val liveUserRoleFlow: MutableLiveData<NetworkResult<ResponseBody>> = MutableLiveData() // for
+    // Role
 
 
     fun onRegistrationClicked(
@@ -81,41 +86,75 @@ class RegistrationViewModel @Inject constructor(
             isValid = false
         }
         if (isValid) {
+            val userInfo =
+                liveUser.value!!.copy(
+                    age = age,
+                    gendre = gendre
+                )
+
             viewModelScope.launch {
-                val userInfo =
-                    liveUser.value!!.copy(
-                        age = age,
-                        gendre = gendre,
-                        password = liveUser.value!!.password.toSHA256Hash()
-                    )
-                liveUserFlow.postValue(NetworkResult.Loading())
-                val call: Call<UserResponse> = repository.createUser(userInfo)
-                call.enqueue(object : Callback<UserResponse> {
-                    override fun onResponse(
-                        call: Call<UserResponse>,
-                        response: Response<UserResponse>
-                    ) {
-                        if (response.isSuccessful) {
-                            liveUserFlow.postValue(NetworkResult.Success(response.body()!!))
-                        } else {
-                            liveUserFlow.postValue(
-                                NetworkResult.Error(
-                                    response.body().toString()
-                                )
-                            )
-                        }
-                    }
-
-                    override fun onFailure(call: Call<UserResponse>, t: Throwable) {
-                        liveUserFlow.postValue(NetworkResult.Error("Error"))
-                    }
-
-                })
+                createUser(userInfo, appRole)
             }
-
-
         }
         return isValid
+    }
+
+    private fun addRoleToUser(userInfo: User, appRole: String) {
+        val role = Role(username = userInfo.username, roleName = appRole)
+        liveUserRoleFlow.postValue(NetworkResult.Loading())
+        val callRole: Call<ResponseBody> = repository.addRoleToUser(role)
+        callRole.enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(
+                call: Call<ResponseBody>,
+                response: Response<ResponseBody>
+            ) {
+                if (response.isSuccessful) {
+                    liveUserRoleFlow.postValue(NetworkResult.Success(response.body()))
+                    Log.d("code1", response.code().toString())
+                } else {
+                    liveUserRoleFlow.postValue(
+                        NetworkResult.Error(
+                            response.body().toString()
+                        )
+                    )
+                    Log.d("code3", response.code().toString())
+                }
+
+            }
+
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                liveUserRoleFlow.postValue(NetworkResult.Error("Error"))
+            }
+
+        })
+
+    }
+
+    private fun createUser(userInfo: User, appRole: String) {
+        liveUserFlow.postValue(NetworkResult.Loading())
+        val call: Call<UserResponse> = repository.createUser(userInfo)
+        call.enqueue(object : Callback<UserResponse> {
+            override fun onResponse(
+                call: Call<UserResponse>,
+                response: Response<UserResponse>
+            ) {
+                if (response.isSuccessful) {
+                    liveUserFlow.postValue(NetworkResult.Success(response.body()!!))
+                    runBlocking { addRoleToUser(userInfo, appRole) }
+                } else {
+                    liveUserFlow.postValue(
+                        NetworkResult.Error(
+                            response.body().toString()
+                        )
+                    )
+                }
+            }
+
+            override fun onFailure(call: Call<UserResponse>, t: Throwable) {
+                liveUserFlow.postValue(NetworkResult.Error("Error"))
+            }
+
+        })
     }
 
     private fun isPasswordLengthGreaterThan5(password: String): Boolean {

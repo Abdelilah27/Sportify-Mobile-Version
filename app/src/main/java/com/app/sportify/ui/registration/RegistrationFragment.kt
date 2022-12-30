@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -73,12 +74,14 @@ class RegistrationFragment : Fragment(R.layout.fragment_registration) {
             when (it) {
                 is com.app.sportify.utils.NetworkResult.Success -> {
                     (activity as PIBaseActivity).dismissProgressDialog("CreateUser")
-                    findNavController().navigateUp()
                 }
                 is com.app.sportify.utils.NetworkResult.Error -> {
                     (activity as PIBaseActivity).dismissProgressDialog("CreateUser")
-                    //Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
-
+                    Toast.makeText(
+                        requireContext(),
+                        R.string.something_goes_wrong,
+                        Toast.LENGTH_LONG
+                    ).show()
                 }
                 is com.app.sportify.utils.NetworkResult.Loading -> {
                     (activity as PIBaseActivity).showProgressDialog("CreateUser")
@@ -87,6 +90,41 @@ class RegistrationFragment : Fragment(R.layout.fragment_registration) {
             }
         })
 
+
+        // To show progressBar when adding role to user
+        viewModel.liveUserRoleFlow.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+            when (it) {
+                is com.app.sportify.utils.NetworkResult.Success -> {
+                    (activity as PIBaseActivity).dismissProgressDialog("AddRole")
+                    Toast.makeText(
+                        requireContext(),
+                        R.string.user_created_successfully,
+                        Toast.LENGTH_LONG
+                    ).show()
+                    findNavController().navigateUp()
+                }
+                is com.app.sportify.utils.NetworkResult.Error -> {
+                    (activity as PIBaseActivity).dismissProgressDialog("AddRole")
+                    Toast.makeText(
+                        requireContext(),
+                        R.string.something_goes_wrong,
+                        Toast.LENGTH_LONG
+                    ).show()
+
+                }
+                is com.app.sportify.utils.NetworkResult.Loading -> {
+                    (activity as PIBaseActivity).showProgressDialog("AddRole")
+
+                }
+            }
+        })
+
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        viewModel.liveUserRoleFlow.removeObserver { viewLifecycleOwner }
+        viewModel.liveUserFlow.removeObserver { viewLifecycleOwner }
     }
 
 }

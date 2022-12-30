@@ -33,6 +33,8 @@
     <string name="verification_password_error">Please enter confirm password</string>
 
     <string name="empty"> </string>
+    <string name="something_goes_wrong">Something goes wrong</string>
+    <string name="user_created_successfully">User created successfully</string>
 
 
 
