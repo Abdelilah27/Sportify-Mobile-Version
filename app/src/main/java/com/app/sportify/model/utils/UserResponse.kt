@@ -1,4 +1,4 @@
-package com.app.sportify.model
+package com.app.sportify.model.utils
 
 data class UserResponse(
     val age: String,

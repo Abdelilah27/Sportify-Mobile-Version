@@ -10,7 +10,7 @@ import com.app.sportify.R
 import com.app.sportify.model.Role
 import com.app.sportify.model.User
 import com.app.sportify.model.UserError
-import com.app.sportify.model.UserResponse
+import com.app.sportify.model.utils.UserResponse
 import com.app.sportify.repository.AppRetrofitServiceRepository
 import com.app.sportify.utils.NetworkResult
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -41,7 +41,6 @@ class RegistrationViewModel @Inject constructor(
     val liveUserFlow: MutableLiveData<NetworkResult<UserResponse>> = MutableLiveData()
     val liveUserRoleFlow: MutableLiveData<NetworkResult<ResponseBody>> = MutableLiveData() // for
     // Role
-
 
     fun onRegistrationClicked(
         confirmedPassword: String,
@@ -89,7 +88,7 @@ class RegistrationViewModel @Inject constructor(
             val userInfo =
                 liveUser.value!!.copy(
                     age = age,
-                    gendre = gendre
+                    gendre = gendre,
                 )
 
             viewModelScope.launch {
@@ -110,14 +109,12 @@ class RegistrationViewModel @Inject constructor(
             ) {
                 if (response.isSuccessful) {
                     liveUserRoleFlow.postValue(NetworkResult.Success(response.body()))
-                    Log.d("code1", response.code().toString())
                 } else {
                     liveUserRoleFlow.postValue(
                         NetworkResult.Error(
                             response.body().toString()
                         )
                     )
-                    Log.d("code3", response.code().toString())
                 }
 
             }
