@@ -1,7 +1,6 @@
 package com.app.sportify.ui.login
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -60,9 +59,8 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                 is com.app.sportify.utils.NetworkResult.Success -> {
                     (activity as PIBaseActivity).dismissProgressDialog("User")
                     // Get role
-                    val userRole = it.data!!.appRoles[0].roleName
-                    Log.d("userRole", userRole)
-                    if (userRole == ROLES[0]) {
+                    val userRole = it.data?.appRoles?.getOrNull(0)?.roleName ?: "null"
+                    if (userRole == ROLES[1]) {
                         // Send to Entity Module
                         val action =
                             LoginFragmentDirections.actionLoginFragmentToEntityMainActivity()

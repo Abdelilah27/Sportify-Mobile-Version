@@ -1,10 +1,10 @@
 package com.app.sportify.ui.login
 
 import android.content.Context
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.app.sportify.R
 import com.app.sportify.model.TokenManager
 import com.app.sportify.model.User
@@ -15,8 +15,11 @@ import com.app.sportify.model.utils.UserLoginResponse
 import com.app.sportify.repository.AppRetrofitAuthServiceRepository
 import com.app.sportify.repository.AppRetrofitServiceRepository
 import com.app.sportify.utils.NetworkResult
+import com.app.sportify.utils.writeString
+import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import retrofit2.Call
 import retrofit2.Callback
@@ -31,6 +34,8 @@ class LoginViewModel @Inject constructor(
     @ApplicationContext private val context: Context
 ) :
     ViewModel() {
+//    val user = requireContext().readString("user_auth").asLiveData()
+
     private val _liveUserData = MutableLiveData<User>(User())
     val liveUser: LiveData<User> = _liveUserData
 
@@ -102,6 +107,7 @@ class LoginViewModel @Inject constructor(
             ) {
                 if (response.isSuccessful) {
                     liveUserAuthFlow.postValue(NetworkResult.Success(response.body()))
+                    storeUser(response)
                 } else {
                     liveUserAuthFlow.postValue(
                         NetworkResult.Error(
@@ -118,5 +124,13 @@ class LoginViewModel @Inject constructor(
         })
 
 
+    }
+
+    private fun storeUser(response: Response<UserAuth>) {
+        viewModelScope.launch {
+            val gson = Gson()
+            val json = gson.toJson(response.body())
+            context.writeString("user_auth", json)
+        }
     }
 }
