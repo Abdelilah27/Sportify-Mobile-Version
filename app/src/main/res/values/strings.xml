@@ -11,7 +11,7 @@
     <string name="entity_or_hint">Entity or player</string>
     <string name="gendre_hint">Your gendre</string>
     <string name="age_hint">Your age</string>
-    <string name="full_name">Full name</string>
+    <string name="full_name">Username</string>
     <string name="entity_name">Entity name</string>
     <string name="password_hint">Your password here</string>
     <string name="confirmed_password_hint">Confirm password</string>
@@ -24,6 +24,16 @@
     <string name="play_together">Let\'s play together</string>
     <string name="welcome_tagline">Hopping our way\ninto history</string>
     <string name="reset_password_description"><![CDATA[Please enter your email address to request a password reset]]></string>
+
+    <string name="username_error">Please enter a username</string>
+    <string name="password_error">Please enter a password</string>
+    <string name="app_role_error">Please choose a role</string>
+    <string name="password_error_regex">At least 5 characters</string>
+    <string name="verification_password_not_match_error">Password is not matching</string>
+    <string name="verification_password_error">Please enter confirm password</string>
+
+    <string name="empty"> </string>
+
 
 
 </resources>

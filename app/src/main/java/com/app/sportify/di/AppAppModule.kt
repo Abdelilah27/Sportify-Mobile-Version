@@ -1,7 +1,7 @@
-package com.app.entity.di
+package com.app.sportify.di
 
-import com.app.entity.network.RetrofitServiceInterface
-import com.app.entity.utils.ConstUtil.BASE_URL
+import com.app.sportify.network.AppRetrofitServiceInterface
+import com.app.sportify.utils.ConstUtil
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -18,25 +18,23 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 class AppModule {
     @Provides
-    fun createRetrofitInstanceEntity(@Named("Entity") retrofit: Retrofit):
-            RetrofitServiceInterface =
-        retrofit.create(RetrofitServiceInterface::class.java)
-
+    fun createRetrofitInstanceApp(@Named("App") retrofit: Retrofit): AppRetrofitServiceInterface =
+        retrofit.create(AppRetrofitServiceInterface::class.java)
 
     @Provides
     @Singleton
-    @Named("Entity")
-    fun getRetrofitInstanceEntity(): Retrofit = Retrofit.Builder()
-        .baseUrl(BASE_URL)
+    @Named("App")
+    fun getRetrofitInstanceApp(): Retrofit = Retrofit.Builder()
+        .baseUrl(ConstUtil.BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
-    @ApplicationScopeEntity
+    @ApplicationScopeApp
     @Provides
     @Singleton
-    fun provideApplicationScopeEntity() = CoroutineScope(SupervisorJob())
+    fun provideApplicationScopeApp() = CoroutineScope(SupervisorJob())
 }
 
 @Retention(AnnotationRetention.BINARY)
 @Qualifier
-annotation class ApplicationScopeEntity
+annotation class ApplicationScopeApp

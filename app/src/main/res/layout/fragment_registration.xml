@@ -1,284 +1,269 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/frameLayout3"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/background"
-    android:fillViewport="true"
-    tools:context=".ui.registration.RegistrationFragment">
+    android:background="@drawable/background">
 
-    <LinearLayout
+    <data>
+
+        <variable
+            name="registrationViewModel"
+            type="com.app.sportify.ui.registration.RegistrationViewModel" />
+    </data>
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="24dp">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:src="@drawable/ic_baseline_arrow_back_24" />
-
-        <TextView
-            android:id="@+id/textView3"
-            style="@style/title_authentification"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:text="@string/Sign_up" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/text_input"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/full_name"
-            app:endIconMode="clear_text"
-            app:startIconDrawable="@drawable/ic_outline_person_outline_24">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/name_registration_fragment"
-                style="@style/text_input_edit"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="text" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/text_input"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/email_hint"
-            app:endIconMode="clear_text"
-            app:startIconDrawable="@drawable/ic_outline_email_24">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/email_registration_fragment"
-                style="@style/text_input_edit"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textEmailAddress" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/spinner_text_input"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/gendre_hint"
-            app:startIconDrawable="@drawable/ic_outline_account_circle_24">
-
-            <AutoCompleteTextView
-                android:id="@+id/spinner_gendre"
-                style="@style/auto_complete_text_view_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="none" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/text_input"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/age_hint"
-            app:endIconMode="clear_text"
-            app:startIconDrawable="@drawable/ic_baseline_date_range_24">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/age_registration_fragment"
-                style="@style/text_input_edit"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="number" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/spinner_text_input"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/entity_or_hint"
-            app:startIconDrawable="@drawable/ic_baseline_supervisor_account_24">
-
-            <AutoCompleteTextView
-                android:id="@+id/spinner_entity_or"
-                style="@style/auto_complete_text_view_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="none" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/name_entity_layout_registration_fragment"
-            style="@style/text_input"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/entity_name"
-            android:visibility="gone"
-            app:endIconMode="clear_text"
-            app:startIconDrawable="@drawable/ic_baseline_maps_home_work_24">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/name_entity_registration_fragment"
-                style="@style/text_input_edit"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="text" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/text_input"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/password_hint"
-            app:endIconMode="clear_text"
-            app:startIconDrawable="@drawable/ic_outline_lock_24">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/password_registration_fragment"
-                style="@style/text_input_edit"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textPassword" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/text_input"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/confirmed_password_hint"
-            app:endIconMode="clear_text"
-            app:startIconDrawable="@drawable/ic_outline_lock_24">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/confirm_password_registration_fragment"
-                style="@style/text_input_edit"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textPassword" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <androidx.cardview.widget.CardView
-            style="@style/card_main_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardBackgroundColor="@color/primary_color"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="8dp">
-
-            <Button
-                android:id="@+id/main_button_registration_fragment"
-                style="@style/main_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="12dp"
-                android:text="@string/Sign_up" />
-        </androidx.cardview.widget.CardView>
-
-
-        <TextView
-            android:id="@+id/textView4"
-            style="@style/or"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:gravity="center"
-            android:text="@string/or" />
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/google_registration_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            app:cardCornerRadius="25dp"
-            app:cardElevation="0.2dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:padding="8dp">
-
-                <ImageView
-                    android:id="@+id/imageView"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:layout_marginEnd="8dp"
-                    android:padding="16dp"
-                    android:src="@drawable/google_icon" />
-
-                <TextView
-                    style="@style/social_login"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/google_login" />
-
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/fb_registration_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            app:cardCornerRadius="25dp"
-            app:cardElevation="0.2dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:padding="8dp">
-
-                <ImageView
-                    android:id="@+id/imageView21"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:layout_marginEnd="8dp"
-                    android:padding="16dp"
-                    android:src="@drawable/fb_icon" />
-
-                <TextView
-                    style="@style/social_login"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/fb_login" />
-
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:padding="8dp">
+            android:orientation="vertical"
+            android:padding="24dp">
 
-            <TextView
-                style="@style/have_account"
+            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:text="@string/already_have_account"
-                android:textColor="@color/secondary_color" />
+                android:layout_marginBottom="16dp"
+                android:src="@drawable/ic_baseline_arrow_back_24" />
 
             <TextView
-                android:id="@+id/sign_in_text"
-                style="@style/have_account"
-                android:layout_width="wrap_content"
+                android:id="@+id/textView3"
+                style="@style/title_authentification"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/Sign_in" />
+                android:layout_marginBottom="16dp"
+                android:text="@string/Sign_up" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/text_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/full_name"
+                app:endIconMode="clear_text"
+                app:errorText="@{registrationViewModel.liveErrorUser.usernameError}"
+                app:startIconDrawable="@drawable/ic_outline_person_outline_24">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/name_registration_fragment"
+                    style="@style/text_input_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:text="@={registrationViewModel.liveUser.username}" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/spinner_text_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/entity_or_hint"
+                app:errorText="@{registrationViewModel.liveErrorUser.appRoleError}"
+                app:startIconDrawable="@drawable/ic_baseline_supervisor_account_24">
+
+                <AutoCompleteTextView
+                    android:id="@+id/spinner_entity_or"
+                    style="@style/auto_complete_text_view_style"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/gender_text_input"
+                style="@style/spinner_text_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/gendre_hint"
+                android:visibility="gone"
+                app:startIconDrawable="@drawable/ic_outline_account_circle_24">
+
+                <AutoCompleteTextView
+                    android:id="@+id/spinner_gendre"
+                    style="@style/auto_complete_text_view_style"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none"
+                  />
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/age_text_input"
+                style="@style/text_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/age_hint"
+                android:visibility="gone"
+                app:endIconMode="clear_text"
+                app:startIconDrawable="@drawable/ic_baseline_date_range_24">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/age_registration_fragment"
+                    style="@style/text_input_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                     />
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/text_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/password_hint"
+                app:endIconMode="clear_text"
+                app:errorText="@{registrationViewModel.liveErrorUser.passwordError}"
+                app:startIconDrawable="@drawable/ic_outline_lock_24">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/password_registration_fragment"
+                    style="@style/text_input_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPassword"
+                    android:text="@={registrationViewModel.liveUser.password}" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/text_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/confirmed_password_hint"
+                app:endIconMode="clear_text"
+                app:errorText="@{registrationViewModel.liveErrorUser.confirmedPasswordError}"
+                app:startIconDrawable="@drawable/ic_outline_lock_24">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/confirm_password_registration_fragment"
+                    style="@style/text_input_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPassword" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <androidx.cardview.widget.CardView
+                style="@style/card_main_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="@color/primary_color"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="8dp">
+
+                <Button
+                    android:id="@+id/main_button_registration_fragment"
+                    style="@style/main_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="12dp"
+                    android:text="@string/Sign_up" />
+            </androidx.cardview.widget.CardView>
+
+
+            <TextView
+                android:id="@+id/textView4"
+                style="@style/or"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:gravity="center"
+                android:text="@string/or" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/google_registration_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:cardCornerRadius="25dp"
+                app:cardElevation="0.2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:padding="8dp">
+
+                    <ImageView
+                        android:id="@+id/imageView"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_marginEnd="8dp"
+                        android:padding="16dp"
+                        android:src="@drawable/google_icon" />
+
+                    <TextView
+                        style="@style/social_login"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/google_login" />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/fb_registration_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:cardCornerRadius="25dp"
+                app:cardElevation="0.2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:padding="8dp">
+
+                    <ImageView
+                        android:id="@+id/imageView21"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_marginEnd="8dp"
+                        android:padding="16dp"
+                        android:src="@drawable/fb_icon" />
+
+                    <TextView
+                        style="@style/social_login"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/fb_login" />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="8dp">
+
+                <TextView
+                    style="@style/have_account"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:text="@string/already_have_account"
+                    android:textColor="@color/secondary_color" />
+
+                <TextView
+                    android:id="@+id/sign_in_text"
+                    style="@style/have_account"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/Sign_in" />
+
+            </LinearLayout>
+
 
         </LinearLayout>
+    </ScrollView>
 
 
-    </LinearLayout>
-
-</ScrollView>
+</layout>

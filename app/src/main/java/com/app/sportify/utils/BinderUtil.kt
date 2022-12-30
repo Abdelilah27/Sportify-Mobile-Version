@@ -1,13 +1,12 @@
-package com.app.entity.utils
+package com.app.sportify.utils
 
 import androidx.databinding.BindingAdapter
-import com.app.entity.R
+import com.app.sportify.R
 import com.google.android.material.textfield.TextInputLayout
 
 object BinderUtil {
-
     @JvmStatic
-    @BindingAdapter("entity:errorText")
+    @BindingAdapter("app:errorText")
     fun setError(textInputLayout: TextInputLayout, error: Int?) {
         if (error == R.string.empty) {
             textInputLayout.error = null
@@ -16,16 +15,5 @@ object BinderUtil {
             textInputLayout.requestFocus()
         }
     }
-
-//    @JvmStatic
-//    @BindingAdapter("app:errorText")
-//    fun setError(checkBox: CheckBox, error: Int?) {
-//        if (error == R.string.empty) {
-//            checkBox.error = null
-//        } else {
-//            checkBox.error = checkBox.context.getString(error!!)
-//            checkBox.requestFocus()
-//        }
-//    }
 
 }

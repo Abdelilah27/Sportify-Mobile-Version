@@ -110,7 +110,7 @@ class AddStadiumViewModel @Inject constructor(
     private fun postWithoutImage(requestBody: RequestBody) {
         viewModelScope.launch {
             val call: Call<StadiumResponse> = repository.saveStadium(requestBody)
-            call.enqueue(object : Callback<StadiumResponse> {
+                call.enqueue(object : Callback<StadiumResponse> {
                 override fun onResponse(
                     call: Call<StadiumResponse>,
                     response: Response<StadiumResponse>

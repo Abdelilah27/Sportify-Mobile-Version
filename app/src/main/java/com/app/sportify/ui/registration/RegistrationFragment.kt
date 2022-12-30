@@ -1,58 +1,91 @@
 package com.app.sportify.ui.registration
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.app.sportify.R
 import com.app.sportify.databinding.FragmentRegistrationBinding
+import com.app.sportify.utils.ConstUtil.GENDRE
+import com.app.sportify.utils.ConstUtil.ROLES
+import com.app.sportify.utils.PIBaseActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class RegistrationFragment : Fragment(R.layout.fragment_registration) {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
-    }
+    private val viewModel: RegistrationViewModel by viewModels()
+    lateinit var binding: FragmentRegistrationBinding
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val registrationBinding = FragmentRegistrationBinding.inflate(inflater, container, false)
-        initUI(registrationBinding)
-        return registrationBinding.root
+    private var appRole: String = ""
+    private var gendre: String = ""
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setHasOptionsMenu(true)
+        binding = FragmentRegistrationBinding.bind(view)
+        binding.lifecycleOwner = this
+        binding.registrationViewModel = viewModel
+        initUI(binding)
     }
 
     private fun initUI(registrationBinding: FragmentRegistrationBinding) {
         registrationBinding.mainButtonRegistrationFragment.setOnClickListener {
-            val action =
-                RegistrationFragmentDirections.actionRegistrationFragmentToLoginFragment()
-            findNavController().navigate(action)
+            val confirmedPassword =
+                registrationBinding.confirmPasswordRegistrationFragment.text.toString()
+            val age = registrationBinding.ageRegistrationFragment.text.toString()
+            viewModel.onRegistrationClicked(confirmedPassword, appRole, age, gendre)
         }
 
-        val role = listOf("player", "entity")
-        val adapter = ArrayAdapter(requireContext(), R.layout.drop_down_item, role)
+        // Init spinnerEntityOr Adapter
+        val adapter = ArrayAdapter(requireContext(), R.layout.drop_down_item, ROLES)
         registrationBinding.spinnerEntityOr.setAdapter(adapter)
 
+        // OnItemClickListener spinnerEntityOr Adapter
         registrationBinding.spinnerEntityOr.onItemClickListener =
             AdapterView.OnItemClickListener { parent, view, position, id ->
                 val item = parent.getItemAtPosition(position).toString()
-                if (item == "entity") {
-                    registrationBinding.nameEntityLayoutRegistrationFragment.visibility =
+                appRole = item
+                if (item == ROLES[0]) {
+                    registrationBinding.ageTextInput.visibility =
+                        View.VISIBLE
+                    registrationBinding.genderTextInput.visibility =
                         View.VISIBLE
                 }
             }
 
-        val gendre = listOf("men", "women")
-        val adapterGendre = ArrayAdapter(requireContext(), R.layout.drop_down_item, gendre)
+        // Init gendre Adapter
+        val adapterGendre = ArrayAdapter(requireContext(), R.layout.drop_down_item, GENDRE)
         registrationBinding.spinnerGendre.setAdapter(adapterGendre)
 
+        // OnItemClickListener spinnerEntityOr Adapter
+        registrationBinding.spinnerGendre.onItemClickListener =
+            AdapterView.OnItemClickListener { parent, view, position, id ->
+                val item = parent.getItemAtPosition(position).toString()
+                gendre = item
+            }
+
+
+        // To show progressBar when saving data
+        viewModel.liveUserFlow.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+            when (it) {
+                is com.app.sportify.utils.NetworkResult.Success -> {
+                    (activity as PIBaseActivity).dismissProgressDialog("CreateUser")
+                    findNavController().navigateUp()
+                }
+                is com.app.sportify.utils.NetworkResult.Error -> {
+                    (activity as PIBaseActivity).dismissProgressDialog("CreateUser")
+                    //Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
+
+                }
+                is com.app.sportify.utils.NetworkResult.Loading -> {
+                    (activity as PIBaseActivity).showProgressDialog("CreateUser")
+
+                }
+            }
+        })
 
     }
 
