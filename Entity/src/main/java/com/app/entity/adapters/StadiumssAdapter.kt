@@ -3,15 +3,16 @@ package com.app.entity.adapters
 import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
+import com.app.networking.utils.ConstUtil.GETSTADIUMIMAGE
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.app.entity.R
 import com.app.entity.databinding.StadiumItemStadiumsFragmentBinding
-import com.app.entity.model.Stadium
 import com.app.entity.utils.ConstUtil
 import com.app.entity.utils.OnItemSelectedInterface
+import com.app.networking.model.entity.Stadium
 import com.bumptech.glide.Glide
 
 class StadiumssAdapter(val context: Context, private val onItemSelected: OnItemSelectedInterface) :
@@ -29,7 +30,7 @@ class StadiumssAdapter(val context: Context, private val onItemSelected: OnItemS
                 numberOfPlayer.text = stadium.numberOfPlayer.toString() + ConstUtil.PLAYERS
                 price.text = stadium.price.toString() + ConstUtil.MAD
                 description.text = stadium.description
-                val stadiumImage = ConstUtil.GETSTADIUMIMAGE + stadium.imgFileName
+                val stadiumImage = GETSTADIUMIMAGE + stadium.imgFileName
                 Glide.with(context)
                     .load(stadiumImage)
                     .error(R.drawable.event_stadium_default)

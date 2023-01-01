@@ -17,3 +17,4 @@ rootProject.name = "Sportify"
 include ':app'
 include ':Entity'
 include ':User'
+include ':Networking'

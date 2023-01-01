@@ -1,25 +1,22 @@
 package com.app.sportify.ui.login
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import com.app.networking.model.app.UserLogin
+import com.app.networking.model.app.response.UserLoginResponse
+import com.app.networking.model.network.TokenManager
+import com.app.networking.model.user.User
+import com.app.networking.model.user.UserAuth
+import com.app.networking.repository.AuthRetrofitServiceRepository
+import com.app.networking.repository.RetrofitServiceRepository
 import com.app.sportify.R
-import com.app.sportify.model.TokenManager
-import com.app.sportify.model.User
 import com.app.sportify.model.UserError
-import com.app.sportify.model.utils.UserAuth
-import com.app.sportify.model.utils.UserLogin
-import com.app.sportify.model.utils.UserLoginResponse
-import com.app.sportify.repository.AppRetrofitAuthServiceRepository
-import com.app.sportify.repository.AppRetrofitServiceRepository
 import com.app.sportify.utils.NetworkResult
-import com.app.sportify.utils.writeString
-import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import retrofit2.Call
 import retrofit2.Callback
@@ -29,12 +26,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val repository: AppRetrofitServiceRepository,
-    private val repositoryAuth: AppRetrofitAuthServiceRepository,
+    private val repository: RetrofitServiceRepository,
+    private val repositoryAuth: AuthRetrofitServiceRepository,
     @ApplicationContext private val context: Context
 ) :
     ViewModel() {
-//    val user = requireContext().readString("user_auth").asLiveData()
 
     private val _liveUserData = MutableLiveData<User>(User())
     val liveUser: LiveData<User> = _liveUserData
@@ -79,10 +75,12 @@ class LoginViewModel @Inject constructor(
                     // Store Token
                     val tokenManager = TokenManager(context)
                     tokenManager.saveToken(response.body()!!)
-
                     liveUserFlow.postValue(NetworkResult.Success(response.body()))
                     runBlocking { getAuthUser() }
                 } else {
+                    Log.d("TAG", response.message().toString())
+                    Log.d("TAG", response.code().toString())
+                    Log.d("TAG", response.body().toString())
                     liveUserFlow.postValue(
                         NetworkResult.Error(
                             response.body().toString()
@@ -100,6 +98,8 @@ class LoginViewModel @Inject constructor(
 
     private fun getAuthUser() {
         val call: Call<UserAuth> = repositoryAuth.getUserConnected()
+        Log.d("TAG1", call.request().url.toString())
+
         call.enqueue(object : Callback<UserAuth> {
             override fun onResponse(
                 call: Call<UserAuth>,
@@ -107,7 +107,7 @@ class LoginViewModel @Inject constructor(
             ) {
                 if (response.isSuccessful) {
                     liveUserAuthFlow.postValue(NetworkResult.Success(response.body()))
-                    storeUser(response)
+
                 } else {
                     liveUserAuthFlow.postValue(
                         NetworkResult.Error(
@@ -124,13 +124,5 @@ class LoginViewModel @Inject constructor(
         })
 
 
-    }
-
-    private fun storeUser(response: Response<UserAuth>) {
-        viewModelScope.launch {
-            val gson = Gson()
-            val json = gson.toJson(response.body())
-            context.writeString("user_auth", json)
-        }
     }
 }

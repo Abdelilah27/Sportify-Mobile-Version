@@ -1,17 +1,16 @@
 package com.app.sportify.ui.registration
 
 import android.content.Context
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.app.networking.model.app.Role
+import com.app.networking.model.user.User
+import com.app.networking.model.app.response.UserResponse
+import com.app.networking.repository.RetrofitServiceRepository
 import com.app.sportify.R
-import com.app.sportify.model.Role
-import com.app.sportify.model.User
 import com.app.sportify.model.UserError
-import com.app.sportify.model.utils.UserResponse
-import com.app.sportify.repository.AppRetrofitServiceRepository
 import com.app.sportify.utils.NetworkResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -26,7 +25,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class RegistrationViewModel @Inject constructor(
-    private val repository: AppRetrofitServiceRepository,
+    private val repository: RetrofitServiceRepository,
     @ApplicationContext private val context: Context
 ) :
     ViewModel() {

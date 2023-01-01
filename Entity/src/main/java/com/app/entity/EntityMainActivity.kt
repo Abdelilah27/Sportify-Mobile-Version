@@ -2,7 +2,6 @@ package com.app.entity
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.app.entity.utils.PIBaseActivity
@@ -23,5 +22,6 @@ class EntityMainActivity : PIBaseActivity() {
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.entity_nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
+
     }
 }

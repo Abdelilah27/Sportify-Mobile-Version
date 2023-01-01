@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="add_new">Add new</string>
@@ -31,5 +31,7 @@
 
 
     <string name="edit_profile">Edit Profile</string>
+    <string name="something_goes_wrong">Something goes wrong</string>
+
 
 </resources>

@@ -7,13 +7,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.app.entity.R
-import com.app.entity.model.Stadium
 import com.app.entity.model.StadiumError
-import com.app.entity.model.StadiumResponse
-import com.app.entity.repository.RetrofitServiceRepository
 import com.app.entity.utils.ConstUtil.TIME24HOURS_PATTERN
 import com.app.entity.utils.NetworkResult
 import com.app.entity.utils.RealPathUtil
+import com.app.networking.api.AuthRetrofitServiceInterface
+import com.app.networking.model.entity.Stadium
+import com.app.networking.model.entity.response.StadiumResponse
 import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -33,7 +33,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AddStadiumViewModel @Inject constructor(
-    private val repository: RetrofitServiceRepository,
+    private val repository: AuthRetrofitServiceInterface,
     @ApplicationContext private val context: Context
 ) :
     ViewModel() {
@@ -110,7 +110,7 @@ class AddStadiumViewModel @Inject constructor(
     private fun postWithoutImage(requestBody: RequestBody) {
         viewModelScope.launch {
             val call: Call<StadiumResponse> = repository.saveStadium(requestBody)
-                call.enqueue(object : Callback<StadiumResponse> {
+            call.enqueue(object : Callback<StadiumResponse> {
                 override fun onResponse(
                     call: Call<StadiumResponse>,
                     response: Response<StadiumResponse>

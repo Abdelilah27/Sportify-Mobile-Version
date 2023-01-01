@@ -9,11 +9,11 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.app.entity.R
-import com.app.entity.model.Stadium
-import com.app.entity.utils.ConstUtil.GETSTADIUMIMAGE
 import com.app.entity.utils.ConstUtil.MAD
 import com.app.entity.utils.ConstUtil.PLAYERS
 import com.app.entity.utils.OnItemSelectedInterface
+import com.app.networking.model.entity.Stadium
+import com.app.networking.utils.ConstUtil.GETSTADIUMIMAGE
 import com.bumptech.glide.Glide
 
 class StadiumsAdapter(val context: Context, private val onItemSelected: OnItemSelectedInterface) :

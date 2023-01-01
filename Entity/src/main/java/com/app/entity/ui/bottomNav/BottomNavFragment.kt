@@ -19,7 +19,6 @@ class BottomNavFragment : Fragment(R.layout.fragment_bottom_nav) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val binding = FragmentBottomNavBinding.bind(view)
         // Bottom Navigation Implementation
         setHasOptionsMenu(true)
         val navHost =

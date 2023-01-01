@@ -16,9 +16,9 @@ import com.app.entity.EntityMainActivity
 import com.app.entity.R
 import com.app.entity.adapters.StadiumsAdapter
 import com.app.entity.databinding.FragmentStadiumsBinding
-import com.app.entity.model.Stadium
 import com.app.entity.utils.*
 import com.app.entity.utils.DialogFragmentImp.Companion.TAG
+import com.app.networking.model.entity.Stadium
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -71,11 +71,10 @@ class StadiumsFragment : Fragment(R.layout.fragment_stadiums), OnItemSelectedInt
             when (it) {
                 is NetworkResult.Success -> {
                     (activity as PIBaseActivity).dismissProgressDialog("Stadiums")
-                    //Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
                 }
                 is NetworkResult.Error -> {
                     (activity as PIBaseActivity).dismissProgressDialog("Stadiums")
-                    //Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
+//                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
                 }
                 is NetworkResult.Loading -> {
                     (activity as PIBaseActivity).showProgressDialog("Stadiums")
