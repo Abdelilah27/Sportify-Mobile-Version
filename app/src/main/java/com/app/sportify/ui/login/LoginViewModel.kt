@@ -115,7 +115,5 @@ class LoginViewModel @Inject constructor(
                 liveUserAuthFlow.postValue(NetworkResult.Error("Error"))
             }
         })
-
-
     }
 }
