@@ -38,15 +38,12 @@ class StadiumsViewModel @Inject constructor(
         liveDataFlow.postValue(NetworkResult.Loading())
         viewModelScope.launch {
             val call: Call<ListStadium> = repository.getStadiumList()
-            Log.d("TAG0", call.request().url.toString())
             call.enqueue(object : Callback<ListStadium> {
                 override fun onResponse(call: Call<ListStadium>, response: Response<ListStadium>) {
                     if (response.isSuccessful) {
                         _stadiums.postValue(response)
                         liveDataFlow.postValue(NetworkResult.Success(response.body()))
                     } else {
-                        Log.d("else", response.code().toString())
-                        Log.d("else", response.body().toString())
                         liveDataFlow.postValue(NetworkResult.Error(response.body().toString()))
                     }
                 }
@@ -85,5 +82,7 @@ class StadiumsViewModel @Inject constructor(
             })
         }
     }
+
+
 
 }

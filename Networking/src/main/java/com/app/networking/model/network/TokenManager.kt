@@ -1,7 +1,7 @@
 package com.app.networking.model.network
 
 import android.content.Context
-import com.app.networking.model.app.response.UserLoginResponse
+import com.app.networking.model.app.response.TokenResponse
 import com.app.networking.utils.ConstUtil.ACCESS_TOKEN
 import com.app.networking.utils.ConstUtil.PREFS_FILE
 import com.app.networking.utils.ConstUtil.REFRESH_TOKEN
@@ -12,10 +12,10 @@ class TokenManager @Inject constructor(@ApplicationContext context: Context) {
     private var prefs = context.getSharedPreferences(PREFS_FILE, Context.MODE_PRIVATE)
 
 
-    fun saveToken(userLoginResponse: UserLoginResponse) {
+    fun saveToken(tokenResponse: TokenResponse) {
         val editor = prefs.edit()
-        editor.putString(ACCESS_TOKEN, userLoginResponse.access_token)
-        editor.putString(REFRESH_TOKEN, userLoginResponse.refresh_token)
+        editor.putString(ACCESS_TOKEN, tokenResponse.access_token)
+        editor.putString(REFRESH_TOKEN, tokenResponse.refresh_token)
         editor.apply()
     }
 

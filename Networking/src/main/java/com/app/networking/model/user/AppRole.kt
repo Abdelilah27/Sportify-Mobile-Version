@@ -1,4 +1,4 @@
-package com.app.networking.model.app
+package com.app.networking.model.user
 
 data class AppRole(
     val id: Int,

@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.app.networking.model.app.Role
+import com.app.networking.model.user.Role
 import com.app.networking.model.user.User
 import com.app.networking.model.app.response.UserResponse
 import com.app.networking.repository.RetrofitServiceRepository

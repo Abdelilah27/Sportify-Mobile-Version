@@ -1,12 +1,11 @@
 package com.app.sportify.ui.login
 
 import android.content.Context
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.app.networking.model.app.UserLogin
-import com.app.networking.model.app.response.UserLoginResponse
+import com.app.networking.model.app.response.TokenResponse
 import com.app.networking.model.network.TokenManager
 import com.app.networking.model.user.User
 import com.app.networking.model.user.UserAuth
@@ -39,7 +38,7 @@ class LoginViewModel @Inject constructor(
     private val _liveUserError = MutableLiveData<UserError>(UserError())
     val liveErrorUser: LiveData<UserError> = _liveUserError
 
-    val liveUserFlow: MutableLiveData<NetworkResult<UserLoginResponse>> = MutableLiveData()
+    val liveUserFlow: MutableLiveData<NetworkResult<TokenResponse>> = MutableLiveData()
     val liveUserAuthFlow: MutableLiveData<NetworkResult<UserAuth>> = MutableLiveData()
 
     fun onRegistrationClicked(): Boolean {
@@ -65,11 +64,11 @@ class LoginViewModel @Inject constructor(
     }
 
     private fun login(userLogin: UserLogin) {
-        val call: Call<UserLoginResponse> = repository.login(userLogin)
-        call.enqueue(object : Callback<UserLoginResponse> {
+        val call: Call<TokenResponse> = repository.login(userLogin)
+        call.enqueue(object : Callback<TokenResponse> {
             override fun onResponse(
-                call: Call<UserLoginResponse>,
-                response: Response<UserLoginResponse>
+                call: Call<TokenResponse>,
+                response: Response<TokenResponse>
             ) {
                 if (response.isSuccessful) {
                     // Store Token
@@ -78,9 +77,6 @@ class LoginViewModel @Inject constructor(
                     liveUserFlow.postValue(NetworkResult.Success(response.body()))
                     runBlocking { getAuthUser() }
                 } else {
-                    Log.d("TAG", response.message().toString())
-                    Log.d("TAG", response.code().toString())
-                    Log.d("TAG", response.body().toString())
                     liveUserFlow.postValue(
                         NetworkResult.Error(
                             response.body().toString()
@@ -90,7 +86,7 @@ class LoginViewModel @Inject constructor(
 
             }
 
-            override fun onFailure(call: Call<UserLoginResponse>, t: Throwable) {
+            override fun onFailure(call: Call<TokenResponse>, t: Throwable) {
                 liveUserFlow.postValue(NetworkResult.Error("Error"))
             }
         })
@@ -98,8 +94,6 @@ class LoginViewModel @Inject constructor(
 
     private fun getAuthUser() {
         val call: Call<UserAuth> = repositoryAuth.getUserConnected()
-        Log.d("TAG1", call.request().url.toString())
-
         call.enqueue(object : Callback<UserAuth> {
             override fun onResponse(
                 call: Call<UserAuth>,
@@ -107,7 +101,6 @@ class LoginViewModel @Inject constructor(
             ) {
                 if (response.isSuccessful) {
                     liveUserAuthFlow.postValue(NetworkResult.Success(response.body()))
-
                 } else {
                     liveUserAuthFlow.postValue(
                         NetworkResult.Error(

@@ -1,10 +1,10 @@
 package com.app.networking.repository
 
 import com.app.networking.api.RetrofitServiceInterface
-import com.app.networking.model.app.Role
 import com.app.networking.model.app.UserLogin
-import com.app.networking.model.app.response.UserLoginResponse
+import com.app.networking.model.app.response.TokenResponse
 import com.app.networking.model.app.response.UserResponse
+import com.app.networking.model.user.Role
 import com.app.networking.model.user.User
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -29,8 +29,10 @@ class RetrofitServiceRepository @Inject constructor(
 
     fun login(
         params: UserLogin
-    ): Call<UserLoginResponse> {
+    ): Call<TokenResponse> {
         return retrofitServiceInterface.login(params)
     }
+
+    fun refreshToken(token: String) = retrofitServiceInterface.refreshToken(token)
 
 }
