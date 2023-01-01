@@ -33,8 +33,10 @@
         <entry key="User/src/main/res/layout/fragment_paiement.xml" value="0.3880208333333333" />
         <entry key="User/src/main/res/layout/fragment_payment.xml" value="0.3880208333333333" />
         <entry key="User/src/main/res/layout/fragment_profile.xml" value="0.2450657894736842" />
+        <entry key="User/src/main/res/layout/fragment_progress.xml" value="0.3880208333333333" />
         <entry key="User/src/main/res/layout/fragment_search.xml" value="0.33425925925925926" />
         <entry key="User/src/main/res/layout/fragment_search_from_entity.xml" value="0.2912740071614583" />
+        <entry key="User/src/main/res/layout/fragment_user_profile.xml" value="0.3264546712239583" />
         <entry key="User/src/main/res/layout/match_item_recycler.xml" value="0.3729166666666667" />
         <entry key="User/src/main/res/layout/nearby_event_item_recycler.xml" value="0.3729166666666667" />
         <entry key="User/src/main/res/layout/plaiyer_item_event_fragment.xml" value="0.371875" />

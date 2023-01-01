@@ -6,10 +6,11 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import com.app.user.utils.PIBaseActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class UserMainActivity : AppCompatActivity() {
+class UserMainActivity : PIBaseActivity(){
     companion object {
         @SuppressLint("StaticFieldLeak")
         lateinit var navController: NavController
