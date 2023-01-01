@@ -2,7 +2,9 @@ package com.app.user.ui.explore
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.app.user.R
 import com.app.user.UserMainActivity
@@ -12,7 +14,9 @@ import com.app.user.databinding.FragmentExploreBinding
 import com.app.user.model.Entity
 import com.app.user.model.Event
 import com.app.user.ui.bottomNavUser.BottomNavUserFragmentDirections
+import com.app.user.utils.NetworkResult
 import com.app.user.utils.OnItemSelectedInterface
+import com.app.user.utils.PIBaseActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -20,6 +24,8 @@ class ExploreFragment : Fragment(R.layout.fragment_explore), OnItemSelectedInter
     private lateinit var entitiesAdapter: EntitiesAdapter
     private lateinit var nearbyAdapter: NearbyEventAdapter
     private lateinit var binding: FragmentExploreBinding
+    private val viewModel: ExploreViewModel by viewModels()
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -29,6 +35,35 @@ class ExploreFragment : Fragment(R.layout.fragment_explore), OnItemSelectedInter
     }
 
     private fun initUI(binding: FragmentExploreBinding) {
+        // init data
+        viewModel.getAuthUser()
+        // Observe User Data To Display Name
+        viewModel.liveUser.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+            it.apply {
+                binding.profileName.text = username
+            }
+        })
+        // To show progressBar when loading data
+        viewModel.liveUserAuthFlow.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+            when (it) {
+                is NetworkResult.Success -> {
+                    (activity as PIBaseActivity).dismissProgressDialog("Profile explore")
+
+                }
+                is NetworkResult.Error -> {
+                    (activity as PIBaseActivity).dismissProgressDialog("Profile explore")
+                    Toast.makeText(
+                        requireContext(),
+                        R.string.profile,
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+                is NetworkResult.Loading -> {
+                    (activity as PIBaseActivity).showProgressDialog("Profile explore")
+
+                }
+            }
+        })
         // Setup our recycler
         binding.recyclerPopularEntities.apply {
             entitiesAdapter = EntitiesAdapter(context, this@ExploreFragment)

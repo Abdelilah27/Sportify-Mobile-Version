@@ -39,8 +39,7 @@
             style="@style/profile_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:maxLines="1"
-            android:text="Mr." />
+            android:maxLines="1" />
     </LinearLayout>
 
     <ScrollView
