@@ -28,19 +28,27 @@ class SplashViewModel @Inject constructor(
     val isLogged: LiveData<String> = _isLogged
 
     fun isLogged() {
-        val user = UserManager(context = context)
-        val getUser = user.getUserAuth()
         val tokenManager = TokenManager(context)
         val accessToken = tokenManager.getAccessToken()
         val refreshToken = tokenManager.getRefreshToken()
-        val result = when {
-            accessToken.isNullOrEmpty() -> "noLogged"
-            checkRefreshToken(refreshToken.toString()) -> "noLogged"
-            getUser.appRoles.firstOrNull()?.toString() == ROLES[1] -> ROLES[1]
-            getUser.appRoles.firstOrNull()?.toString() == ROLES[0] -> ROLES[0]
-            else -> "wrong"
+
+        if (accessToken.isNullOrEmpty()) {
+            _isLogged.postValue("noLogged")
+        } else {
+            if (checkRefreshToken(refreshToken.toString())) {
+                _isLogged.postValue("noLogged")
+            } else {
+                val user = UserManager(context = context)
+                val getUser = user.getUserAuth()
+                if (getUser.appRoles.firstOrNull()?.toString() == ROLES[1]) {
+                    _isLogged.postValue(ROLES[1])
+
+                } else {
+                    _isLogged.postValue(ROLES[0])
+
+                }
+            }
         }
-        _isLogged.postValue(result)
     }
 
     private fun checkRefreshToken(refreshToken: String): Boolean {

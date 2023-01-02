@@ -1,6 +1,7 @@
 package com.app.sportify.ui.splash
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -22,6 +23,7 @@ class SplashFragment : Fragment(R.layout.fragment_splash) {
         viewModel.isLogged()
         // To show progressBar when loading data
         viewModel.isLogged.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+            Log.d("it", it.toString())
             val destination = when (it) {
                 //TODO
                 "noLogged" -> SplashFragmentDirections.actionSplashFragmentToWelcomeFragment()
