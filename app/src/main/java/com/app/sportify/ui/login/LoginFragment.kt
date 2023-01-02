@@ -1,6 +1,7 @@
 package com.app.sportify.ui.login
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -28,7 +29,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
 
     private fun initUI(loginBinding: FragmentLoginBinding) {
         loginBinding.mainButtonLoginFragment.setOnClickListener {
-            viewModel.onRegistrationClicked()
+            viewModel. onLoginClicked()
         }
 
         // To show progressBar when login data
@@ -66,6 +67,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                             LoginFragmentDirections.actionLoginFragmentToEntityMainActivity()
                         findNavController().navigate(action)
                     } else {
+                        Log.d("TAG", "initUI:00 ")
                         // Send to User Module
                         val action =
                             LoginFragmentDirections.actionLoginFragmentToUserMainActivity()

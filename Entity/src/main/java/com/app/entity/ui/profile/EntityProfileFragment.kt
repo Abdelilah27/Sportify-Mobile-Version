@@ -54,6 +54,32 @@ class EntityProfileFragment : Fragment(R.layout.fragment_entity_profile) {
             }
         })
 
+        // To show progressBar when log out
+        viewModel.liveUserLogOutFlow.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+            when (it) {
+                is NetworkResult.Success -> {
+                    (activity as PIBaseActivity).dismissProgressDialog("LogOut")
+                    // TODO
+                }
+                is NetworkResult.Error -> {
+                    (activity as PIBaseActivity).dismissProgressDialog("LogOut")
+                    Toast.makeText(
+                        requireContext(),
+                        R.string.something_goes_wrong_s,
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+                is NetworkResult.Loading -> {
+                    (activity as PIBaseActivity).showProgressDialog("LogOut")
+                }
+            }
+        })
+
+
+        // when log out button is pressed
+        binding.logOut.setOnClickListener {
+            viewModel.logOut()
+        }
 
     }
 }

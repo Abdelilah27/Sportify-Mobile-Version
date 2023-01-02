@@ -25,6 +25,7 @@
     <string name="mr">Mr</string>
     <string name="m">M</string>
     <string name="edit_profile">Edit Profile</string>
+    <string name="log_out">Log out</string>
 
 
 </resources>

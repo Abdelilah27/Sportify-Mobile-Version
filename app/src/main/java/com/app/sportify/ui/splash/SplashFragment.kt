@@ -1,21 +1,36 @@
 package com.app.sportify.ui.splash
 
 import android.os.Bundle
-import android.os.Handler
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.app.sportify.R
+import com.app.sportify.utils.ConstUtil.ROLES
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class SplashFragment : Fragment(R.layout.fragment_splash) {
+    private val viewModel: SplashViewModel by viewModels()
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Handler().postDelayed({
-            val action =
-                SplashFragmentDirections.actionSplashFragmentToWelcomeFragment()
-            findNavController().navigate(action)
-        }, 1000)
+        init()
+    }
+
+    private fun init() {
+        viewModel.isLogged()
+        // To show progressBar when loading data
+        viewModel.isLogged.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+            val destination = when (it) {
+                //TODO
+                "noLogged" -> SplashFragmentDirections.actionSplashFragmentToWelcomeFragment()
+                ROLES[0] -> SplashFragmentDirections.actionSplashFragmentToUserMainActivity()
+                ROLES[1] -> SplashFragmentDirections.actionSplashFragmentToEntityMainActivity()
+                else -> SplashFragmentDirections.actionSplashFragmentToWelcomeFragment()
+            }
+            findNavController().navigate(destination)
+        })
+
     }
 }

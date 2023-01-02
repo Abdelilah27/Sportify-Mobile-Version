@@ -1,12 +1,12 @@
 package com.app.entity.ui.profile
 
 import android.content.Context
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.app.entity.utils.NetworkResult
 import com.app.networking.api.AuthRetrofitServiceInterface
+import com.app.networking.model.network.TokenManager
 import com.app.networking.model.user.UserAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -18,16 +18,19 @@ import javax.inject.Inject
 
 @HiltViewModel
 class EntityProfileViewModel @Inject constructor(
+    @ApplicationContext private val context: Context,
     private val repository: AuthRetrofitServiceInterface,
 ) :
     ViewModel() {
     val liveUserAuthFlow: MutableLiveData<NetworkResult<UserAuth>> = MutableLiveData()
+    val liveUserLogOutFlow: MutableLiveData<NetworkResult<Boolean>> = MutableLiveData()
 
     private val _liveUserData = MutableLiveData<UserAuth>(UserAuth())
     val liveUser: LiveData<UserAuth> = _liveUserData
 
 
     fun getAuthUser() {
+        liveUserAuthFlow.postValue(NetworkResult.Loading())
         val call: Call<UserAuth> = repository.getUserConnected()
         call.enqueue(object : Callback<UserAuth> {
             override fun onResponse(
@@ -51,5 +54,16 @@ class EntityProfileViewModel @Inject constructor(
                 liveUserAuthFlow.postValue(NetworkResult.Error("Error"))
             }
         })
+    }
+
+    fun logOut() {
+        liveUserLogOutFlow.postValue(NetworkResult.Loading())
+        val tokenManager = TokenManager(context)
+        try {
+            tokenManager.clearToken()
+            liveUserLogOutFlow.postValue(NetworkResult.Success(true))
+        } catch (e: Exception) {
+            liveUserLogOutFlow.postValue(NetworkResult.Error(e.toString()))
+        }
     }
 }

@@ -14,6 +14,7 @@ import com.app.networking.repository.RetrofitServiceRepository
 import com.app.sportify.R
 import com.app.sportify.model.UserError
 import com.app.sportify.utils.NetworkResult
+import com.app.sportify.utils.UserManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.runBlocking
@@ -41,7 +42,7 @@ class LoginViewModel @Inject constructor(
     val liveUserFlow: MutableLiveData<NetworkResult<TokenResponse>> = MutableLiveData()
     val liveUserAuthFlow: MutableLiveData<NetworkResult<UserAuth>> = MutableLiveData()
 
-    fun onRegistrationClicked(): Boolean {
+    fun onLoginClicked(): Boolean {
         // Handle Errors
         var isValid = true
         if (liveUser.value?.username.isNullOrEmpty()) {
@@ -64,6 +65,7 @@ class LoginViewModel @Inject constructor(
     }
 
     private fun login(userLogin: UserLogin) {
+        liveUserFlow.postValue(NetworkResult.Loading())
         val call: Call<TokenResponse> = repository.login(userLogin)
         call.enqueue(object : Callback<TokenResponse> {
             override fun onResponse(
@@ -93,6 +95,7 @@ class LoginViewModel @Inject constructor(
     }
 
     private fun getAuthUser() {
+        liveUserAuthFlow.postValue(NetworkResult.Loading())
         val call: Call<UserAuth> = repositoryAuth.getUserConnected()
         call.enqueue(object : Callback<UserAuth> {
             override fun onResponse(
@@ -100,6 +103,9 @@ class LoginViewModel @Inject constructor(
                 response: Response<UserAuth>
             ) {
                 if (response.isSuccessful) {
+                    // Save User Data
+                    val user = UserManager(context)
+                    user.saveUserAuth(response.body()!!)
                     liveUserAuthFlow.postValue(NetworkResult.Success(response.body()))
                 } else {
                     liveUserAuthFlow.postValue(
