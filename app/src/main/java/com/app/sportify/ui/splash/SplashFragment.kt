@@ -23,7 +23,7 @@ class SplashFragment : Fragment(R.layout.fragment_splash) {
         viewModel.isLogged()
         // To show progressBar when loading data
         viewModel.isLogged.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
-            Log.d("it", it.toString())
+            Log.d("isLogged", it.toString())
             val destination = when (it) {
                 //TODO
                 "noLogged" -> SplashFragmentDirections.actionSplashFragmentToWelcomeFragment()

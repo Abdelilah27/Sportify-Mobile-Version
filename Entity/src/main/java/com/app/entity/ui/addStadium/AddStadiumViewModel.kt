@@ -48,7 +48,6 @@ class AddStadiumViewModel @Inject constructor(
 
 
     fun onRegistrationClicked(
-        numberOfPlayer: String,
         price: String,
         pickedBitMap: Uri?,
     ): Boolean {
@@ -57,31 +56,18 @@ class AddStadiumViewModel @Inject constructor(
         if (liveStadium.value?.name.isNullOrEmpty()) {
             _liveStadiumError.postValue(StadiumError(nameError = R.string.name_error))
             isValid = false
-        } else if (numberOfPlayer.isEmpty()) {
-            _liveStadiumError.postValue(StadiumError(numberOfPlayerError = R.string.number_error))
-            isValid = false
         } else if (price.isEmpty()) {
             _liveStadiumError.postValue(StadiumError(priceError = R.string.price_error))
             isValid = false
         } else if (liveStadium.value?.location.isNullOrEmpty()) {
             _liveStadiumError.postValue(StadiumError(locationError = R.string.location_error))
             isValid = false
-        } else if (!Time24HoursValidator(
-                liveStadium.value?.disponibility_from!!,
-            )
-        ) {
+        } else if(liveStadium.value?.disponibility_from.isNullOrEmpty()){
             _liveStadiumError.postValue(StadiumError(disponibility_from = R.string.disponibility_error))
             isValid = false
-        } else if (!Time24HoursValidator(
-                liveStadium.value?.disponibility_to!!
-            )
-        ) {
-            _liveStadiumError.postValue(
-                StadiumError(
-                    disponibility_to = R.string
-                        .disponibility_error
-                )
-            )
+        }
+        else if(liveStadium.value?.disponibility_to.isNullOrEmpty()){
+            _liveStadiumError.postValue(StadiumError(disponibility_to = R.string.disponibility_error))
             isValid = false
         }
         if (isValid) {
@@ -169,7 +155,4 @@ class AddStadiumViewModel @Inject constructor(
             })
         }
     }
-
-    private fun Time24HoursValidator(disponibility: String): Boolean =
-        disponibility.matches(TIME24HOURS_PATTERN)
 }

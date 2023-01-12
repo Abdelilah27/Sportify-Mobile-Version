@@ -50,12 +50,8 @@ class StadiumsAdapter(val context: Context, private val onItemSelected: OnItemSe
             }
             holder.title.text = it.name
             holder.location.text = it.location
-            try {
-                holder.numberOfPlayer.text = it.seances?.first()?.nbreParticipant.toString() + PLAYERS
-            }catch (e: Exception){
-                holder.numberOfPlayer.text = ""
-                Log.d("Exception", e.message.toString())
-            }
+                holder.numberOfPlayer.text = PLAYERS
+
             holder.price.text = it.price.toString() + MAD
             holder.description.text = it.description
             val stadiumImage = GETSTADIUMIMAGE + it.imgFileName

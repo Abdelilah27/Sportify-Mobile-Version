@@ -2,6 +2,7 @@ package com.app.entity.ui.addStadium
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -13,6 +14,9 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.view.View
+import android.widget.DatePicker
+import android.widget.TimePicker
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -24,15 +28,18 @@ import com.app.entity.utils.ConstUtil.TEXTINPUTIMAGE
 import com.app.entity.utils.NetworkResult
 import com.app.entity.utils.PIBaseActivity
 import dagger.hilt.android.AndroidEntryPoint
+import java.text.SimpleDateFormat
 import java.util.*
 
 
 @AndroidEntryPoint
-class AddStadiumFragment : Fragment(R.layout.fragment_add_stadium) {
+class AddStadiumFragment : Fragment(R.layout.fragment_add_stadium){
     private val viewModel: AddStadiumViewModel by viewModels()
     lateinit var binding: FragmentAddStadiumBinding
     var pickedPhoto: Uri? = null
     var pickedBitMap: Bitmap? = null
+    private var selectedDateTime: Calendar = Calendar.getInstance()
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -48,10 +55,8 @@ class AddStadiumFragment : Fragment(R.layout.fragment_add_stadium) {
     private fun initUI(addStadiumBinding: FragmentAddStadiumBinding) {
         // Add new stadium
         addStadiumBinding.addNewStadium.setOnClickListener {
-            val numberOfPlayer = addStadiumBinding.stadiumNumberPlayer.text.toString()
             val price = addStadiumBinding.stadiumPrice.text.toString()
             viewModel.onRegistrationClicked(
-                numberOfPlayer,
                 price,
                 pickedPhoto
             )
@@ -74,49 +79,85 @@ class AddStadiumFragment : Fragment(R.layout.fragment_add_stadium) {
             }
         })
 
-        // To show the TimePicker
-        addStadiumBinding.stadiumDisponibilityFrom.setOnFocusChangeListener { _, hasFocus ->
-            val currentTime = Calendar.getInstance()
-            val startHour = currentTime.get(Calendar.HOUR_OF_DAY)
-            val startMinute = currentTime.get(Calendar.MINUTE)
-            if (hasFocus) {
-                TimePickerDialog(
-                    requireContext(),
-                    R.style.DialogTheme,
-                    { _, hourOfDay, minute ->
-                        addStadiumBinding.stadiumDisponibilityFrom.setText("$hourOfDay")
-                    },
-                    startHour,
-                    startMinute,
-                    false
-                ).show()
-            }
+        // To show the DateTimePicker
+        addStadiumBinding.stadiumDisponibilityFrom.setOnClickListener {
+            val datePickerDialog = DatePickerDialog(
+                requireContext(),
+                datePickerListenerFrom,
+                selectedDateTime.get(Calendar.YEAR),
+                selectedDateTime.get(Calendar.MONTH),
+                selectedDateTime.get(Calendar.DAY_OF_MONTH)
+            )
+            datePickerDialog.show()
         }
-        addStadiumBinding.stadiumDisponibilityTo.setOnFocusChangeListener { _, hasFocus ->
-            val currentTime = Calendar.getInstance()
-            val startHour = currentTime.get(Calendar.HOUR_OF_DAY)
-            val startMinute = currentTime.get(Calendar.MINUTE)
-            if (hasFocus) {
-                TimePickerDialog(
-                    requireContext(),
-                    R.style.DialogTheme,
-                    { _, hourOfDay, minute ->
-                        addStadiumBinding.stadiumDisponibilityTo.setText("$hourOfDay")
-                    },
-                    startHour,
-                    startMinute,
-                    false
-                ).show()
-            }
+        addStadiumBinding.stadiumDisponibilityTo.setOnClickListener {
+            val datePickerDialog = DatePickerDialog(
+                requireContext(),
+                datePickerListenerTo,
+                selectedDateTime.get(Calendar.YEAR),
+                selectedDateTime.get(Calendar.MONTH),
+                selectedDateTime.get(Calendar.DAY_OF_MONTH)
+            )
+            datePickerDialog.show()
         }
 
+
         // To load image from storage
-        addStadiumBinding.stadiumImage.setOnFocusChangeListener { _, hasFocus ->
-            if (hasFocus) {
-                pickPhoto()
-            }
+        addStadiumBinding.stadiumImage.setOnClickListener {
+            pickPhoto()
         }
     }
+
+    // Handle the date picker events
+    private val datePickerListenerFrom = DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
+        selectedDateTime.set(Calendar.YEAR, year)
+        selectedDateTime.set(Calendar.MONTH, month)
+        selectedDateTime.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+        val timePickerDialog = TimePickerDialog(
+            requireContext(),
+            timePickerListenerFrom,
+            selectedDateTime.get(Calendar.HOUR_OF_DAY),
+            selectedDateTime.get(Calendar.MINUTE),
+            true
+        )
+        timePickerDialog.show()
+    }
+
+    // Handle the time picker events
+    private val timePickerListenerFrom = TimePickerDialog.OnTimeSetListener { _, hourOfDay, _ ->
+        selectedDateTime.set(Calendar.HOUR_OF_DAY, hourOfDay)
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
+        val selectedDate = dateFormat.format(selectedDateTime.time)
+        binding.stadiumDisponibilityFrom.setText("$selectedDate")
+    }
+
+    // Handle the date picker events
+    private val datePickerListenerTo = DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
+        selectedDateTime.set(Calendar.YEAR, year)
+        selectedDateTime.set(Calendar.MONTH, month)
+        selectedDateTime.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+        val timePickerDialog = TimePickerDialog(
+            requireContext(),
+            timePickerListenerTo,
+            selectedDateTime.get(Calendar.HOUR_OF_DAY),
+            selectedDateTime.get(Calendar.MINUTE),
+            true
+        )
+        timePickerDialog.show()
+    }
+
+    // Handle the time picker events
+    private val timePickerListenerTo = TimePickerDialog.OnTimeSetListener { _, hourOfDay, _ ->
+        selectedDateTime.set(Calendar.HOUR_OF_DAY, hourOfDay)
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
+        val selectedDate = dateFormat.format(selectedDateTime.time)
+        binding.stadiumDisponibilityTo.setText("$selectedDate")
+    }
+
+
+
+
+
 
     //------ Load image from storage
     private fun pickPhoto() {
