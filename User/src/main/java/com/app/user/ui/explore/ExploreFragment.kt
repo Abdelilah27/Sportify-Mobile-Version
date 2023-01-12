@@ -1,10 +1,12 @@
 package com.app.user.ui.explore
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.app.user.R
 import com.app.user.UserMainActivity
@@ -18,6 +20,9 @@ import com.app.user.utils.NetworkResult
 import com.app.user.utils.OnItemSelectedInterface
 import com.app.user.utils.PIBaseActivity
 import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.scopes.ViewModelScoped
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class ExploreFragment : Fragment(R.layout.fragment_explore), OnItemSelectedInterface {
@@ -35,15 +40,22 @@ class ExploreFragment : Fragment(R.layout.fragment_explore), OnItemSelectedInter
     }
 
     private fun initUI(binding: FragmentExploreBinding) {
-        // init data
-        viewModel.getAuthUser()
+        GlobalScope.launch {
+            // init data
+            viewModel.getAuthUser()
+            // get Entities
+            viewModel.getEntitiesList()
+        }
+
         // Observe User Data To Display Name
         viewModel.liveUser.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
             it.apply {
                 binding.profileName.text = username
             }
         })
-        // To show progressBar when loading data
+
+
+        // To show progressBar when loading user name data
         viewModel.liveUserAuthFlow.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
             when (it) {
                 is NetworkResult.Success -> {
@@ -53,9 +65,7 @@ class ExploreFragment : Fragment(R.layout.fragment_explore), OnItemSelectedInter
                 is NetworkResult.Error -> {
                     (activity as PIBaseActivity).dismissProgressDialog("Profile explore")
                     Toast.makeText(
-                        requireContext(),
-                        R.string.profile,
-                        Toast.LENGTH_LONG
+                        requireContext(), R.string.profile, Toast.LENGTH_LONG
                     ).show()
                 }
                 is NetworkResult.Loading -> {
@@ -72,31 +82,27 @@ class ExploreFragment : Fragment(R.layout.fragment_explore), OnItemSelectedInter
                 LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             setHasFixedSize(true)
         }
-        // Set Static Data
-        var entity = Entity(id = 1, name = "Palmarena", location = "123, Marrakech")
-        var entity2 = Entity(id = 2, name = "Sareem Foot", location = "123, Marrakech")
-        var entity3 = Entity(id = 3, name = "Urban 5", location = "123, Marrakech")
-        var entity4 = Entity(id = 4, name = "Kick Of", location = "123, Marrakech")
-        var myList: ArrayList<Entity> = ArrayList()
-        myList.add(entity)
-        myList.add(entity4)
-        myList.add(entity2)
-        myList.add(entity3)
-        entitiesAdapter.setData(myList)
+        // Set data to adapter
+        viewModel.entities.observe(viewLifecycleOwner, Observer {
+            entitiesAdapter.setData(it)
+        })
 
         // Setup our nearby recycler
         binding.recyclerNearby.apply {
             nearbyAdapter = NearbyEventAdapter(context, this@ExploreFragment)
             adapter = nearbyAdapter
-            layoutManager =
-                LinearLayoutManager(requireContext())
+            layoutManager = LinearLayoutManager(requireContext())
             setHasFixedSize(true)
         }
 
         // Set Static Data
         var event = Event(
-            id = 1, name = "Palmarena", location = "123, Marrakech", numberOfPlayer
-            = "10", price = "200", date = "10PM - 11PM"
+            id = 1,
+            name = "Palmarena",
+            location = "123, Marrakech",
+            numberOfPlayer = "10",
+            price = "200",
+            date = "10PM - 11PM"
         )
 
         var myList2: ArrayList<Event> = ArrayList()
@@ -107,6 +113,25 @@ class ExploreFragment : Fragment(R.layout.fragment_explore), OnItemSelectedInter
         myList2.add(event)
         myList2.add(event)
         nearbyAdapter.setData(myList2)
+
+
+        // Error Handling get EntitiesList
+        viewModel.liveDataFlow.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+            when (it) {
+                is NetworkResult.Success -> {
+                    (activity as PIBaseActivity).dismissProgressDialog("Entities")
+                }
+                is NetworkResult.Error -> {
+                    (activity as PIBaseActivity).dismissProgressDialog("Entities")
+                    Toast.makeText(
+                        requireContext(), R.string.something_goes_wrong_s, Toast.LENGTH_LONG
+                    ).show()
+                }
+                is NetworkResult.Loading -> {
+                    (activity as PIBaseActivity).showProgressDialog("Entities")
+                }
+            }
+        })
     }
 
     override fun onItemClick(position: Int) {

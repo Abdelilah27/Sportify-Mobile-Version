@@ -14,6 +14,7 @@ import com.app.entity.utils.RealPathUtil
 import com.app.networking.api.AuthRetrofitServiceInterface
 import com.app.networking.model.entity.Stadium
 import com.app.networking.model.entity.response.StadiumResponse
+import com.app.networking.repository.AuthRetrofitServiceRepository
 import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -33,7 +34,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AddStadiumViewModel @Inject constructor(
-    private val repository: AuthRetrofitServiceInterface,
+    private val repository: AuthRetrofitServiceRepository,
     @ApplicationContext private val context: Context
 ) :
     ViewModel() {
