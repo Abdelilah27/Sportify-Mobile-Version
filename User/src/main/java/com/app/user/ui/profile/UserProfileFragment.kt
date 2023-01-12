@@ -1,11 +1,13 @@
 package com.app.user.ui.profile
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.app.user.R
+import com.app.user.UserMainActivity
 import com.app.user.databinding.FragmentUserProfileBinding
 import com.app.user.utils.NetworkResult
 import com.app.user.utils.PIBaseActivity
@@ -39,7 +41,6 @@ class UserProfileFragment : Fragment(R.layout.fragment_user_profile) {
             when (it) {
                 is NetworkResult.Success -> {
                     (activity as PIBaseActivity).dismissProgressDialog("Profile")
-
                 }
                 is NetworkResult.Error -> {
                     (activity as PIBaseActivity).dismissProgressDialog("Profile")
@@ -55,5 +56,31 @@ class UserProfileFragment : Fragment(R.layout.fragment_user_profile) {
                 }
             }
         })
+
+        // To show progressBar when log out
+        viewModel.liveUserLogOutFlow.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+            when (it) {
+                is NetworkResult.Success -> {
+                    (activity as PIBaseActivity).dismissProgressDialog("LogOut")
+                    activity?.finish()
+                }
+                is NetworkResult.Error -> {
+                    (activity as PIBaseActivity).dismissProgressDialog("LogOut")
+                    Toast.makeText(
+                        requireContext(),
+                        R.string.something_goes_wrong_s,
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+                is NetworkResult.Loading -> {
+                    (activity as PIBaseActivity).showProgressDialog("LogOut")
+                }
+            }
+        })
+
+        // when log out button is pressed
+        binding.logOut.setOnClickListener {
+            viewModel.logOut()
+        }
     }
 }

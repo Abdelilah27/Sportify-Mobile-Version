@@ -67,7 +67,6 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                             LoginFragmentDirections.actionLoginFragmentToEntityMainActivity()
                         findNavController().navigate(action)
                     } else {
-                        Log.d("TAG", "initUI:00 ")
                         // Send to User Module
                         val action =
                             LoginFragmentDirections.actionLoginFragmentToUserMainActivity()
@@ -94,5 +93,27 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                 LoginFragmentDirections.actionLoginFragmentToRegistrationFragment()
             findNavController().navigate(action)
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        viewModel.liveUserAuthFlow.removeObservers(viewLifecycleOwner)
+        viewModel.liveUserFlow.removeObservers(viewLifecycleOwner)
+        clearInput()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        clearInput()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        clearInput()
+    }
+
+    private fun clearInput() {
+        binding.emailLoginFragment.setText("")
+        binding.passwordLoginFragment.setText("")
     }
 }

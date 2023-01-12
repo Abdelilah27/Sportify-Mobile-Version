@@ -1,10 +1,12 @@
 package com.app.entity.ui.profile
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.app.entity.EntityMainActivity
 import com.app.entity.R
 import com.app.entity.databinding.FragmentEntityProfileBinding
 import com.app.entity.utils.NetworkResult
@@ -59,7 +61,7 @@ class EntityProfileFragment : Fragment(R.layout.fragment_entity_profile) {
             when (it) {
                 is NetworkResult.Success -> {
                     (activity as PIBaseActivity).dismissProgressDialog("LogOut")
-                    // TODO
+                    activity?.finish()
                 }
                 is NetworkResult.Error -> {
                     (activity as PIBaseActivity).dismissProgressDialog("LogOut")
@@ -74,12 +76,10 @@ class EntityProfileFragment : Fragment(R.layout.fragment_entity_profile) {
                 }
             }
         })
-
-
         // when log out button is pressed
         binding.logOut.setOnClickListener {
             viewModel.logOut()
         }
-
     }
+
 }

@@ -26,6 +26,8 @@
     <string name="m">M</string>
     <string name="edit_profile">Edit Profile</string>
     <string name="log_out">Log out</string>
+    <string name="something_goes_wrong_s">Something goes wrong</string>
+
 
 
 </resources>
