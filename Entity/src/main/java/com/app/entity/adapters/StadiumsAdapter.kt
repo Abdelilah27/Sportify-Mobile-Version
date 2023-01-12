@@ -2,6 +2,8 @@ package com.app.entity.adapters
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.os.Build
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.app.entity.R
 import com.app.entity.utils.ConstUtil.MAD
 import com.app.entity.utils.ConstUtil.PLAYERS
+import com.app.entity.utils.FunUtil.reformatDate
 import com.app.entity.utils.OnItemSelectedInterface
 import com.app.networking.model.entity.Stadium
 import com.app.networking.utils.ConstUtil.GETSTADIUMIMAGE
@@ -38,10 +41,21 @@ class StadiumsAdapter(val context: Context, private val onItemSelected: OnItemSe
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         myList[position].let {
             holder.id.text = it.id.toString()
-            holder.date.text = it.disponibility_from + "-" + it.disponibility_to
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                holder.date.text = reformatDate(it.disponibility_from.toString()) + " | " + reformatDate(
+                    it.disponibility_to.toString()
+                )
+            }else{
+                holder.date.text = ""
+            }
             holder.title.text = it.name
             holder.location.text = it.location
-            holder.numberOfPlayer.text = it.numberOfPlayer.toString() + PLAYERS
+            try {
+                holder.numberOfPlayer.text = it.seances?.first()?.nbreParticipant.toString() + PLAYERS
+            }catch (e: Exception){
+                holder.numberOfPlayer.text = ""
+                Log.d("Exception", e.message.toString())
+            }
             holder.price.text = it.price.toString() + MAD
             holder.description.text = it.description
             val stadiumImage = GETSTADIUMIMAGE + it.imgFileName

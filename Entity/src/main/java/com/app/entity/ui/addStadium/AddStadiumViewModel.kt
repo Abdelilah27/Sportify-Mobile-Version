@@ -89,9 +89,7 @@ class AddStadiumViewModel @Inject constructor(
 
             val stadiumInfo =
                 liveStadium.value!!.copy(
-                    price = price.toInt(),
-                    numberOfPlayer = numberOfPlayer.toInt()
-                )
+                    price = price.toInt())
             // For stadium attributes
             val gson = Gson()
             val terrainJSON = gson.toJson(stadiumInfo)

@@ -96,7 +96,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="right"
                 android:maxLines="1"
-                android:text=" Players"
+                android:text=""
                 tools:ignore="RtlHardcoded" />
 
             <TextView
@@ -106,7 +106,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="right"
                 android:maxLines="1"
-                android:text=" MAD"
+                android:text=""
                 tools:ignore="RtlHardcoded" />
 
             <TextView

@@ -18,10 +18,14 @@ data class Stadium(
     var location: String? = "",
     @SerializedName("name")
     var name: String? = "",
-    @SerializedName("numberOfPlayer")
-    var numberOfPlayer: Int = 0,
+    //@SerializedName("numberOfPlayer")
+    //var numberOfPlayer: Int = 0,
     @SerializedName("price")
     var price: Int = 0,
+    @SerializedName("entity")
+    val entity: String? = "",
+    @SerializedName("seances")
+    val seances: List<Seance>? = listOf()
 ) : Serializable {
 
 }
