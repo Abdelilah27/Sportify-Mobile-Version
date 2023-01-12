@@ -30,6 +30,7 @@ class UserProfileViewModel @Inject constructor(
 
 
     fun getAuthUser() {
+        liveUserAuthFlow.postValue(NetworkResult.Loading())
         val call: Call<UserAuth> = repository.getUserConnected()
         call.enqueue(object : Callback<UserAuth> {
             override fun onResponse(

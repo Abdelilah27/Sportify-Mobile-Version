@@ -1,9 +1,20 @@
 package com.app.user.ui.explore
 
+import android.Manifest
+import android.annotation.SuppressLint
+import android.app.Activity
+import android.content.Context
+import android.content.pm.PackageManager
+import android.location.Location
+import android.location.LocationListener
+import android.location.LocationManager
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -19,10 +30,14 @@ import com.app.user.ui.bottomNavUser.BottomNavUserFragmentDirections
 import com.app.user.utils.NetworkResult
 import com.app.user.utils.OnItemSelectedInterface
 import com.app.user.utils.PIBaseActivity
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.scopes.ViewModelScoped
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 @AndroidEntryPoint
 class ExploreFragment : Fragment(R.layout.fragment_explore), OnItemSelectedInterface {
@@ -36,12 +51,47 @@ class ExploreFragment : Fragment(R.layout.fragment_explore), OnItemSelectedInter
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
         binding = FragmentExploreBinding.bind(view)
+        getLocation()
         initUI(binding)
     }
 
+    private fun getLocation() {
+        val locationManager =
+            activity?.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        val location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+        if (location != null) {
+            val altitude = location.altitude
+            val longitude = location.longitude
+            val latitude = location.latitude
+            Log.d("altitude", altitude.toString())
+            Log.d("longitude", longitude.toString())
+            Log.d("latitude", latitude.toString())
+        }
+
+        if (ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return
+        }
+
+    }
+
+
     private fun initUI(binding: FragmentExploreBinding) {
-        GlobalScope.launch {
-            // init data
+        GlobalScope.launch(Dispatchers.IO) {
+            // init user data
             viewModel.getAuthUser()
             // get Entities
             viewModel.getEntitiesList()
@@ -54,26 +104,6 @@ class ExploreFragment : Fragment(R.layout.fragment_explore), OnItemSelectedInter
             }
         })
 
-
-        // To show progressBar when loading user name data
-        viewModel.liveUserAuthFlow.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
-            when (it) {
-                is NetworkResult.Success -> {
-                    (activity as PIBaseActivity).dismissProgressDialog("Profile explore")
-
-                }
-                is NetworkResult.Error -> {
-                    (activity as PIBaseActivity).dismissProgressDialog("Profile explore")
-                    Toast.makeText(
-                        requireContext(), R.string.profile, Toast.LENGTH_LONG
-                    ).show()
-                }
-                is NetworkResult.Loading -> {
-                    (activity as PIBaseActivity).showProgressDialog("Profile explore")
-
-                }
-            }
-        })
         // Setup our recycler
         binding.recyclerPopularEntities.apply {
             entitiesAdapter = EntitiesAdapter(context, this@ExploreFragment)
@@ -134,6 +164,7 @@ class ExploreFragment : Fragment(R.layout.fragment_explore), OnItemSelectedInter
         })
     }
 
+
     override fun onItemClick(position: Int) {
         val args = position.toString()
         val action =
@@ -142,6 +173,4 @@ class ExploreFragment : Fragment(R.layout.fragment_explore), OnItemSelectedInter
             )
         UserMainActivity.navController.navigate(action)
     }
-
-
 }
