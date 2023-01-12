@@ -12,6 +12,7 @@ import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.getSystemService
@@ -24,6 +25,7 @@ import com.app.networking.model.entity.ListStadium
 import com.app.networking.model.user.UserAuth
 import com.app.networking.repository.AuthRetrofitServiceRepository
 import com.app.user.model.Entity
+import com.app.user.utils.ConstUtil
 import com.app.user.utils.NetworkResult
 import dagger.hilt.android.internal.Contexts.getApplication
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -43,7 +45,7 @@ class ExploreViewModel @Inject constructor(
     @ApplicationContext private val context: Context,
 
 
-) : ViewModel() {
+    ) : ViewModel() {
     // Progress Bar
     val liveDataFlow: MutableLiveData<NetworkResult<String>> = MutableLiveData()
 
@@ -53,14 +55,55 @@ class ExploreViewModel @Inject constructor(
     private val _liveUserData = MutableLiveData<UserAuth>(UserAuth())
     val liveUser: LiveData<UserAuth> = _liveUserData
 
-
-    // LiveData to hold the current city name
-    val currentLocation: MutableLiveData<Location> = MutableLiveData()
-
+    val currentLocation: MutableLiveData<String?> = MutableLiveData()
 
     init {
         liveDataFlow.postValue(NetworkResult.Loading())
     }
+
+    suspend fun getLocation(activity: Activity) {
+        val locationManager =
+            activity.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        val location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+        if (location != null) {
+            try {
+                val longitude = location.longitude
+                val latitude = location.latitude
+                if (Geocoder.isPresent()) {
+                    val geocoder = Geocoder(context, Locale.getDefault())
+                    val addresses = geocoder.getFromLocation(latitude, longitude, 1)
+                    val cityName = addresses[0].locality
+                    // Store Location
+                    ConstUtil.CITYNAME = cityName
+                    ConstUtil.LONGITUDE = longitude
+                    ConstUtil.ALTITUDE = latitude
+                    currentLocation.postValue(cityName)
+                }
+            } catch (e: Exception) {
+                currentLocation.postValue(null)
+            }
+        }
+
+        if (ActivityCompat.checkSelfPermission(
+                context,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                context,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return
+        }
+
+    }
+
 
     suspend fun getAuthUser() {
         val call: Call<UserAuth> = repository.getUserConnected()
@@ -85,7 +128,6 @@ class ExploreViewModel @Inject constructor(
             call.enqueue(object : Callback<ListStadium> {
                 override fun onResponse(call: Call<ListStadium>, response: Response<ListStadium>) {
                     if (response.isSuccessful) {
-                        Log.d("response", response.body().toString())
                         extractEntities(response)
                     }
                 }
@@ -115,8 +157,6 @@ class ExploreViewModel @Inject constructor(
             }
             // Remove duplicate entities
             val distinctEntities = entitiesList.distinctBy { it.name }
-            Log.d("distinctEntities", distinctEntities.toString())
-
             _entities.postValue(distinctEntities)
             liveDataFlow.postValue(NetworkResult.Success("Success"))
 

@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
+import android.location.Geocoder
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
@@ -27,6 +28,7 @@ import com.app.user.databinding.FragmentExploreBinding
 import com.app.user.model.Entity
 import com.app.user.model.Event
 import com.app.user.ui.bottomNavUser.BottomNavUserFragmentDirections
+import com.app.user.utils.ConstUtil
 import com.app.user.utils.NetworkResult
 import com.app.user.utils.OnItemSelectedInterface
 import com.app.user.utils.PIBaseActivity
@@ -38,6 +40,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.util.*
+import kotlin.collections.ArrayList
 
 @AndroidEntryPoint
 class ExploreFragment : Fragment(R.layout.fragment_explore), OnItemSelectedInterface {
@@ -51,56 +55,30 @@ class ExploreFragment : Fragment(R.layout.fragment_explore), OnItemSelectedInter
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
         binding = FragmentExploreBinding.bind(view)
-        getLocation()
         initUI(binding)
     }
-
-    private fun getLocation() {
-        val locationManager =
-            activity?.getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        val location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
-        if (location != null) {
-            val altitude = location.altitude
-            val longitude = location.longitude
-            val latitude = location.latitude
-            Log.d("altitude", altitude.toString())
-            Log.d("longitude", longitude.toString())
-            Log.d("latitude", latitude.toString())
-        }
-
-        if (ActivityCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return
-        }
-
-    }
-
 
     private fun initUI(binding: FragmentExploreBinding) {
         GlobalScope.launch(Dispatchers.IO) {
             // init user data
             viewModel.getAuthUser()
+            // get Location
+            viewModel.getLocation(requireActivity())
             // get Entities
             viewModel.getEntitiesList()
         }
-
         // Observe User Data To Display Name
         viewModel.liveUser.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
             it.apply {
                 binding.profileName.text = username
+            }
+        })
+
+        viewModel.currentLocation.observe(viewLifecycleOwner, Observer {
+            if (!it.isNullOrEmpty()) {
+                binding.profileLocation.text = it
+            } else {
+                binding.profileName.visibility = View.GONE
             }
         })
 
@@ -173,4 +151,5 @@ class ExploreFragment : Fragment(R.layout.fragment_explore), OnItemSelectedInter
             )
         UserMainActivity.navController.navigate(action)
     }
+
 }

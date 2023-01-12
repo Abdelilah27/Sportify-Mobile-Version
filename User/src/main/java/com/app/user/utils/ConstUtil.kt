@@ -5,4 +5,6 @@ object ConstUtil {
     const val PLAYERS = " Players"
     const val GOING = " Going"
     var CITYNAME: String? = null
+    var LONGITUDE: Double? = null
+    var ALTITUDE: Double? = null
 }
