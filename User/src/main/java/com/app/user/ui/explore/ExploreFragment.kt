@@ -15,6 +15,7 @@ import com.app.user.adapters.NearbyEventAdapter
 import com.app.user.databinding.FragmentExploreBinding
 import com.app.user.model.Event
 import com.app.user.ui.bottomNavUser.BottomNavUserFragmentDirections
+import com.app.user.utils.ConstUtil.USERAUTH
 import com.app.user.utils.NetworkResult
 import com.app.user.utils.OnItemSelectedInterface
 import com.app.user.utils.PIBaseActivity
@@ -41,23 +42,14 @@ class ExploreFragment : Fragment(R.layout.fragment_explore), OnItemSelectedInter
     }
 
     private fun initUI(binding: FragmentExploreBinding) {
+        binding.profileName.text = USERAUTH.username
         GlobalScope.launch(Dispatchers.IO) {
-            // init user data
-            viewModel.getAuthUser()
-            // get Location
-            withContext(Dispatchers.Main){
-                viewModel.getLocation(requireActivity())
-            }
             // get Entities
             viewModel.getEntitiesList()
         }
-        // Observe User Data To Display Name
-        viewModel.liveUser.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
-            it.apply {
-                binding.profileName.text = username
-            }
-        })
-
+        GlobalScope.launch {
+            viewModel.getLocation(requireActivity())
+        }
         viewModel.currentLocation.observe(viewLifecycleOwner, Observer {
             if (!it.isNullOrEmpty()) {
                 binding.profileLocation.text = it

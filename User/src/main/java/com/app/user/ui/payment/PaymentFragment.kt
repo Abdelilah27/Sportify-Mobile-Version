@@ -69,6 +69,11 @@ class PaymentFragment : Fragment(R.layout.fragment_payment) {
                 }
             }
         })
+
+        binding.mainButtonPaymentFragment.setOnClickListener {
+            
+        }
+
         binding.backButton.setOnClickListener {
             findNavController().navigateUp()
         }

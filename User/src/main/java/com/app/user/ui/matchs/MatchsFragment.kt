@@ -68,4 +68,10 @@ class MatchsFragment : Fragment(R.layout.fragment_matchs) {
             }
         })
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        viewModel.stadiumsData.removeObservers(viewLifecycleOwner)
+        viewModel.liveDataFlow.removeObservers(viewLifecycleOwner)
+    }
 }

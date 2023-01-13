@@ -62,6 +62,7 @@ class ExploreViewModel @Inject constructor(
     }
 
     suspend fun getLocation(activity: Activity) {
+        Log.d("getLocation", "getLocation: ")
         if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // Request the permission
             val REQUEST_CODE = 1
@@ -71,7 +72,12 @@ class ExploreViewModel @Inject constructor(
             val locationManager =
                 activity.getSystemService(Context.LOCATION_SERVICE) as LocationManager
             val location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+            val longitude = location?.longitude
+            val latitude = location?.latitude
+            Log.d("longitude", longitude.toString())
+            Log.d("latitude", latitude.toString())
             if (location != null) {
+                Log.d("getLocation2", "getLocation: ")
                 try {
                     val longitude = location.longitude
                     val latitude = location.latitude
@@ -95,23 +101,6 @@ class ExploreViewModel @Inject constructor(
         }
 
 
-    }
-
-
-    suspend fun getAuthUser() {
-        val call: Call<UserAuth> = repository.getUserConnected()
-        call.enqueue(object : Callback<UserAuth> {
-            override fun onResponse(
-                call: Call<UserAuth>, response: Response<UserAuth>
-            ) {
-                if (response.isSuccessful) {
-                    _liveUserData.postValue(response.body())
-                }
-            }
-
-            override fun onFailure(call: Call<UserAuth>, t: Throwable) {
-            }
-        })
     }
 
     suspend fun getEntitiesList(): ArrayList<ListStadium> {
