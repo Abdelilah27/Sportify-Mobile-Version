@@ -1,7 +1,10 @@
 package com.app.user.ui.stadiumList
 
+import android.annotation.SuppressLint
 import android.content.Context
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -17,14 +20,19 @@ import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.text.SimpleDateFormat
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.util.*
 import javax.inject.Inject
+import kotlin.collections.ArrayList
 
 
 @HiltViewModel
 class StadiumListViewModel @Inject constructor(
     private val repository: AuthRetrofitServiceRepository,
     @ApplicationContext private val context: Context,
-    ) : ViewModel() {
+) : ViewModel() {
     // Handle error
     val liveDataFlow: MutableLiveData<NetworkResult<ListStadium>> = MutableLiveData()
     private val _stadiums = MutableLiveData<List<Stadium>>()
@@ -37,7 +45,9 @@ class StadiumListViewModel @Inject constructor(
             call.enqueue(object : Callback<ListStadium> {
                 override fun onResponse(call: Call<ListStadium>, response: Response<ListStadium>) {
                     if (response.isSuccessful) {
-                        response.body()?.let { extractListByName(entityName, it) }
+                        response.body()?.let {
+                            extractListByName(entityName, it)
+                        }
                         liveDataFlow.postValue(NetworkResult.Success(response.body()))
                     } else {
                         liveDataFlow.postValue(NetworkResult.Error(response.body().toString()))
@@ -53,10 +63,35 @@ class StadiumListViewModel @Inject constructor(
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.N)
+    @SuppressLint("SimpleDateFormat", "NewApi")
+    fun getAvailableStadiums(stadiums: List<Stadium>, day: Int): List<Stadium> {
+        val formatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+        return stadiums.filter { stadium ->
+            try {
+                val disponibilityFrom = formatter.parse(stadium.disponibility_from)
+                val disponibilityTo = formatter.parse(stadium.disponibility_to)
+                val calFrom = Calendar.getInstance().apply { time = disponibilityFrom }
+                val calTo = Calendar.getInstance().apply { time = disponibilityTo }
+                (calFrom.get(Calendar.DAY_OF_MONTH) == day) && (calTo.get(Calendar.DAY_OF_MONTH) == day)
+            } catch (e: java.text.ParseException) {
+                // handle the exception here
+                println("Error while parsing date: ${e.message}")
+                // or you can return false to filter out this element
+                false
+            }
+        }
+    }
+
+
+
+
+
+
     private fun extractListByName(entityName: String, body: ListStadium) {
         val stadiumsList = ArrayList<Stadium>()
         body.forEach {
-            if(it.entity == entityName){
+            if (it.entity == entityName) {
                 stadiumsList.add(it)
             }
         }

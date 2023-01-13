@@ -22,6 +22,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kotlin.collections.ArrayList
 
 @AndroidEntryPoint
@@ -44,7 +45,9 @@ class ExploreFragment : Fragment(R.layout.fragment_explore), OnItemSelectedInter
             // init user data
             viewModel.getAuthUser()
             // get Location
-            viewModel.getLocation(requireActivity())
+            withContext(Dispatchers.Main){
+                viewModel.getLocation(requireActivity())
+            }
             // get Entities
             viewModel.getEntitiesList()
         }

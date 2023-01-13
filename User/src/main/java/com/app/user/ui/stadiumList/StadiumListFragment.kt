@@ -1,29 +1,31 @@
 package com.app.user.ui.stadiumList
 
 import android.app.DatePickerDialog
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.View
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.app.networking.model.entity.Stadium
 import com.app.user.R
 import com.app.user.UserMainActivity
 import com.app.user.adapters.ListStadiumAdapter
 import com.app.user.databinding.FragmentStadiumListBinding
-import com.app.user.ui.bottomNavUser.BottomNavUserFragmentDirections
 import com.app.user.utils.NetworkResult
-import com.app.user.utils.OnItemSelectedInterface
 import com.app.user.utils.OnItemSelectedInterfaceWithArguments
 import com.app.user.utils.PIBaseActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.util.*
+import kotlin.collections.ArrayList
 
 @AndroidEntryPoint
 class StadiumListFragment : Fragment(R.layout.fragment_stadium_list),
@@ -33,6 +35,10 @@ class StadiumListFragment : Fragment(R.layout.fragment_stadium_list),
     private lateinit var stadiumAdapter: ListStadiumAdapter
     private val args: StadiumListFragmentArgs by navArgs()
 
+    private var stadiumsArray = ArrayList<Stadium> ()
+
+
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
@@ -40,6 +46,7 @@ class StadiumListFragment : Fragment(R.layout.fragment_stadium_list),
         initUI(binding)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun initUI(binding: FragmentStadiumListBinding) {
         // GetStadiumList
         lifecycleScope.launch {
@@ -56,6 +63,7 @@ class StadiumListFragment : Fragment(R.layout.fragment_stadium_list),
         }
         // Set data to adapter
         viewModel.stadiums.observe(viewLifecycleOwner, Observer {
+            stadiumsArray = it as ArrayList<Stadium>
             stadiumAdapter.setData(it)
         })
 
@@ -65,7 +73,8 @@ class StadiumListFragment : Fragment(R.layout.fragment_stadium_list),
                 requireContext(),
                 { view, year, monthOfYear, dayOfMonth ->
                     run {
-
+                        val listFiltered = viewModel.getAvailableStadiums(stadiumsArray, dayOfMonth)
+                        stadiumAdapter.setData(listFiltered)
                     }
                 }, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DATE)
             )

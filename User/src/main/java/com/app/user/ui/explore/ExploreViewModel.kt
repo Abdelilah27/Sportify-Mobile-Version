@@ -62,45 +62,35 @@ class ExploreViewModel @Inject constructor(
     }
 
     suspend fun getLocation(activity: Activity) {
-        val locationManager =
-            activity.getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        val location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
-        if (location != null) {
-            try {
-                val longitude = location.longitude
-                val latitude = location.latitude
-                if (Geocoder.isPresent()) {
-                    val geocoder = Geocoder(context, Locale.getDefault())
-                    val addresses = geocoder.getFromLocation(latitude, longitude, 1)
-                    val cityName = addresses[0].locality
-                    // Store Location
-                    ConstUtil.CITYNAME = cityName
-                    ConstUtil.LONGITUDE = longitude
-                    ConstUtil.ALTITUDE = latitude
-                    currentLocation.postValue(cityName)
+        if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // Request the permission
+            val REQUEST_CODE = 1
+            ActivityCompat.requestPermissions(activity, arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION), REQUEST_CODE)
+        } else {
+            // Permission has already been granted, proceed with getting the location
+            val locationManager =
+                activity.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+            val location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+            if (location != null) {
+                try {
+                    val longitude = location.longitude
+                    val latitude = location.latitude
+                    if (Geocoder.isPresent()) {
+                        val geocoder = Geocoder(context, Locale.getDefault())
+                        val addresses = geocoder.getFromLocation(latitude, longitude, 1)
+                        val cityName = addresses[0].locality
+                        // Store Location
+                        ConstUtil.CITYNAME = cityName
+                        ConstUtil.LONGITUDE = longitude
+                        ConstUtil.ALTITUDE = latitude
+                        currentLocation.postValue(cityName)
+                    }
+                } catch (e: Exception) {
+                    currentLocation.postValue(null)
                 }
-            } catch (e: Exception) {
-                currentLocation.postValue(null)
             }
         }
 
-        if (ActivityCompat.checkSelfPermission(
-                context,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                context,
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return
-        }
 
     }
 
