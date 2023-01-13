@@ -53,7 +53,11 @@
         android:id="@+id/paiementFragment"
         android:name="com.app.user.ui.payment.PaymentFragment"
         android:label="fragment_paiement"
-        tools:layout="@layout/fragment_payment" />
+        tools:layout="@layout/fragment_payment" >
+        <argument
+            android:name="idStadium"
+            app:argType="string" />
+    </fragment>
     <fragment
         android:id="@+id/stadiumListFragment"
         android:name="com.app.user.ui.stadiumList.StadiumListFragment"

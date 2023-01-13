@@ -14,4 +14,5 @@
     <color name="secondary_color">#120D26</color>
     <color name="or_color">#9D9898</color>
     <color name="background_card_utilities">#97bfbb</color>
+    <color name="background_card_paypal">#E7AB19</color>
 </resources>

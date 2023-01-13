@@ -28,8 +28,6 @@ class EventViewModel @Inject constructor(
     private val _reservationResponse = MutableLiveData<ReservationResponse>()
     val reservationResponse: LiveData<ReservationResponse> = _reservationResponse
 
-    val liveDataBookFlow: MutableLiveData<NetworkResult<ReservationResponse>> = MutableLiveData()
-
     suspend fun reserveSeance(idStadium: String, idSeance: String) {
         liveDataStadiumFlow.postValue(NetworkResult.Loading())
         viewModelScope.launch {
@@ -56,28 +54,4 @@ class EventViewModel @Inject constructor(
         }
     }
 
-    suspend fun bookSeance(idStadium: String, idSeance: String) {
-        liveDataStadiumFlow.postValue(NetworkResult.Loading())
-        viewModelScope.launch {
-            val call: Call<ReservationResponse> = repository.reserveSeance(idStadium, idSeance)
-            call.enqueue(object : Callback<ReservationResponse> {
-                override fun onResponse(call: Call<ReservationResponse>, response: Response<ReservationResponse>) {
-                    Log.d("response", response.body().toString())
-                    Log.d("response", response.code().toString())
-                    Log.d("response", response.message().toString())
-                    if (response.isSuccessful) {
-                        liveDataBookFlow.postValue(NetworkResult.Success(response.body()))
-                    } else {
-                        liveDataBookFlow.postValue(NetworkResult.Error(response.body().toString()))
-                    }
-                }
-
-                override fun onFailure(call: Call<ReservationResponse>, t: Throwable) {
-                    Log.d("onFailure", t.message.toString())
-                    liveDataBookFlow.postValue(NetworkResult.Error("Error"))
-                }
-
-            })
-        }
-    }
 }

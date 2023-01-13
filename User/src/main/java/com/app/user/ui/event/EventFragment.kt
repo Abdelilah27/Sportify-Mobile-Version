@@ -13,11 +13,13 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.app.user.R
+import com.app.user.UserMainActivity
 import com.app.user.adapters.PlayersAdapter
 import com.app.user.databinding.FragmentEventBinding
 import com.app.user.model.Entity
 import com.app.user.model.Event
 import com.app.user.model.Player
+import com.app.user.ui.searchFromEntity.SearchFromEntityFragmentDirections
 import com.app.user.utils.ConstUtil.FULL
 import com.app.user.utils.ConstUtil.GOING
 import com.app.user.utils.FunUtil.getTimeFromDateString
@@ -88,11 +90,6 @@ class EventFragment : Fragment(R.layout.fragment_event), OnItemSelectedInterface
             }
         })
 
-        binding.mainButtonEventFragment.setOnClickListener {
-            val action = EventFragmentDirections.actionEventFragmentToPaiementFragment()
-            findNavController().navigate(action)
-        }
-
         // Error Handling get Seance Info
         viewModel.liveDataStadiumFlow.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
             when (it) {
@@ -111,27 +108,10 @@ class EventFragment : Fragment(R.layout.fragment_event), OnItemSelectedInterface
             }
         })
 
-        viewModel.liveDataBookFlow.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
-            when (it) {
-                is NetworkResult.Success -> {
-                    (activity as PIBaseActivity).dismissProgressDialog("liveDataBookFlow")
-                }
-                is NetworkResult.Error -> {
-                    (activity as PIBaseActivity).dismissProgressDialog("liveDataBookFlow")
-                    Toast.makeText(
-                        requireContext(), R.string.something_goes_wrong_s, Toast.LENGTH_LONG
-                    ).show()
-                }
-                is NetworkResult.Loading -> {
-                    (activity as PIBaseActivity).showProgressDialog("liveDataBookFlow")
-                }
-            }
-        })
-
         binding.mainButtonEventFragment.setOnClickListener {
-           GlobalScope.launch {
-               viewModel.bookSeance(idStadium, idSeance)
-           }
+            val action =
+                EventFragmentDirections.actionEventFragmentToPaiementFragment(idStadium)
+            UserMainActivity.navController.navigate(action)
         }
 
         binding.backButton.setOnClickListener {
