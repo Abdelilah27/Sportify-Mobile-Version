@@ -121,7 +121,7 @@ class SearchFromEntityFragment : Fragment(R.layout.fragment_search_from_entity),
         stadiumAdapter.setData(myList)
     }
 
-    override fun onItemClick(position: Int) {
+    override fun onItemClick(position: String?) {
         val args = position.toString()
         val action =
             SearchFromEntityFragmentDirections.actionSearchFromEntityFragmentToEventFragment(

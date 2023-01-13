@@ -41,4 +41,5 @@ interface AuthRetrofitServiceInterface {
     fun deleteStadium(@Path("id") id: String): Call<ResponseBody>
 
     // user api
+    
 }

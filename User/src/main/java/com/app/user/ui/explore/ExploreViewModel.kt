@@ -159,7 +159,6 @@ class ExploreViewModel @Inject constructor(
             val distinctEntities = entitiesList.distinctBy { it.name }
             _entities.postValue(distinctEntities)
             liveDataFlow.postValue(NetworkResult.Success("Success"))
-
         } catch (e: Exception) {
             liveDataFlow.postValue(NetworkResult.Error("Error"))
         }

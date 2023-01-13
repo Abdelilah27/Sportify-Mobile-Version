@@ -61,7 +61,7 @@ class EntitiesAdapter(val context: Context, private val onItemSelected: OnItemSe
             val position: Int = adapterPosition
             if (position != RecyclerView.NO_POSITION) {
                 myList[position].let {
-                    onItemSelected.onItemClick(it.id)
+                    onItemSelected.onItemClick(it.name)
                 }
             }
         }

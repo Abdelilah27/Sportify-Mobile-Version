@@ -61,7 +61,7 @@ class PlayersAdapter(
             val position: Int = adapterPosition
             if (position != RecyclerView.NO_POSITION) {
                 myList[position].let {
-                    onItemSelected.onItemClick(it.id)
+                    onItemSelected.onItemClick(it.id.toString())
                 }
             }
         }

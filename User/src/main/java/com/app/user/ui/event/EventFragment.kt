@@ -77,7 +77,7 @@ class EventFragment : Fragment(R.layout.fragment_event), OnItemSelectedInterface
         }
     }
 
-    override fun onItemClick(position: Int) {
+    override fun onItemClick(position: String?) {
 
     }
 }

@@ -11,8 +11,8 @@
         android:label="fragment_bottom_nav_user"
         tools:layout="@layout/fragment_bottom_nav_user">
         <action
-            android:id="@+id/action_bottomNavUserFragment_to_searchFromEntityFragment"
-            app:destination="@id/searchFromEntityFragment" />
+            android:id="@+id/action_bottomNavUserFragment_to_stadiumListFragment"
+            app:destination="@id/stadiumListFragment" />
     </fragment>
     <fragment
         android:id="@+id/searchFromEntityFragment"
@@ -45,4 +45,16 @@
         android:name="com.app.user.ui.payment.PaymentFragment"
         android:label="fragment_paiement"
         tools:layout="@layout/fragment_payment" />
+    <fragment
+        android:id="@+id/stadiumListFragment"
+        android:name="com.app.user.ui.stadiumList.StadiumListFragment"
+        android:label="fragment_stadium_list"
+        tools:layout="@layout/fragment_stadium_list" >
+        <action
+            android:id="@+id/action_stadiumListFragment_to_searchFromEntityFragment"
+            app:destination="@id/searchFromEntityFragment" />
+        <argument
+            android:name="entityName"
+            app:argType="string" />
+    </fragment>
 </navigation>

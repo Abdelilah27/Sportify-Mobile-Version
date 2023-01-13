@@ -2,37 +2,37 @@ package com.app.user.adapters
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.app.networking.model.entity.Stadium
+import com.app.networking.utils.ConstUtil
 import com.app.user.R
-import com.app.user.model.Event
 import com.app.user.utils.ConstUtil.MAD
 import com.app.user.utils.ConstUtil.PLAYERS
+import com.app.user.utils.FunUtil.reformatDate
 import com.app.user.utils.OnItemSelectedInterface
 import com.bumptech.glide.Glide
 
-class NearbyEventAdapter(
-    val context: Context,
-    private val onItemSelected: OnItemSelectedInterface
-) :
-    RecyclerView.Adapter<NearbyEventAdapter.ItemViewHolder>() {
+class ListStadiumAdapter (val context: Context, private val onItemSelected: OnItemSelectedInterface) :
+    RecyclerView.Adapter<ListStadiumAdapter.ItemViewHolder>() {
 
-    private var myList: ArrayList<Event> = ArrayList()
+    private var myList: ArrayList<Stadium> = ArrayList()
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setData(data: List<Event>) {
-        myList = data as ArrayList<Event>
+    fun setData(data: List<Stadium>) {
+        myList = data as ArrayList<Stadium>
         notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         val binding =
             LayoutInflater.from(parent.context)
-                .inflate(R.layout.nearby_event_item_recycler, parent, false)
+                .inflate(R.layout.stadium_item_stadiums_fragment, parent, false)
         return ItemViewHolder(binding)
     }
 
@@ -40,12 +40,20 @@ class NearbyEventAdapter(
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         myList[position].let {
             holder.id.text = it.id.toString()
-            holder.date.text = it.date
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                holder.date.text = reformatDate(it.disponibility_from.toString()) + " | " + reformatDate(
+                    it.disponibility_to.toString()
+                )
+            }else{
+                holder.date.text = ""
+            }
             holder.title.text = it.name
             holder.location.text = it.location
-            holder.numberOfPlayer.text = it.numberOfPlayer.toString() + PLAYERS
+            holder.numberOfPlayer.text = PLAYERS
+
             holder.price.text = it.price.toString() + MAD
-            val stadiumImage = it.imgFileName
+            holder.description.text = it.description
+            val stadiumImage = ConstUtil.GETSTADIUMIMAGE + it.imgFileName
             Glide.with(context)
                 .load(stadiumImage)
                 .error(R.drawable.event_stadium_default)

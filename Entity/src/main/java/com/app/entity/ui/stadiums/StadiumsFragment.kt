@@ -38,7 +38,7 @@ class StadiumsFragment : Fragment(R.layout.fragment_stadiums), OnItemSelectedInt
     }
 
     private fun initUI(stadiumBinding: FragmentStadiumsBinding) {
-        // GetStadiumList()
+        // GetStadiumList
         lifecycleScope.launch {
             viewModel.getStadiumList()
         }
