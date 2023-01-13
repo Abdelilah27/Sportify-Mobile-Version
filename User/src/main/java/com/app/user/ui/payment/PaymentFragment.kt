@@ -2,18 +2,15 @@ package com.app.user.ui.payment
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.app.user.R
-import com.app.user.databinding.FragmentEventBinding
 import com.app.user.databinding.FragmentPaymentBinding
-import com.app.user.ui.event.EventFragmentArgs
-import com.app.user.ui.event.EventViewModel
 import com.app.user.utils.ConstUtil.MAD
 import com.app.user.utils.NetworkResult
 import com.app.user.utils.PIBaseActivity
@@ -25,7 +22,7 @@ import kotlinx.coroutines.launch
 class PaymentFragment : Fragment(R.layout.fragment_payment) {
     private val args: PaymentFragmentArgs by navArgs()
     private lateinit var binding: FragmentPaymentBinding
-    private val viewModel: PayementViewModel by viewModels()
+    private val viewModel: PaymentViewModel by viewModels()
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -39,7 +36,7 @@ class PaymentFragment : Fragment(R.layout.fragment_payment) {
         //get IdStadium from args
         val idStadium = args.idStadium
         GlobalScope.launch {
-            // init seance data
+            // init payment data
             viewModel.getStadiumById(idStadium)
         }
 
@@ -72,6 +69,9 @@ class PaymentFragment : Fragment(R.layout.fragment_payment) {
                 }
             }
         })
+        binding.backButton.setOnClickListener {
+            findNavController().navigateUp()
+        }
 
     }
 }

@@ -6,7 +6,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.app.networking.model.entity.ListStadium
 import com.app.networking.model.entity.Stadium
 import com.app.networking.repository.AuthRetrofitServiceRepository
 import com.app.user.utils.NetworkResult
@@ -19,7 +18,7 @@ import retrofit2.Response
 import javax.inject.Inject
 
 @HiltViewModel
-class PayementViewModel  @Inject constructor(
+class PaymentViewModel  @Inject constructor(
     private val repository: AuthRetrofitServiceRepository,
     @ApplicationContext private val context: Context,
 ) : ViewModel() {

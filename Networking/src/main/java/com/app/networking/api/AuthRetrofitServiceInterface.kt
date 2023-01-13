@@ -3,6 +3,7 @@ package com.app.networking.api
 import com.app.networking.model.entity.ListStadium
 import com.app.networking.model.entity.Stadium
 import com.app.networking.model.entity.response.StadiumResponse
+import com.app.networking.model.reservation.ReservationByUserResponse
 import com.app.networking.model.reservation.ReservationResponse
 import com.app.networking.model.user.Seances
 import com.app.networking.model.user.UserAuth
@@ -17,7 +18,6 @@ import retrofit2.http.*
 interface AuthRetrofitServiceInterface {
     @GET("/SPORTIFYAUTHENTIFICATION/auth/user_auth")
     fun getUserConnected(): Call<UserAuth>
-
 
     // Entity Area
     @GET("/SPORTIFYENTITY/terrain/all")
@@ -53,5 +53,9 @@ interface AuthRetrofitServiceInterface {
 
     @POST("/RESERVATIONMICROSERVICE/order/{idStadium}/{idSeance}")
     fun reserveSeance(@Path("idStadium") idStadium: String, @Path("idSeance") idSeance: String ): Call<ReservationResponse>
+
+
+    @GET("/RESERVATIONMICROSERVICE/order/orders")
+    fun getEventReservedByUser(): Call<ReservationByUserResponse>
 
 }

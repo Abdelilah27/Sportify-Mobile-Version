@@ -4,6 +4,7 @@ import com.app.networking.api.AuthRetrofitServiceInterface
 import com.app.networking.model.entity.ListStadium
 import com.app.networking.model.entity.Stadium
 import com.app.networking.model.entity.response.StadiumResponse
+import com.app.networking.model.reservation.ReservationByUserResponse
 import com.app.networking.model.reservation.ReservationResponse
 import com.app.networking.model.user.Seances
 import com.app.networking.model.user.UserAuth
@@ -53,4 +54,9 @@ class AuthRetrofitServiceRepository @Inject constructor(
     fun reserveSeance(idStadium: String, idSeance: String): Call<ReservationResponse> {
         return authRetrofitServiceInterface.reserveSeance(idStadium, idSeance)
     }
+
+    fun getEventReservedByUser(): Call<ReservationByUserResponse> {
+        return authRetrofitServiceInterface.getEventReservedByUser()
+    }
+
 }
