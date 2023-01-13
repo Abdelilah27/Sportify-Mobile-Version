@@ -45,6 +45,9 @@
         <action
             android:id="@+id/action_eventFragment_to_paiementFragment"
             app:destination="@id/paiementFragment" />
+        <argument
+            android:name="idStadium"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/paiementFragment"

@@ -19,11 +19,11 @@ class PlayersAdapter(
 ) :
     RecyclerView.Adapter<PlayersAdapter.ItemViewHolder>() {
 
-    private var myList: ArrayList<Player> = ArrayList()
+    private var myList: ArrayList<String> = ArrayList()
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setData(data: List<Player>) {
-        myList = data as ArrayList<Player>
+    fun setData(data: ArrayList<String>) {
+        myList = data
         notifyDataSetChanged()
     }
 
@@ -37,11 +37,9 @@ class PlayersAdapter(
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         myList[position].let {
-            holder.id.text = it.id.toString()
-            holder.name.text = it.name.toString()
-            val playerImage = it.imgFileName
+            holder.name.text = it
             Glide.with(context)
-                .load(playerImage)
+                .load(R.drawable.player_default)
                 .error(R.drawable.player_default)
                 .centerCrop()
                 .into(holder.image)
@@ -58,12 +56,6 @@ class PlayersAdapter(
         var name: TextView = view.findViewById(R.id.player_name)
         var image: ImageView = view.findViewById(R.id.player_image)
         override fun onClick(p0: View?) {
-            val position: Int = adapterPosition
-            if (position != RecyclerView.NO_POSITION) {
-                myList[position].let {
-                    onItemSelected.onItemClick(it.id.toString())
-                }
-            }
         }
     }
 

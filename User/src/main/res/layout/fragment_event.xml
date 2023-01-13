@@ -114,7 +114,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:maxLines="1"
-                            android:text="-10 Going" />
+                          />
                     </LinearLayout>
 
                 </androidx.cardview.widget.CardView>
@@ -137,9 +137,11 @@
                     android:layout_marginBottom="16dp"
                     android:ellipsize="end"
                     android:maxLines="1"
-                    android:text="Sareem Foot" />
+   />
 
                 <LinearLayout
+                    android:id="@+id/event_date_visibility"
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
@@ -172,7 +174,7 @@
                             android:layout_marginBottom="6dp"
                             android:ellipsize="end"
                             android:maxLines="1"
-                            android:text="14 December, 2021" />
+                             />
 
                         <TextView
                             android:id="@+id/event_time"
@@ -181,13 +183,15 @@
                             android:layout_height="wrap_content"
                             android:ellipsize="end"
                             android:maxLines="1"
-                            android:text="Tuesday, 4:00PM - 9:00PM" />
+                           />
                     </LinearLayout>
 
 
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/event_location_visibility"
+android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
@@ -215,7 +219,7 @@
                         android:layout_gravity="center"
                         android:ellipsize="end"
                         android:maxLines="1"
-                        android:text="36 Guild Street London, MA " />
+                       />
                 </LinearLayout>
 
 

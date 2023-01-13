@@ -75,6 +75,8 @@ class ExploreViewModel @Inject constructor(
                 try {
                     val longitude = location.longitude
                     val latitude = location.latitude
+                    Log.d("longitude", longitude.toString())
+                    Log.d("latitude", latitude.toString())
                     if (Geocoder.isPresent()) {
                         val geocoder = Geocoder(context, Locale.getDefault())
                         val addresses = geocoder.getFromLocation(latitude, longitude, 1)
@@ -83,6 +85,7 @@ class ExploreViewModel @Inject constructor(
                         ConstUtil.CITYNAME = cityName
                         ConstUtil.LONGITUDE = longitude
                         ConstUtil.ALTITUDE = latitude
+                        Log.d("cityName", cityName.toString())
                         currentLocation.postValue(cityName)
                     }
                 } catch (e: Exception) {

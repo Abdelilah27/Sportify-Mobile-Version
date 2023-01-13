@@ -35,6 +35,7 @@ class StadiumListFragment : Fragment(R.layout.fragment_stadium_list),
     private lateinit var stadiumAdapter: ListStadiumAdapter
     private val args: StadiumListFragmentArgs by navArgs()
 
+    // For Searching By Date
     private var stadiumsArray = ArrayList<Stadium> ()
 
 
@@ -115,5 +116,11 @@ class StadiumListFragment : Fragment(R.layout.fragment_stadium_list),
                 nameStadium = stadiumName
             )
         UserMainActivity.navController.navigate(action)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        viewModel.stadiums.removeObservers(viewLifecycleOwner)
+        viewModel.liveDataFlow.removeObservers(viewLifecycleOwner)
     }
 }

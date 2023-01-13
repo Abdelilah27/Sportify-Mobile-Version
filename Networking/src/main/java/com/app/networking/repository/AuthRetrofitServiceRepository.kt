@@ -2,7 +2,9 @@ package com.app.networking.repository
 
 import com.app.networking.api.AuthRetrofitServiceInterface
 import com.app.networking.model.entity.ListStadium
+import com.app.networking.model.entity.Stadium
 import com.app.networking.model.entity.response.StadiumResponse
+import com.app.networking.model.reservation.ReservationResponse
 import com.app.networking.model.user.Seances
 import com.app.networking.model.user.UserAuth
 import okhttp3.MultipartBody
@@ -42,5 +44,13 @@ class AuthRetrofitServiceRepository @Inject constructor(
 
     fun getSeanceByStadium(id: String): Call<Seances> {
         return authRetrofitServiceInterface.getSeanceByStadium(id)
+    }
+
+    fun getStadiumById(id: String): Call<Stadium> {
+        return authRetrofitServiceInterface.getStadiumById(id)
+    }
+
+    fun reserveSeance(idStadium: String, idSeance: String): Call<ReservationResponse> {
+        return authRetrofitServiceInterface.reserveSeance(idStadium, idSeance)
     }
 }

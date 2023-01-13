@@ -136,4 +136,12 @@ class ExploreFragment : Fragment(R.layout.fragment_explore), OnItemSelectedInter
         UserMainActivity.navController.navigate(action)
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        viewModel.entities.removeObservers(viewLifecycleOwner)
+        viewModel.liveUser.removeObservers(viewLifecycleOwner)
+        viewModel.currentLocation.removeObservers(viewLifecycleOwner)
+        viewModel.liveDataFlow.removeObservers(viewLifecycleOwner)
+    }
+
 }

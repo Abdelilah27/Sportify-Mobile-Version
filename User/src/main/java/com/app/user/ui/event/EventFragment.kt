@@ -1,8 +1,14 @@
 package com.app.user.ui.event
 
+import android.annotation.SuppressLint
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,15 +18,25 @@ import com.app.user.databinding.FragmentEventBinding
 import com.app.user.model.Entity
 import com.app.user.model.Event
 import com.app.user.model.Player
+import com.app.user.utils.ConstUtil.FULL
 import com.app.user.utils.ConstUtil.GOING
+import com.app.user.utils.FunUtil.getTimeFromDateString
+import com.app.user.utils.FunUtil.reformatDate
+import com.app.user.utils.NetworkResult
 import com.app.user.utils.OnItemSelectedInterface
+import com.app.user.utils.PIBaseActivity
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import java.lang.Integer.max
 
 @AndroidEntryPoint
 class EventFragment : Fragment(R.layout.fragment_event), OnItemSelectedInterface {
-    private val args: EventFragmentArgs by navArgs()
     private lateinit var binding: FragmentEventBinding
     private lateinit var playerAdapter: PlayersAdapter
+    private val viewModel: EventViewModel by viewModels()
+    private val args: EventFragmentArgs by navArgs()
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -30,15 +46,16 @@ class EventFragment : Fragment(R.layout.fragment_event), OnItemSelectedInterface
         initUI(binding)
     }
 
+    @SuppressLint("SetTextI18n")
     private fun initUI(binding: FragmentEventBinding) {
-        //get Id from args
-        val idEvent = args.idEvent
+        //get IdEvent, Seance from args
+        val idSeance = args.idEvent
+        val idStadium = args.idStadium
 
-        binding.mainButtonEventFragment.setOnClickListener {
-            val action = EventFragmentDirections.actionEventFragmentToPaiementFragment()
-            findNavController().navigate(action)
+        GlobalScope.launch {
+            // init seance data
+            viewModel.reserveSeance(idStadium, idSeance)
         }
-
 
         // Setup our recycler
         binding.playerList.apply {
@@ -49,35 +66,85 @@ class EventFragment : Fragment(R.layout.fragment_event), OnItemSelectedInterface
             setHasFixedSize(true)
         }
 
-        // set data
-        binding.apply {
-            val players: ArrayList<Player> = ArrayList()
-            val player1 = Player(name = "Abdelilah Ngadi")
-            val player2 = Player(name = "Scat Man")
-            val player3 = Player(name = "Don Abdel")
-            players.add(player1)
-            players.add(player2)
-            players.add(player3)
-            val event = Event(
-                location = "36 Guild Street Marrakech, MA",
-                date = "14 December, 2021",
-                numberOfPlayer = "10",
-                entity = Entity
-                    (name = "Sareem Foot"),
-                players = players
-            )
-            eventGoing.text = event.numberOfPlayer + GOING
-            eventStadium.text = event.entity!!.name
-            eventDate.text = event.date
-            eventTime.text = "Tuesday, 4:00PM - 9:00PM"
-            event.location = event.location
+        viewModel.reservationResponse.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+            it.apply {
+                binding.eventStadium.text = terrain.entity
+                binding.eventLocation.text = terrain.location
+                binding.eventDateVisibility.visibility = View.VISIBLE
+                binding.eventLocationVisibility.visibility = View.VISIBLE
+                Log.d("terrain.entity", terrain.entity)
+                val going = max(10 - joueurs.size, 0)
+                binding.eventGoing.text = if (going == 0) FULL else going.toString() + GOING
+                binding.cardView.visibility = if (going == 0) View.GONE else View.VISIBLE
 
-            playerAdapter.setData(players)
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    binding.eventDate.text = reformatDate(seance.heureDebut)
+                }
+                binding.eventTime.text = getTimeFromDateString(seance.heureDebut)
+                // set data
+                val players = joueurs.takeLast(10) as ArrayList
+                Log.d("players", players.toString())
+                playerAdapter.setData(players)
+            }
+        })
 
+        binding.mainButtonEventFragment.setOnClickListener {
+            val action = EventFragmentDirections.actionEventFragmentToPaiementFragment()
+            findNavController().navigate(action)
+        }
+
+        // Error Handling get Seance Info
+        viewModel.liveDataStadiumFlow.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+            when (it) {
+                is NetworkResult.Success -> {
+                    (activity as PIBaseActivity).dismissProgressDialog("Stadium Info")
+                }
+                is NetworkResult.Error -> {
+                    (activity as PIBaseActivity).dismissProgressDialog("Stadium Info")
+                    Toast.makeText(
+                        requireContext(), R.string.something_goes_wrong_s, Toast.LENGTH_LONG
+                    ).show()
+                }
+                is NetworkResult.Loading -> {
+                    (activity as PIBaseActivity).showProgressDialog("Stadium Info")
+                }
+            }
+        })
+
+        viewModel.liveDataBookFlow.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+            when (it) {
+                is NetworkResult.Success -> {
+                    (activity as PIBaseActivity).dismissProgressDialog("liveDataBookFlow")
+                }
+                is NetworkResult.Error -> {
+                    (activity as PIBaseActivity).dismissProgressDialog("liveDataBookFlow")
+                    Toast.makeText(
+                        requireContext(), R.string.something_goes_wrong_s, Toast.LENGTH_LONG
+                    ).show()
+                }
+                is NetworkResult.Loading -> {
+                    (activity as PIBaseActivity).showProgressDialog("liveDataBookFlow")
+                }
+            }
+        })
+
+        binding.mainButtonEventFragment.setOnClickListener {
+           GlobalScope.launch {
+               viewModel.bookSeance(idStadium, idSeance)
+           }
+        }
+
+        binding.backButton.setOnClickListener {
+            findNavController().navigateUp()
         }
     }
 
     override fun onItemClick(position: String?) {
+    }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        viewModel.reservationResponse.removeObservers(viewLifecycleOwner)
+        viewModel.liveDataStadiumFlow.removeObservers(viewLifecycleOwner)
     }
 }

@@ -1,7 +1,9 @@
 package com.app.networking.api
 
 import com.app.networking.model.entity.ListStadium
+import com.app.networking.model.entity.Stadium
 import com.app.networking.model.entity.response.StadiumResponse
+import com.app.networking.model.reservation.ReservationResponse
 import com.app.networking.model.user.Seances
 import com.app.networking.model.user.UserAuth
 import okhttp3.MultipartBody
@@ -44,5 +46,12 @@ interface AuthRetrofitServiceInterface {
     // user api
     @GET("/SPORTIFYENTITY/terrain/seances/{id}")
     fun getSeanceByStadium(@Path("id") id: String): Call<Seances>
-    
+
+
+    @GET("/SPORTIFYENTITY/terrain/{id}")
+    fun getStadiumById(@Path("id") id: String): Call<Stadium>
+
+    @POST("/RESERVATIONMICROSERVICE/order/{idStadium}/{idSeance}")
+    fun reserveSeance(@Path("idStadium") idStadium: String, @Path("idSeance") idSeance: String ): Call<ReservationResponse>
+
 }

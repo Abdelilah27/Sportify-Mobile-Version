@@ -44,8 +44,6 @@ class SearchFromEntityFragment : Fragment(R.layout.fragment_search_from_entity),
         val idStadium = args.idStadium
         val nameStadium = args.nameStadium
         val priceStadium = args.stadiumPrice
-        Log.d("idStadium", priceStadium)
-
         GlobalScope.launch(Dispatchers.IO) {
             // init seance data
             viewModel.getSeancesList(idStadium)
@@ -88,13 +86,12 @@ class SearchFromEntityFragment : Fragment(R.layout.fragment_search_from_entity),
 
 
     override fun onItemClick(position: String?) {
-        val args = position.toString()
+        val idSeance = position.toString()
+        val idStadium = args.idStadium
         val action =
             SearchFromEntityFragmentDirections.actionSearchFromEntityFragmentToEventFragment(
-                args
+             idStadium =  idStadium   , idEvent =  idSeance
             )
         UserMainActivity.navController.navigate(action)
     }
-
-
 }
