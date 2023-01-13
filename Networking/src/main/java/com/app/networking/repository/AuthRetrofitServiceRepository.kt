@@ -3,6 +3,7 @@ package com.app.networking.repository
 import com.app.networking.api.AuthRetrofitServiceInterface
 import com.app.networking.model.entity.ListStadium
 import com.app.networking.model.entity.response.StadiumResponse
+import com.app.networking.model.user.Seances
 import com.app.networking.model.user.UserAuth
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -37,5 +38,9 @@ class AuthRetrofitServiceRepository @Inject constructor(
 
     fun deleteStadium(id: String): Call<ResponseBody> {
         return authRetrofitServiceInterface.deleteStadium(id)
+    }
+
+    fun getSeanceByStadium(id: String): Call<Seances> {
+        return authRetrofitServiceInterface.getSeanceByStadium(id)
     }
 }

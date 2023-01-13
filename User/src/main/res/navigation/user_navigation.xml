@@ -20,12 +20,18 @@
         android:label="fragment_search_from_entity"
         tools:layout="@layout/fragment_search_from_entity">
         <argument
-            android:name="idEntity"
+            android:name="idStadium"
             android:defaultValue='"0"'
             app:argType="string" />
         <action
             android:id="@+id/action_searchFromEntityFragment_to_eventFragment"
             app:destination="@id/eventFragment" />
+        <argument
+            android:name="nameStadium"
+            app:argType="string" />
+        <argument
+            android:name="stadiumPrice"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/eventFragment"

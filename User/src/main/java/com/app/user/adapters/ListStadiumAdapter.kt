@@ -16,9 +16,13 @@ import com.app.user.utils.ConstUtil.MAD
 import com.app.user.utils.ConstUtil.PLAYERS
 import com.app.user.utils.FunUtil.reformatDate
 import com.app.user.utils.OnItemSelectedInterface
+import com.app.user.utils.OnItemSelectedInterfaceWithArguments
 import com.bumptech.glide.Glide
 
-class ListStadiumAdapter (val context: Context, private val onItemSelected: OnItemSelectedInterface) :
+class ListStadiumAdapter(
+    val context: Context,
+    private val onItemSelected: OnItemSelectedInterfaceWithArguments
+) :
     RecyclerView.Adapter<ListStadiumAdapter.ItemViewHolder>() {
 
     private var myList: ArrayList<Stadium> = ArrayList()
@@ -41,17 +45,25 @@ class ListStadiumAdapter (val context: Context, private val onItemSelected: OnIt
         myList[position].let {
             holder.id.text = it.id.toString()
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                holder.date.text = reformatDate(it.disponibility_from.toString()) + " | " + reformatDate(
-                    it.disponibility_to.toString()
-                )
-            }else{
+                holder.date.text =
+                    reformatDate(it.disponibility_from.toString()) + " | " + reformatDate(
+                        it.disponibility_to.toString()
+                    )
+            } else {
                 holder.date.text = ""
             }
             holder.title.text = it.name
             holder.location.text = it.location
-            holder.numberOfPlayer.text = PLAYERS
+            try {
+                holder.numberOfPlayer.text = if (it.seances?.first()?.nbreParticipant.toString()
+                        .isEmpty()
+                ) "" else "${it.seances?.first()?.nbreParticipant}${MAD}"
+            }catch (e: Exception){
+                holder.numberOfPlayer.text = ""
+            }
 
-            holder.price.text = it.price.toString() + MAD
+            holder.price.text = if (it.price.toString().isEmpty()) "" else "${it.price}${MAD}"
+
             holder.description.text = it.description
             val stadiumImage = ConstUtil.GETSTADIUMIMAGE + it.imgFileName
             Glide.with(context)
@@ -98,7 +110,7 @@ class ListStadiumAdapter (val context: Context, private val onItemSelected: OnIt
             val position: Int = adapterPosition
             if (position != RecyclerView.NO_POSITION) {
                 myList[position].let {
-                    onItemSelected.onItemClick(it.id.toString())
+                    onItemSelected.onItemClick(it.id.toString(), it.price.toString(), it.name)
                 }
             }
         }

@@ -1,6 +1,8 @@
 package com.app.user.ui.stadiumList
 
+import android.app.DatePickerDialog
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.View
 import android.widget.Toast
@@ -11,16 +13,21 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.app.user.R
+import com.app.user.UserMainActivity
 import com.app.user.adapters.ListStadiumAdapter
 import com.app.user.databinding.FragmentStadiumListBinding
+import com.app.user.ui.bottomNavUser.BottomNavUserFragmentDirections
 import com.app.user.utils.NetworkResult
 import com.app.user.utils.OnItemSelectedInterface
+import com.app.user.utils.OnItemSelectedInterfaceWithArguments
 import com.app.user.utils.PIBaseActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import java.util.*
 
 @AndroidEntryPoint
-class StadiumListFragment : Fragment(R.layout.fragment_stadium_list), OnItemSelectedInterface {
+class StadiumListFragment : Fragment(R.layout.fragment_stadium_list),
+    OnItemSelectedInterfaceWithArguments {
     private lateinit var binding: FragmentStadiumListBinding
     private val viewModel: StadiumListViewModel by viewModels()
     private lateinit var stadiumAdapter: ListStadiumAdapter
@@ -52,6 +59,19 @@ class StadiumListFragment : Fragment(R.layout.fragment_stadium_list), OnItemSele
             stadiumAdapter.setData(it)
         })
 
+        binding.mainButtonStadiumListFragment.setOnClickListener {
+            val c: Calendar = Calendar.getInstance()
+            val datePicker = DatePickerDialog(
+                requireContext(),
+                { view, year, monthOfYear, dayOfMonth ->
+                    run {
+
+                    }
+                }, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DATE)
+            )
+            datePicker.show()
+        }
+
 
         // Error Handling get Data
         viewModel.liveDataFlow.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
@@ -77,7 +97,14 @@ class StadiumListFragment : Fragment(R.layout.fragment_stadium_list), OnItemSele
 
     }
 
-    override fun onItemClick(position: String?) {
-
+    override fun onItemClick(id: String?, price: String?, stadiumName: String?) {
+        val id = id.toString()
+        val price = price.toString()
+        val stadiumName = stadiumName.toString()
+        val action =
+            StadiumListFragmentDirections.actionStadiumListFragmentToSearchFromEntityFragment(idStadium =  id, stadiumPrice = price ,
+                nameStadium = stadiumName
+            )
+        UserMainActivity.navController.navigate(action)
     }
 }

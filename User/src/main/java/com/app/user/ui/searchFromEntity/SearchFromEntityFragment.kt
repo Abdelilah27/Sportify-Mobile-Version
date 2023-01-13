@@ -2,18 +2,25 @@ package com.app.user.ui.searchFromEntity
 
 import android.app.DatePickerDialog
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.app.user.R
 import com.app.user.UserMainActivity
 import com.app.user.adapters.EventAdapter
 import com.app.user.databinding.FragmentSearchFromEntityBinding
-import com.app.user.model.Event
+import com.app.user.utils.NetworkResult
 import com.app.user.utils.OnItemSelectedInterface
+import com.app.user.utils.PIBaseActivity
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import java.util.*
 
 @AndroidEntryPoint
@@ -33,8 +40,16 @@ class SearchFromEntityFragment : Fragment(R.layout.fragment_search_from_entity),
     }
 
     private fun initUI(binding: FragmentSearchFromEntityBinding) {
-        //get Id from args
-        val idEntity = args.idEntity
+        //get attributes from args
+        val idStadium = args.idStadium
+        val nameStadium = args.nameStadium
+        val priceStadium = args.stadiumPrice
+        Log.d("idStadium", priceStadium)
+
+        GlobalScope.launch(Dispatchers.IO) {
+            // init seance data
+            viewModel.getSeancesList(idStadium)
+        }
 
         // Setup our recycler
         binding.EventList.apply {
@@ -44,82 +59,33 @@ class SearchFromEntityFragment : Fragment(R.layout.fragment_search_from_entity),
                 LinearLayoutManager(requireContext())
             setHasFixedSize(true)
         }
+        viewModel.seances.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+            stadiumAdapter.setData(it, nameStadium, priceStadium)
+        })
+        // Error Handling get Seances
+        viewModel.liveDataFlow.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+            when (it) {
+                is NetworkResult.Success -> {
+                    (activity as PIBaseActivity).dismissProgressDialog("Seances")
+                }
+                is NetworkResult.Error -> {
+                    (activity as PIBaseActivity).dismissProgressDialog("Seances")
+                    Toast.makeText(
+                        requireContext(), R.string.something_goes_wrong_s, Toast.LENGTH_LONG
+                    ).show()
+                }
+                is NetworkResult.Loading -> {
+                    (activity as PIBaseActivity).showProgressDialog("Seances")
+                }
+            }
+        })
 
-        getData0()
-
-        binding.mainButtonSearchFromFragment.setOnClickListener {
-            val c: Calendar = Calendar.getInstance()
-            val datePicker = DatePickerDialog(
-                requireContext(),
-                { view, year, monthOfYear, dayOfMonth ->
-                    run {
-                        getData()
-                    }
-                }, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DATE)
-            )
-            datePicker.show()
-
+        binding.backButton.setOnClickListener {
+            findNavController().navigateUp()
         }
+
     }
 
-    private fun getData() {
-        // Set Static Data
-        var s = Event(
-            name = "Stadium 1", price = "100", numberOfPlayer = "10",
-            date = "SAT-May 2:00 PM-3:00PM"
-        )
-        var s2 = Event(
-            name = "Stadium 2", price = "200", numberOfPlayer = "10",
-            date = "SAT-May 2:00 PM-3:00PM"
-        )
-        var s3 = Event(
-            name = "Stadium 4", price = "100", numberOfPlayer = "10",
-            date = "SAT-May 2:00 PM-3:00PM"
-        )
-        var s4 = Event(
-            name = "Stadium 3", price = "250", numberOfPlayer = "10",
-            date = "SAT-May 2:00 PM-3:00PM"
-        )
-        var myList: ArrayList<Event> = ArrayList()
-        myList.add(s)
-        myList.add(s)
-        myList.add(s2)
-        myList.add(s2)
-        myList.add(s3)
-        myList.add(s3)
-        myList.add(s3)
-        myList.add(s4)
-        myList.add(s4)
-        myList.add(s4)
-        stadiumAdapter.setData(myList)
-    }
-
-
-    private fun getData0() {
-        // Set Static Data
-        var s = Event(
-            name = "Stadium 1", price = "100", numberOfPlayer = "10",
-            date = "SAT-May 2:00 PM-3:00PM"
-        )
-        var s2 = Event(
-            name = "Stadium 2", price = "200", numberOfPlayer = "10",
-            date = "SAT-May 2:00 PM-3:00PM"
-        )
-        var s3 = Event(
-            name = "Stadium 4", price = "100", numberOfPlayer = "10",
-            date = "SAT-May 2:00 PM-3:00PM"
-        )
-        var s4 = Event(
-            name = "Stadium 3", price = "250", numberOfPlayer = "10",
-            date = "SAT-May 2:00 PM-3:00PM"
-        )
-        var myList: ArrayList<Event> = ArrayList()
-        myList.add(s)
-        myList.add(s2)
-        myList.add(s3)
-        myList.add(s4)
-        stadiumAdapter.setData(myList)
-    }
 
     override fun onItemClick(position: String?) {
         val args = position.toString()
@@ -129,4 +95,6 @@ class SearchFromEntityFragment : Fragment(R.layout.fragment_search_from_entity),
             )
         UserMainActivity.navController.navigate(action)
     }
+
+
 }

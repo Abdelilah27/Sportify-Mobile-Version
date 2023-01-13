@@ -2,26 +2,39 @@ package com.app.user.adapters
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.app.networking.model.user.SeancesItem
 import com.app.user.R
-import com.app.user.model.Event
 import com.app.user.utils.ConstUtil
+import com.app.user.utils.FunUtil
+import com.app.user.utils.FunUtil.getTimeFromDateString
 import com.app.user.utils.OnItemSelectedInterface
 import com.bumptech.glide.Glide
 
-class EventAdapter(val context: Context, private val onItemSelected: OnItemSelectedInterface) :
+class EventAdapter(
+    val context: Context,
+    private val onItemSelected: OnItemSelectedInterface,
+) :
     RecyclerView.Adapter<EventAdapter.ItemViewHolder>() {
 
-    private var myList: ArrayList<Event> = ArrayList()
+    private var myList: ArrayList<SeancesItem> = ArrayList()
+    private var name: String = ""
+    private var price: String = ""
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setData(data: List<Event>) {
-        myList = data as ArrayList<Event>
+    fun setData(
+        data: List<SeancesItem>, nameStadium: String,
+        priceStadium: String
+    ) {
+        myList = data as ArrayList<SeancesItem>
+        name = nameStadium
+        price = priceStadium
         notifyDataSetChanged()
     }
 
@@ -36,13 +49,13 @@ class EventAdapter(val context: Context, private val onItemSelected: OnItemSelec
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         myList[position].let {
             holder.id.text = it.id.toString()
-            holder.title.text = it.name.toString()
-            holder.numberOfPlayer.text = it.numberOfPlayer.toString() + ConstUtil.PLAYERS
-            holder.price.text = it.price.toString() + ConstUtil.MAD
-            holder.date.text = it.date.toString()
-            val stadiumImage = it.imgFileName
+            holder.date.text = getTimeFromDateString(it.heureDebut) + " | " + getTimeFromDateString(it.heureFin)
+            holder.title.text = if (name.isEmpty()) "" else name
+            holder.price.text = if (price.isEmpty()) "" else "$price${ConstUtil.MAD}"
+
+            holder.numberOfPlayer.text = it.nbreParticipant.toString() + ConstUtil.PLAYERS
             Glide.with(context)
-                .load(stadiumImage)
+                .load(R.drawable.event_stadium_default)
                 .error(R.drawable.event_stadium_default)
                 .centerCrop()
                 .into(holder.image)

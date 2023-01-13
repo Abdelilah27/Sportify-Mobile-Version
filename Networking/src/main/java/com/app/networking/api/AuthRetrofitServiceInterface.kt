@@ -2,6 +2,7 @@ package com.app.networking.api
 
 import com.app.networking.model.entity.ListStadium
 import com.app.networking.model.entity.response.StadiumResponse
+import com.app.networking.model.user.Seances
 import com.app.networking.model.user.UserAuth
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -41,5 +42,7 @@ interface AuthRetrofitServiceInterface {
     fun deleteStadium(@Path("id") id: String): Call<ResponseBody>
 
     // user api
+    @GET("/SPORTIFYENTITY/terrain/seances/{id}")
+    fun getSeanceByStadium(@Path("id") id: String): Call<Seances>
     
 }

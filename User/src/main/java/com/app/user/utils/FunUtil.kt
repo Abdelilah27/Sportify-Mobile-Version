@@ -20,4 +20,10 @@ object FunUtil {
         val dateFormatter = DateTimeFormatter.ISO_DATE
         return localDateTime.format(dateFormatter)
     }
+
+    fun getTimeFromDateString(date: String): String {
+        val timeStartIndex = date.indexOf("T") + 1
+        return date.substring(timeStartIndex, date.length)
+    }
+
 }
