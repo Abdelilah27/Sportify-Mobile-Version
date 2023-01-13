@@ -58,7 +58,7 @@ class ListStadiumAdapter(
             try {
                 holder.numberOfPlayer.text = if (it.seances?.first()?.nbreParticipant.toString()
                         .isEmpty()
-                ) "" else "${it.seances?.first()?.nbreParticipant}${MAD}"
+                ) "" else "${it.seances?.first()?.nbreParticipant}${PLAYERS}"
             }catch (e: Exception){
                 holder.numberOfPlayer.text = ""
             }

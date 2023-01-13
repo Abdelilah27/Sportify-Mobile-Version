@@ -48,6 +48,7 @@
     <TextView
         android:id="@+id/profile__"
         style="@style/profile_name"
+        android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=" - " />
@@ -78,6 +79,8 @@
             android:padding="16dp">
 
             <TextView
+                android:id="@+id/poplar_title"
+                android:visibility="gone"
                 style="@style/titles_explore_fragment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

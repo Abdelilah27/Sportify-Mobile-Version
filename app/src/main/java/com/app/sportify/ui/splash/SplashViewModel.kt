@@ -9,7 +9,6 @@ import com.app.networking.model.network.TokenManager
 import com.app.networking.repository.RetrofitServiceRepository
 import com.app.sportify.utils.ConstUtil.ROLES
 import com.app.sportify.utils.UserManager
-import com.app.user.utils.ConstUtil.USERAUTH
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import retrofit2.Call
@@ -40,8 +39,6 @@ class SplashViewModel @Inject constructor(
         try {
             val user = UserManager(context = context)
             val getUser = user.getUserAuth()
-            // Store User
-            USERAUTH = getUser
             val userRole = getUser.appRoles.firstOrNull()?.toString()
             if (userRole == ROLES[1]) _isLogged.postValue(ROLES[1]) else _isLogged.postValue(ROLES[0])
         } catch (e: Exception) {

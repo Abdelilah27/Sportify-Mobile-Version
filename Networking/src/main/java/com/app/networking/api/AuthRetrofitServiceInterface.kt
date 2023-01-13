@@ -58,4 +58,7 @@ interface AuthRetrofitServiceInterface {
     @GET("/RESERVATIONMICROSERVICE/order/orders")
     fun getEventReservedByUser(): Call<ReservationByUserResponse>
 
+    @GET("/RESERVATIONMICROSERVICE/order/NonComplet")
+    fun getStadiumReserved(): Call<ReservationByUserResponse>
+
 }

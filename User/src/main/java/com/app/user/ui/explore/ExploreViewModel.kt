@@ -43,8 +43,6 @@ import kotlin.collections.ArrayList
 class ExploreViewModel @Inject constructor(
     private val repository: AuthRetrofitServiceRepository,
     @ApplicationContext private val context: Context,
-
-
     ) : ViewModel() {
     // Progress Bar
     val liveDataFlow: MutableLiveData<NetworkResult<String>> = MutableLiveData()
@@ -52,10 +50,11 @@ class ExploreViewModel @Inject constructor(
     private val _entities = MutableLiveData<List<Entity>>()
     val entities: LiveData<List<Entity>> = _entities
 
+    val currentLocation: MutableLiveData<String?> = MutableLiveData()
+
     private val _liveUserData = MutableLiveData<UserAuth>(UserAuth())
     val liveUser: LiveData<UserAuth> = _liveUserData
 
-    val currentLocation: MutableLiveData<String?> = MutableLiveData()
 
     init {
         liveDataFlow.postValue(NetworkResult.Loading())
@@ -144,6 +143,24 @@ class ExploreViewModel @Inject constructor(
         } catch (e: Exception) {
             liveDataFlow.postValue(NetworkResult.Error("Error"))
         }
+    }
+
+
+    suspend fun getAuthUser() {
+        Log.d("getAuthUser", "getAuthUser: ")
+        val call: Call<UserAuth> = repository.getUserConnected()
+        call.enqueue(object : Callback<UserAuth> {
+            override fun onResponse(
+                call: Call<UserAuth>, response: Response<UserAuth>
+            ) {
+                if (response.isSuccessful) {
+                    _liveUserData.postValue(response.body())
+                }
+            }
+
+            override fun onFailure(call: Call<UserAuth>, t: Throwable) {
+            }
+        })
     }
 
 

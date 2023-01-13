@@ -15,7 +15,6 @@ import com.app.user.adapters.NearbyEventAdapter
 import com.app.user.databinding.FragmentExploreBinding
 import com.app.user.model.Event
 import com.app.user.ui.bottomNavUser.BottomNavUserFragmentDirections
-import com.app.user.utils.ConstUtil.USERAUTH
 import com.app.user.utils.NetworkResult
 import com.app.user.utils.OnItemSelectedInterface
 import com.app.user.utils.PIBaseActivity
@@ -42,19 +41,27 @@ class ExploreFragment : Fragment(R.layout.fragment_explore), OnItemSelectedInter
     }
 
     private fun initUI(binding: FragmentExploreBinding) {
-        binding.profileName.text = USERAUTH.username
         GlobalScope.launch(Dispatchers.IO) {
             // get Entities
             viewModel.getEntitiesList()
         }
         GlobalScope.launch {
+            // init user data
+            viewModel.getAuthUser()
             viewModel.getLocation(requireActivity())
         }
+
         viewModel.currentLocation.observe(viewLifecycleOwner, Observer {
             if (!it.isNullOrEmpty()) {
+                binding.profile.visibility = View.VISIBLE
                 binding.profileLocation.text = it
-            } else {
-                binding.profileName.visibility = View.GONE
+            }
+        })
+
+        // Observe User Data To Display Name
+        viewModel.liveUser.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+            it.apply {
+                binding.profileName.text = username
             }
         })
 
@@ -68,6 +75,7 @@ class ExploreFragment : Fragment(R.layout.fragment_explore), OnItemSelectedInter
         }
         // Set data to adapter
         viewModel.entities.observe(viewLifecycleOwner, Observer {
+            binding.poplarTitle.visibility = if (it.isNotEmpty()) View.VISIBLE else View.GONE
             entitiesAdapter.setData(it)
         })
 
@@ -131,7 +139,6 @@ class ExploreFragment : Fragment(R.layout.fragment_explore), OnItemSelectedInter
     override fun onDestroyView() {
         super.onDestroyView()
         viewModel.entities.removeObservers(viewLifecycleOwner)
-        viewModel.liveUser.removeObservers(viewLifecycleOwner)
         viewModel.currentLocation.removeObservers(viewLifecycleOwner)
         viewModel.liveDataFlow.removeObservers(viewLifecycleOwner)
     }

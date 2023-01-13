@@ -1,6 +1,7 @@
 package com.app.user.ui.payment
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -11,12 +12,19 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.app.user.R
 import com.app.user.databinding.FragmentPaymentBinding
+import com.app.user.utils.ConstUtil.ACCOUNT_ID
 import com.app.user.utils.ConstUtil.MAD
 import com.app.user.utils.NetworkResult
 import com.app.user.utils.PIBaseActivity
+import com.paypal.android.sdk.payments.PayPalConfiguration
+import com.paypal.android.sdk.payments.PayPalPayment
+import com.paypal.android.sdk.payments.PayPalService
+import com.paypal.android.sdk.payments.PaymentActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import java.math.BigDecimal
+import java.nio.file.attribute.AclEntry.newBuilder
 
 @AndroidEntryPoint
 class PaymentFragment : Fragment(R.layout.fragment_payment) {
@@ -24,6 +32,7 @@ class PaymentFragment : Fragment(R.layout.fragment_payment) {
     private lateinit var binding: FragmentPaymentBinding
     private val viewModel: PaymentViewModel by viewModels()
 
+    private var pricePerPerson = 0
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -43,10 +52,10 @@ class PaymentFragment : Fragment(R.layout.fragment_payment) {
         viewModel.stadiumsData.observe(viewLifecycleOwner, Observer {
             binding.apply {
                 try{
-                    val pricePerPerson = it.price / 10
+                    pricePerPerson = it.price / 10
                     totalPaymentFragment.setText(pricePerPerson.toString()+ MAD)
                 }catch(e: Exception){
-                    val pricePerPerson = it.price
+                    pricePerPerson = it.price
                     totalPaymentFragment.setText(pricePerPerson.toString()+ MAD)
                 }
 
@@ -71,7 +80,20 @@ class PaymentFragment : Fragment(R.layout.fragment_payment) {
         })
 
         binding.mainButtonPaymentFragment.setOnClickListener {
-            
+            val description = binding.descriptionPaymentFragment.text.toString()
+            // Initialize PayPal configuration
+            val paypalConfig = PayPalConfiguration()
+                .environment(PayPalConfiguration.ENVIRONMENT_SANDBOX)
+                .clientId(ACCOUNT_ID)
+            val request = PayPalPayment(
+                BigDecimal(pricePerPerson), MAD, description,
+                PayPalPayment.PAYMENT_INTENT_SALE)
+            val service = Intent(context, PayPalService::class.java)
+            service.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, paypalConfig)
+            activity?.startService(service)
+            val intent = Intent(context, PaymentActivity::class.java)
+            intent.putExtra(PaymentActivity.EXTRA_PAYMENT, request)
+            startActivityForResult(intent, 0)
         }
 
         binding.backButton.setOnClickListener {

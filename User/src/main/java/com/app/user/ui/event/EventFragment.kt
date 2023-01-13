@@ -84,9 +84,14 @@ class EventFragment : Fragment(R.layout.fragment_event), OnItemSelectedInterface
                 }
                 binding.eventTime.text = getTimeFromDateString(seance.heureDebut)
                 // set data
-                val players = joueurs.takeLast(10) as ArrayList
-                Log.d("players", players.toString())
-                playerAdapter.setData(players)
+                try {
+                    val players = joueurs.takeLast(10) as ArrayList
+                    Log.d("players", players.toString())
+                    playerAdapter.setData(players)
+                }catch (e: Exception){
+                    Log.d("Exception", e.message.toString())
+                }
+
             }
         })
 
