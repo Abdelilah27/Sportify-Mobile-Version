@@ -21,7 +21,9 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.text.SimpleDateFormat
+import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.util.*
 import javax.inject.Inject
@@ -63,29 +65,22 @@ class StadiumListViewModel @Inject constructor(
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.N)
     @SuppressLint("SimpleDateFormat", "NewApi")
     fun getAvailableStadiums(stadiums: List<Stadium>, day: Int): List<Stadium> {
-        val formatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZ")
+        val currentMonth = LocalDate.now().monthValue
+        val currentYear = LocalDate.now().year
+        val inputDate = LocalDate.of(currentYear, currentMonth, day)
         return stadiums.filter { stadium ->
-            try {
-                val disponibilityFrom = formatter.parse(stadium.disponibility_from)
-                val disponibilityTo = formatter.parse(stadium.disponibility_to)
-                val calFrom = Calendar.getInstance().apply { time = disponibilityFrom }
-                val calTo = Calendar.getInstance().apply { time = disponibilityTo }
-                (calFrom.get(Calendar.DAY_OF_MONTH) == day) && (calTo.get(Calendar.DAY_OF_MONTH) == day)
-            } catch (e: java.text.ParseException) {
-                // handle the exception here
-                println("Error while parsing date: ${e.message}")
-                // or you can return false to filter out this element
-                false
-            }
+            val disponibilityFrom = LocalDateTime.parse(stadium.disponibility_from, formatter)
+            val disponibilityTo = LocalDateTime.parse(stadium.disponibility_to, formatter)
+            val inputDateTime = LocalDateTime.of(inputDate, LocalTime.of(0, 0))
+            (inputDateTime.isAfter(disponibilityFrom) || inputDateTime.isEqual(disponibilityFrom)) && (inputDateTime.isBefore(
+                disponibilityTo
+            ) || inputDateTime.isEqual(disponibilityTo))
         }
+
     }
-
-
-
-
 
 
     private fun extractListByName(entityName: String, body: ListStadium) {

@@ -36,10 +36,9 @@ class StadiumListFragment : Fragment(R.layout.fragment_stadium_list),
     private val args: StadiumListFragmentArgs by navArgs()
 
     // For Searching By Date
-    private var stadiumsArray = ArrayList<Stadium> ()
+    private var stadiumsArray = ArrayList<Stadium>()
 
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
@@ -47,7 +46,6 @@ class StadiumListFragment : Fragment(R.layout.fragment_stadium_list),
         initUI(binding)
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun initUI(binding: FragmentStadiumListBinding) {
         // GetStadiumList
         lifecycleScope.launch {
@@ -74,8 +72,16 @@ class StadiumListFragment : Fragment(R.layout.fragment_stadium_list),
                 requireContext(),
                 { view, year, monthOfYear, dayOfMonth ->
                     run {
-                        val listFiltered = viewModel.getAvailableStadiums(stadiumsArray, dayOfMonth)
-                        stadiumAdapter.setData(listFiltered)
+                        try {
+                            Log.d("stadiumsArray", stadiumsArray.toString())
+                            val listFiltered =
+                                viewModel.getAvailableStadiums(stadiumsArray, dayOfMonth)
+                            Log.d("TAG", listFiltered.toString())
+                            stadiumAdapter.setData(listFiltered)
+                        } catch (e: Exception) {
+                            Log.d("Exception", e.message.toString())
+                        }
+
                     }
                 }, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DATE)
             )
@@ -112,7 +118,8 @@ class StadiumListFragment : Fragment(R.layout.fragment_stadium_list),
         val price = price.toString()
         val stadiumName = stadiumName.toString()
         val action =
-            StadiumListFragmentDirections.actionStadiumListFragmentToSearchFromEntityFragment(idStadium =  id, stadiumPrice = price ,
+            StadiumListFragmentDirections.actionStadiumListFragmentToSearchFromEntityFragment(
+                idStadium = id, stadiumPrice = price,
                 nameStadium = stadiumName
             )
         UserMainActivity.navController.navigate(action)

@@ -12,13 +12,25 @@
         tools:layout="@layout/fragment_splash">
         <action
             android:id="@+id/action_splashFragment_to_welcomeFragment"
-            app:destination="@id/welcomeFragment" />
+            app:destination="@id/welcomeFragment"
+            app:enterAnim="@anim/enter_anime"
+            app:exitAnim="@anim/exit_anime"
+            app:popEnterAnim="@anim/pop_enter_anime"
+            app:popExitAnim="@anim/pop_exit_anime" />
         <action
             android:id="@+id/action_splashFragment_to_entityMainActivity"
-            app:destination="@id/entityMainActivity" />
+            app:destination="@id/entityMainActivity"
+            app:enterAnim="@anim/enter_anime"
+            app:exitAnim="@anim/exit_anime"
+            app:popEnterAnim="@anim/pop_enter_anime"
+            app:popExitAnim="@anim/pop_exit_anime" />
         <action
             android:id="@+id/action_splashFragment_to_userMainActivity"
-            app:destination="@id/userMainActivity" />
+            app:destination="@id/userMainActivity"
+            app:enterAnim="@anim/enter_anime"
+            app:exitAnim="@anim/exit_anime"
+            app:popEnterAnim="@anim/pop_enter_anime"
+            app:popExitAnim="@anim/pop_exit_anime" />
     </fragment>
     <fragment
         android:id="@+id/welcomeFragment"
@@ -27,7 +39,11 @@
         tools:layout="@layout/fragment_welcome">
         <action
             android:id="@+id/action_welcomeFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
+            app:destination="@id/loginFragment"
+            app:enterAnim="@anim/enter_anime"
+            app:exitAnim="@anim/exit_anime"
+            app:popEnterAnim="@anim/pop_enter_anime"
+            app:popExitAnim="@anim/pop_exit_anime" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
@@ -36,16 +52,28 @@
         tools:layout="@layout/fragment_login">
         <action
             android:id="@+id/action_loginFragment_to_registrationFragment"
-            app:destination="@id/registrationFragment" />
+            app:destination="@id/registrationFragment"
+            app:enterAnim="@anim/enter_anime"
+            app:exitAnim="@anim/exit_anime"
+            app:popEnterAnim="@anim/pop_enter_anime"
+            app:popExitAnim="@anim/pop_exit_anime" />
         <action
             android:id="@+id/action_loginFragment_to_resetPasswordFragment"
             app:destination="@id/resetPasswordFragment" />
         <action
             android:id="@+id/action_loginFragment_to_userMainActivity"
-            app:destination="@id/userMainActivity" />
+            app:destination="@id/userMainActivity"
+            app:enterAnim="@anim/enter_anime"
+            app:exitAnim="@anim/exit_anime"
+            app:popEnterAnim="@anim/pop_enter_anime"
+            app:popExitAnim="@anim/pop_exit_anime" />
         <action
             android:id="@+id/action_loginFragment_to_entityMainActivity"
-            app:destination="@id/entityMainActivity" />
+            app:destination="@id/entityMainActivity"
+            app:enterAnim="@anim/enter_anime"
+            app:exitAnim="@anim/exit_anime"
+            app:popEnterAnim="@anim/pop_enter_anime"
+            app:popExitAnim="@anim/pop_exit_anime" />
     </fragment>
     <fragment
         android:id="@+id/registrationFragment"
