@@ -10,6 +10,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.app.networking.model.entity.Stadium
+import com.app.networking.utils.ConstUtil
+import com.app.networking.utils.ConstUtil.GETSTADIUMIMAGE
 import com.app.user.R
 import com.app.user.utils.FunUtil
 import com.bumptech.glide.Glide
@@ -49,8 +51,9 @@ class MatchsAdapter (
             holder.title.text = it.name
             holder.location.text = it.location
 
+            val stadiumImage = GETSTADIUMIMAGE + it.imgFileName
             Glide.with(context)
-                .load(R.drawable.event_stadium_default)
+                .load(stadiumImage)
                 .error(R.drawable.event_stadium_default)
                 .centerCrop()
                 .into(holder.image)

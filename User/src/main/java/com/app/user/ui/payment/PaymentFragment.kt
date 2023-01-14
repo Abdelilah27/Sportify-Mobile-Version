@@ -80,13 +80,12 @@ class PaymentFragment : Fragment(R.layout.fragment_payment) {
         })
 
         binding.mainButtonPaymentFragment.setOnClickListener {
-            val description = binding.descriptionPaymentFragment.text.toString()
             // Initialize PayPal configuration
             val paypalConfig = PayPalConfiguration()
                 .environment(PayPalConfiguration.ENVIRONMENT_SANDBOX)
-                .clientId(ACCOUNT_ID)
+                .clientId("AUYOqxANx2TdBH46l6aYZCublOrNCk3oDXt_9acIpEQvF-ckfYWI_ESrSId7RCxCUqPqCTtdSkp7tbmb")
             val request = PayPalPayment(
-                BigDecimal(pricePerPerson), MAD, description,
+                BigDecimal("10.00"), "USD", "My Payment", // TODO
                 PayPalPayment.PAYMENT_INTENT_SALE)
             val service = Intent(context, PayPalService::class.java)
             service.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, paypalConfig)
@@ -101,4 +100,14 @@ class PaymentFragment : Fragment(R.layout.fragment_payment) {
         }
 
     }
+
+
+    //TODO
+    override fun onResume() {
+        super.onResume()
+        Toast.makeText(
+            requireContext(), "Success Payment", Toast.LENGTH_LONG
+        ).show()
+    }
+
 }

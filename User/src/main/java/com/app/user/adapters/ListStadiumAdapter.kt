@@ -12,6 +12,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.app.networking.model.entity.Stadium
 import com.app.networking.utils.ConstUtil
+import com.app.networking.utils.ConstUtil.GETSTADIUMIMAGE
 import com.app.user.R
 import com.app.user.utils.ConstUtil.MAD
 import com.app.user.utils.ConstUtil.PLAYERS
@@ -66,7 +67,7 @@ class ListStadiumAdapter(
             holder.price.text = if (it.price.toString().isEmpty()) "" else "${it.price}${MAD}"
 
             holder.description.text = it.description
-            val stadiumImage = ConstUtil.GETSTADIUMIMAGE + it.imgFileName
+            val stadiumImage = GETSTADIUMIMAGE + it.imgFileName
             Glide.with(context)
                 .load(stadiumImage)
                 .error(R.drawable.event_stadium_default)

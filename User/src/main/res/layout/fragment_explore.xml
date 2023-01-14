@@ -54,7 +54,6 @@
     <TextView
         android:id="@+id/profile_location"
         style="@style/profile_name"
-        android:text="Marrakech"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:maxLines="1" />

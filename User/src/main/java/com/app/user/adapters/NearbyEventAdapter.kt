@@ -10,6 +10,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.app.networking.model.reservation.orderNomCompletResponse.OrderNonCompletResponseItem
+import com.app.networking.utils.ConstUtil
 import com.app.user.R
 import com.app.user.model.Event
 import com.app.user.utils.ConstUtil.MAD
@@ -52,8 +53,9 @@ class NearbyEventAdapter(
             }
             holder.title.text = it.name
             holder.location.text = it.location
+            val stadiumImage = ConstUtil.GETSTADIUMIMAGE + it.imgFileName
             Glide.with(context)
-                .load(R.drawable.event_stadium_default)
+                .load(stadiumImage)
                 .error(R.drawable.event_stadium_default)
                 .centerCrop()
                 .into(holder.image)

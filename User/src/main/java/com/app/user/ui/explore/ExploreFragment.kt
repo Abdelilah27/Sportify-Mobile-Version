@@ -30,6 +30,9 @@ class ExploreFragment : Fragment(R.layout.fragment_explore), OnItemSelectedInter
     private lateinit var binding: FragmentExploreBinding
     private val viewModel: ExploreViewModel by viewModels()
 
+    //TODO
+    private val cityName = "marrakech"
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -106,25 +109,31 @@ class ExploreFragment : Fragment(R.layout.fragment_explore), OnItemSelectedInter
     }
 
     private fun neabyStaticData() {
-        val data= ArrayList<OrderNonCompletResponseItem>()
-        data.add(OrderNonCompletResponseItem(
-            name = "Cobox",
-            location = "marrakech",
-            disponibility_from = "2022-01-23T18:30:00",
-            disponibility_to = "2022-01-23T19:30:00"
-        ))
-        data.add(OrderNonCompletResponseItem(
-            name = "R1",
-            location = "marrakech",
-            disponibility_from = "2022-01-24T10:30:00",
-            disponibility_to = "2022-01-24T11:30:00"
-        ))
-        data.add(OrderNonCompletResponseItem(
-            name = "Cobox",
-            location = "marrakech",
-            disponibility_from = "2022-01-24T18:00:00",
-            disponibility_to = "2022-01-24T19:00:00"
-        ))
+        val data = ArrayList<OrderNonCompletResponseItem>()
+        data.add(
+            OrderNonCompletResponseItem(
+                name = "Cobox",
+                location = "marrakech",
+                disponibility_from = "2022-01-23T18:30:00",
+                disponibility_to = "2022-01-23T19:30:00"
+            )
+        )
+        data.add(
+            OrderNonCompletResponseItem(
+                name = "R1",
+                location = "marrakech",
+                disponibility_from = "2022-01-24T10:30:00",
+                disponibility_to = "2022-01-24T11:30:00"
+            )
+        )
+        data.add(
+            OrderNonCompletResponseItem(
+                name = "Cobox",
+                location = "marrakech",
+                disponibility_from = "2022-01-24T18:00:00",
+                disponibility_to = "2022-01-24T19:00:00"
+            )
+        )
         binding.nearbyTitle.visibility = View.VISIBLE
         nearbyAdapter.setData(data)
     }

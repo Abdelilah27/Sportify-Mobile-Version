@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.app.networking.utils.ConstUtil
 import com.app.user.R
 import com.app.user.model.Entity
 import com.app.user.utils.OnItemSelectedInterface
@@ -37,7 +38,7 @@ class EntitiesAdapter(val context: Context, private val onItemSelected: OnItemSe
             holder.id.text = it.id.toString()
             holder.name.text = it.name
             holder.location.text = it.location
-            val stadiumImage = it.imgFileName
+            val stadiumImage = ConstUtil.GETSTADIUMIMAGE + it.imgFileName
             Glide.with(context)
                 .load(stadiumImage)
                 .error(R.drawable.entity_default)

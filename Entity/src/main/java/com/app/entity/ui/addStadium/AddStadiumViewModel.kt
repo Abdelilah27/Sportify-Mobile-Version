@@ -8,10 +8,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.app.entity.R
 import com.app.entity.model.StadiumError
-import com.app.entity.utils.ConstUtil.TIME24HOURS_PATTERN
 import com.app.entity.utils.NetworkResult
 import com.app.entity.utils.RealPathUtil
-import com.app.networking.api.AuthRetrofitServiceInterface
 import com.app.networking.model.entity.Stadium
 import com.app.networking.model.entity.response.StadiumResponse
 import com.app.networking.repository.AuthRetrofitServiceRepository

@@ -75,7 +75,7 @@ class EventFragment : Fragment(R.layout.fragment_event), OnItemSelectedInterface
                 binding.eventDateVisibility.visibility = View.VISIBLE
                 binding.eventLocationVisibility.visibility = View.VISIBLE
                 Log.d("terrain.entity", terrain.entity)
-                val going = max(10 - joueurs.size, 0)
+                val going = max(11 - joueurs.size, 0)
                 binding.eventGoing.text = if (going == 0) FULL else going.toString() + GOING
                 binding.cardView.visibility = if (going == 0) View.GONE else View.VISIBLE
 
