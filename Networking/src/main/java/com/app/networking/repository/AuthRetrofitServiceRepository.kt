@@ -6,6 +6,7 @@ import com.app.networking.model.entity.Stadium
 import com.app.networking.model.entity.response.StadiumResponse
 import com.app.networking.model.reservation.ReservationByUserResponse
 import com.app.networking.model.reservation.ReservationResponse
+import com.app.networking.model.reservation.orderNomCompletResponse.OrderNonCompletResponse
 import com.app.networking.model.user.Seances
 import com.app.networking.model.user.UserAuth
 import okhttp3.MultipartBody
@@ -57,6 +58,10 @@ class AuthRetrofitServiceRepository @Inject constructor(
 
     fun getEventReservedByUser(): Call<ReservationByUserResponse> {
         return authRetrofitServiceInterface.getEventReservedByUser()
+    }
+
+    fun getStadiumReserved(): Call<OrderNonCompletResponse> {
+        return authRetrofitServiceInterface.getStadiumReserved()
     }
 
 }

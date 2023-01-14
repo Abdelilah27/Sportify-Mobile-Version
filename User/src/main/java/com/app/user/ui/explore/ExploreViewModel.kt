@@ -22,6 +22,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.app.networking.api.AuthRetrofitServiceInterface
 import com.app.networking.model.entity.ListStadium
+import com.app.networking.model.reservation.orderNomCompletResponse.OrderNonCompletResponse
+import com.app.networking.model.reservation.orderNomCompletResponse.OrderNonCompletResponseItem
 import com.app.networking.model.user.UserAuth
 import com.app.networking.repository.AuthRetrofitServiceRepository
 import com.app.user.model.Entity
@@ -50,14 +52,39 @@ class ExploreViewModel @Inject constructor(
     private val _entities = MutableLiveData<List<Entity>>()
     val entities: LiveData<List<Entity>> = _entities
 
+    private val _orders = MutableLiveData<List<OrderNonCompletResponseItem>>()
+    val orders: LiveData<List<OrderNonCompletResponseItem>> = _orders
+
     val currentLocation: MutableLiveData<String?> = MutableLiveData()
 
     private val _liveUserData = MutableLiveData<UserAuth>(UserAuth())
     val liveUser: LiveData<UserAuth> = _liveUserData
 
+     fun getNearby(city: String){
+        val call2: Call<OrderNonCompletResponse> = repository.getStadiumReserved()
+         call2.enqueue(object : Callback<OrderNonCompletResponse> {
+                override fun onResponse(call: Call<OrderNonCompletResponse>, response: Response<OrderNonCompletResponse>) {
+                    if (response.isSuccessful) {
+                        response.body()?.let {
+                            extractListByCity(city, it)
+                        }
+                    }
+                }
+                override fun onFailure(call: Call<OrderNonCompletResponse>, t: Throwable) {
+                    Log.d("onFailure Nearby", t.message.toString())
+                }
+            })
+    }
 
-    init {
-        liveDataFlow.postValue(NetworkResult.Loading())
+    private fun extractListByCity(city: String, it: OrderNonCompletResponse) {
+        val extractList = ArrayList<OrderNonCompletResponseItem>()
+        it.forEach {
+            if(it.location == city){
+                extractList.add(it)
+            }
+        }
+        Log.d("extractList", extractList.toString())
+        _orders.postValue(extractList)
     }
 
     suspend fun getLocation(activity: Activity) {
@@ -103,13 +130,15 @@ class ExploreViewModel @Inject constructor(
     }
 
     suspend fun getEntitiesList(): ArrayList<ListStadium> {
+        liveDataFlow.postValue(NetworkResult.Loading())
         val stadiums = ArrayList<ListStadium>()
-        viewModelScope.launch {
             val call: Call<ListStadium> = repository.getStadiumList()
             call.enqueue(object : Callback<ListStadium> {
                 override fun onResponse(call: Call<ListStadium>, response: Response<ListStadium>) {
                     if (response.isSuccessful) {
                         extractEntities(response)
+                    }else{
+                        liveDataFlow.postValue(NetworkResult.Error(response.body().toString()))
                     }
                 }
 
@@ -118,7 +147,6 @@ class ExploreViewModel @Inject constructor(
                 }
 
             })
-        }
         return stadiums
     }
 
@@ -157,7 +185,6 @@ class ExploreViewModel @Inject constructor(
                     _liveUserData.postValue(response.body())
                 }
             }
-
             override fun onFailure(call: Call<UserAuth>, t: Throwable) {
             }
         })

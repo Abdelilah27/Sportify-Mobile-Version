@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.app.networking.model.reservation.orderNomCompletResponse.OrderNonCompletResponseItem
 import com.app.user.R
 import com.app.user.UserMainActivity
 import com.app.user.adapters.EntitiesAdapter
@@ -19,10 +20,7 @@ import com.app.user.utils.NetworkResult
 import com.app.user.utils.OnItemSelectedInterface
 import com.app.user.utils.PIBaseActivity
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import kotlin.collections.ArrayList
 
 @AndroidEntryPoint
@@ -44,16 +42,18 @@ class ExploreFragment : Fragment(R.layout.fragment_explore), OnItemSelectedInter
         GlobalScope.launch(Dispatchers.IO) {
             // get Entities
             viewModel.getEntitiesList()
-        }
-        GlobalScope.launch {
             // init user data
             viewModel.getAuthUser()
-            viewModel.getLocation(requireActivity())
         }
+        GlobalScope.launch(Dispatchers.Main) {
+            viewModel.getLocation(requireActivity())
+            delay(1000)
+            neabyStaticData()
+        }
+
 
         viewModel.currentLocation.observe(viewLifecycleOwner, Observer {
             if (!it.isNullOrEmpty()) {
-                binding.profile.visibility = View.VISIBLE
                 binding.profileLocation.text = it
             }
         })
@@ -81,32 +81,11 @@ class ExploreFragment : Fragment(R.layout.fragment_explore), OnItemSelectedInter
 
         // Setup our nearby recycler
         binding.recyclerNearby.apply {
-            nearbyAdapter = NearbyEventAdapter(context, this@ExploreFragment)
+            nearbyAdapter = NearbyEventAdapter(context)
             adapter = nearbyAdapter
             layoutManager = LinearLayoutManager(requireContext())
             setHasFixedSize(true)
         }
-
-        // Set Static Data
-        var event = Event(
-            id = 1,
-            name = "Palmarena",
-            location = "123, Marrakech",
-            numberOfPlayer = "10",
-            price = "200",
-            date = "10PM - 11PM"
-        )
-
-        var myList2: ArrayList<Event> = ArrayList()
-        myList2.add(event)
-        myList2.add(event)
-        myList2.add(event)
-        myList2.add(event)
-        myList2.add(event)
-        myList2.add(event)
-        nearbyAdapter.setData(myList2)
-
-
         // Error Handling get EntitiesList
         viewModel.liveDataFlow.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
             when (it) {
@@ -126,6 +105,30 @@ class ExploreFragment : Fragment(R.layout.fragment_explore), OnItemSelectedInter
         })
     }
 
+    private fun neabyStaticData() {
+        val data= ArrayList<OrderNonCompletResponseItem>()
+        data.add(OrderNonCompletResponseItem(
+            name = "Cobox",
+            location = "marrakech",
+            disponibility_from = "2022-01-23T18:30:00",
+            disponibility_to = "2022-01-23T19:30:00"
+        ))
+        data.add(OrderNonCompletResponseItem(
+            name = "R1",
+            location = "marrakech",
+            disponibility_from = "2022-01-24T10:30:00",
+            disponibility_to = "2022-01-24T11:30:00"
+        ))
+        data.add(OrderNonCompletResponseItem(
+            name = "Cobox",
+            location = "marrakech",
+            disponibility_from = "2022-01-24T18:00:00",
+            disponibility_to = "2022-01-24T19:00:00"
+        ))
+        binding.nearbyTitle.visibility = View.VISIBLE
+        nearbyAdapter.setData(data)
+    }
+
 
     override fun onItemClick(position: String?) {
         val args = position.toString()
@@ -140,7 +143,9 @@ class ExploreFragment : Fragment(R.layout.fragment_explore), OnItemSelectedInter
         super.onDestroyView()
         viewModel.entities.removeObservers(viewLifecycleOwner)
         viewModel.currentLocation.removeObservers(viewLifecycleOwner)
+        viewModel.liveUser.removeObservers(viewLifecycleOwner)
         viewModel.liveDataFlow.removeObservers(viewLifecycleOwner)
+        viewModel.orders.removeObservers(viewLifecycleOwner)
     }
 
 }

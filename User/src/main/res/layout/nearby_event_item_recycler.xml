@@ -90,23 +90,12 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/numberOfPlayer"
                 style="@style/date_item_stadiums_fragment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="right"
                 android:maxLines="1"
-                android:text=" Players"
-                tools:ignore="RtlHardcoded" />
-
-            <TextView
-                android:id="@+id/price"
-                style="@style/date_item_stadiums_fragment"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="right"
-                android:maxLines="1"
-                android:text=" MAD"
+                android:text=" Disponible !!!"
                 tools:ignore="RtlHardcoded" />
 
             <TextView

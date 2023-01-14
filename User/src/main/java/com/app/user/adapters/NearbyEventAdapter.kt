@@ -2,30 +2,32 @@ package com.app.user.adapters
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.app.networking.model.reservation.orderNomCompletResponse.OrderNonCompletResponseItem
 import com.app.user.R
 import com.app.user.model.Event
 import com.app.user.utils.ConstUtil.MAD
 import com.app.user.utils.ConstUtil.PLAYERS
+import com.app.user.utils.FunUtil
 import com.app.user.utils.OnItemSelectedInterface
 import com.bumptech.glide.Glide
 
 class NearbyEventAdapter(
     val context: Context,
-    private val onItemSelected: OnItemSelectedInterface
 ) :
     RecyclerView.Adapter<NearbyEventAdapter.ItemViewHolder>() {
 
-    private var myList: ArrayList<Event> = ArrayList()
+    private var myList: ArrayList<OrderNonCompletResponseItem> = ArrayList()
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setData(data: List<Event>) {
-        myList = data as ArrayList<Event>
+    fun setData(data: ArrayList<OrderNonCompletResponseItem>) {
+        myList = data
         notifyDataSetChanged()
     }
 
@@ -40,25 +42,26 @@ class NearbyEventAdapter(
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         myList[position].let {
             holder.id.text = it.id.toString()
-            holder.date.text = it.date
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                holder.date.text =
+                    FunUtil.reformatDate(it.disponibility_from.toString()) + " | " + FunUtil.reformatDate(
+                        it.disponibility_to.toString()
+                    )
+            } else {
+                holder.date.text = ""
+            }
             holder.title.text = it.name
             holder.location.text = it.location
-            holder.numberOfPlayer.text = it.numberOfPlayer.toString() + PLAYERS
-            holder.price.text = it.price.toString() + MAD
-            val stadiumImage = it.imgFileName
             Glide.with(context)
-                .load(stadiumImage)
+                .load(R.drawable.event_stadium_default)
                 .error(R.drawable.event_stadium_default)
                 .centerCrop()
                 .into(holder.image)
         }
     }
 
-    inner class ItemViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickListener {
+    inner class ItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-        init {
-            view.setOnClickListener(this)
-        }
 
         var id: TextView = view.findViewById(R.id.id)
         var date: TextView = view.findViewById(
@@ -73,27 +76,7 @@ class NearbyEventAdapter(
             R.id
                 .location
         )
-        var numberOfPlayer: TextView = view.findViewById(
-            R.id
-                .numberOfPlayer
-        )
-        var price: TextView = view.findViewById(
-            R.id
-                .price
-        )
-        var description: TextView = view.findViewById(
-            R.id
-                .description
-        )
         var image: ImageView = view.findViewById(R.id.image)
-        override fun onClick(p0: View?) {
-            val position: Int = adapterPosition
-            if (position != RecyclerView.NO_POSITION) {
-                myList[position].let {
-                    onItemSelected.onItemClick(it.id.toString())
-                }
-            }
-        }
     }
 
 

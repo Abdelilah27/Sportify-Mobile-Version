@@ -5,6 +5,7 @@ import com.app.networking.model.entity.Stadium
 import com.app.networking.model.entity.response.StadiumResponse
 import com.app.networking.model.reservation.ReservationByUserResponse
 import com.app.networking.model.reservation.ReservationResponse
+import com.app.networking.model.reservation.orderNomCompletResponse.OrderNonCompletResponse
 import com.app.networking.model.user.Seances
 import com.app.networking.model.user.UserAuth
 import okhttp3.MultipartBody
@@ -59,6 +60,6 @@ interface AuthRetrofitServiceInterface {
     fun getEventReservedByUser(): Call<ReservationByUserResponse>
 
     @GET("/RESERVATIONMICROSERVICE/order/NonComplet")
-    fun getStadiumReserved(): Call<ReservationByUserResponse>
+    fun getStadiumReserved(): Call<OrderNonCompletResponse>
 
 }
